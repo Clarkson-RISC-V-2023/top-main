@@ -1,0 +1,4 @@
+[submodule "IP_ProgramCounter"]
+	path = src/ip/pc
+	url = git@github.com:Clarkson-RISC-V-2023/IP_ProgramCounter.git
+	branch = main
