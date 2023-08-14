@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  iverilog-compile:
+  set_enviroment:
     runs-on: ubuntu-latest
     steps:
       - name: SetUp SSH
@@ -25,12 +25,23 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y iverilog
-      - name: Clone project repo and compile with iverilog
+      - name: Clone project repo
         run: |
           git clone --recurse-submodules git@github.com:Clarkson-RISC-V-2023/top-main.git
-          mkdir -p out
-          iverilog -o out/pc.vpp -s pc_tb top-main/src/ip/pc/verif/pc_tb.sv top-main/src/ip/pc/rtl/pc.sv
-          iverilog -o out/rom.vpp -s rom_tb top-main/src/ip/rom/verif/rom_tb.sv top-main/src/ip/rom/rtl/rom.sv
+          mkdir -p out 
+      - name: Build PC
+        run: |
+          iverilog -o out/pc_sim -s tb_pc top-main/src/ip/pc/verif/tb_pc.sv top-main/src/ip/pc/rtl/pc.sv
+          cd out/
+          vvp pc_sim
+          cd ..
+          tree
+      - name: Build ROM
+        run: |
+          iverilog -o out/rom_sim -s tb_rom top-main/src/ip/rom/verif/tb_rom.sv top-main/src/ip/rom/rtl/rom.sv -y ./top-main/src/ip/rom/
+          cd out/
+          vvp rom_sim
+          cd ..
           tree
       - name: Upload Artifact 
         uses: actions/upload-artifact@v2
