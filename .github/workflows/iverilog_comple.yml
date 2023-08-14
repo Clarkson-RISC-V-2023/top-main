@@ -1,0 +1,41 @@
+name: iverilog compile
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  iverilog-compile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SetUp SSH
+        env:
+          SSH_PRIVATE: ${{ secrets.ACTIONS_SSH_PRIVATE }}
+          SSH_PUBLIC: ${{ secrets.ACTIONS_SSH_PUBLIC }}
+          ARTIFACT_NAME: "RTL_build_$(TZ='America/New_York' date '+%F-%H')"
+          OUT_PATH: ${{ env.PWD }}/out
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ env.SSH_PRIVATE }}" > ~/.ssh/id_rsa
+          echo "${{ env.SSH_PUBLIC }}" > ~/.ssh/id_rsa.pub
+          chmod 600 ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa.pub
+      - name: Download required packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+      - name: Clone project repo and compile with iverilog
+        run: |
+          git clone --recurse-submodules git@github.com:Clarkson-RISC-V-2023/top-main.git
+          cd top-main/src/ip/pc
+          mkdir -p out
+          iverilog -o out/pc.vpp -s tb_pc verif/pc_tb.sv rtl/pc.sv
+          tree
+      - name: Upload Artifact 
+        uses: actions/upload-artifact@v2
+        with:
+          name: "RTL_build"
+          path: |
+            **/out/**
+          if-no-files-found: error
