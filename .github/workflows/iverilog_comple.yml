@@ -28,9 +28,9 @@ jobs:
       - name: Clone project repo and compile with iverilog
         run: |
           git clone --recurse-submodules git@github.com:Clarkson-RISC-V-2023/top-main.git
-          cd top-main/src/ip/pc
           mkdir -p out
-          iverilog -o out/pc.vpp -s tb_pc verif/pc_tb.sv rtl/pc.sv
+          iverilog -o out/pc.vpp -s pc_tb top-main/src/ip/pc/verif/pc_tb.sv top-main/src/ip/pc/rtl/pc.sv
+          iverilog -o out/rom.vpp -s rom_tb top-main/src/ip/rom/verif/rom_tb.sv top-main/src/ip/rom/rtl/rom.sv
           tree
       - name: Upload Artifact 
         uses: actions/upload-artifact@v2
