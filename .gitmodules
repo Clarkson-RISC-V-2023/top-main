@@ -6,3 +6,7 @@
 	path = src/ip/rom
 	url = git@github.com:Clarkson-RISC-V-2023/IP_ROM.git
 	branch = main
+[submodule "IP_ALU"]
+	path = src/ip/alu
+	url = git@github.com:Clarkson-RISC-V-2023/IP_ALU.git
+	branch = main
