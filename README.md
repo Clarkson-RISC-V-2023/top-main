@@ -7,3 +7,5 @@ This is the main repo of the project and this contains all the subrepos as submo
 - Program Counter (PC) `/src/ip/pc`
 # Steps to init repo locally
 `git clone --recurse-submodules git@github.com:Clarkson-RISC-V-2023/top-main.git`
+# Project Top_Level:
+`src/top/top.sv`
