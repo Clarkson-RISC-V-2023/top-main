@@ -20,10 +20,12 @@ jobs:
     - name: Build and push Docker image
       env:
         CR_PAT: ${{ secrets.GITHUB_TOKEN }}
+        SSH_PRIVATE: ${{ secrets.ACTIONS_SSH_PRIVATE }}
+        SSH_PUBLIC: ${{ secrets.ACTIONS_SSH_PUBLIC }}
       run: |
         pwd
         tree
-        docker build -t ghcr.io/clarkson-risc-v-2023/compiler:latest .
+        docker build -t ghcr.io/clarkson-risc-v-2023/compiler:latest --build-arg ssh_pub=$SSH_PUBLIC --build-arg ssh_prv=$SSH_PRIVATE .
         docker login ghcr.io -u esola-thomas -p $CR_PAT
         docker push ghcr.io/clarkson-risc-v-2023/compiler:latest
         tree
