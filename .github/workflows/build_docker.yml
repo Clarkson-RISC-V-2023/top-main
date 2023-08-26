@@ -16,6 +16,14 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+    
+    - name: setup SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ env.SSH_PRIVATE }}" > ~/.ssh/id_rsa
+        echo "${{ env.SSH_PUBLIC }}" > ~/.ssh/id_rsa.pub
+        chmod 600 ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa.pub
 
     - name: Build and push Docker image
       env:
@@ -23,9 +31,7 @@ jobs:
         SSH_PRIVATE: ${{ secrets.ACTIONS_SSH_PRIVATE }}
         SSH_PUBLIC: ${{ secrets.ACTIONS_SSH_PUBLIC }}
       run: |
-        pwd
-        tree
-        docker build -t ghcr.io/clarkson-risc-v-2023/compiler:latest --build-arg ssh_pub=$SSH_PUBLIC --build-arg ssh_prv=$SSH_PRIVATE .
+        docker build -t ghcr.io/clarkson-risc-v-2023/compiler:latest --build-arg="ssh_pub=$SSH_PUBLIC" --secret id=ACTIONS_SSH_PRIVATE,src=~/.ssh/id_ras .
         docker login ghcr.io -u esola-thomas -p $CR_PAT
         docker push ghcr.io/clarkson-risc-v-2023/compiler:latest
         tree
