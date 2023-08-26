@@ -1,0 +1,29 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - master
+      - esola-thomas/top_dir_and_build_flow
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Build and push Docker image
+      env:
+        CR_PAT: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        pwd
+        tree
+        docker build -t ghcr.io/clarkson-risc-v-2023/compiler:latest .
+        docker login ghcr.io -u esola-thomas -p $CR_PAT
+        docker push ghcr.io/clarkson-risc-v-2023/compiler:latest
+        tree
