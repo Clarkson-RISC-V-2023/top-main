@@ -5,25 +5,25 @@ module top #(
     parameter OUT_BUS_WIDTH = 32,
 
     // ROM (Instruction)
-    parameter INSTR_DATA_WIDTH = 4,      // Word length
-    parameter INSTR_ADDR_WIDTH = 4,       // Addr length
-    parameter INSTR_WORDS = 6,            // Words
-    parameter INSTR_ENABLE_ROM_INIT = 0   // Default: No initialization
+    parameter INSTR_DATA_WIDTH = 4,                 // Word length
+    parameter INSTR_ADDR_WIDTH = 4,                 // Addr length
+    parameter INSTR_WORDS = 6,                      // Words
+    parameter INSTR_ENABLE_ROM_INIT = 0,            // Default: No initialization
 
-    // ROM (A)
-    parameter A_DATA_WIDTH = 32,      // Word length
-    parameter A_ADDR_WIDTH = INSTR_ADDR_WIDTH,       // Addr length
-    parameter A_WORDS = 6,            // Words
-    parameter A_ENABLE_ROM_INIT = 0   // Default: No initialization
+    // ROM (A)  
+    parameter A_DATA_WIDTH = 32,                    // Word length
+    parameter A_ADDR_WIDTH = INSTR_ADDR_WIDTH,      // Addr length
+    parameter A_WORDS = 6,                          // Words
+    parameter A_ENABLE_ROM_INIT = 0,                 // Default: No initialization
 
     // ROM (B)
-    parameter B_DATA_WIDTH = 32,      // Word length
-    parameter B_ADDR_WIDTH = INSTR_ADDR_WIDTH,       // Addr length
-    parameter B_WORDS = 6,            // Words
-    parameter B_ENABLE_ROM_INIT = 0   // Default: No initialization
+    parameter B_DATA_WIDTH = 32,                    // Word length
+    parameter B_ADDR_WIDTH = INSTR_ADDR_WIDTH,      // Addr length
+    parameter B_WORDS = 6,                          // Words
+    parameter B_ENABLE_ROM_INIT = 0,                 // Default: No initialization
 
     // PC
-    parameter BUS_WIDTH = 32, 
+    parameter BUS_WIDTH = INSTR_ADDR_WIDTH, 
     parameter INCREMENT = 4
     
 )();
@@ -38,16 +38,16 @@ module top #(
     wire [A_DATA_WIDTH-1:0] a;
     wire [B_DATA_WIDTH-1:0] b;
 
-    reg [OUT_BUS_WIDTH-1:0] r;
+    wire [OUT_BUS_WIDTH-1:0] r;
 
     pc #(
         .BUS_WIDTH(BUS_WIDTH),
         .INCREMENT(INCREMENT)
     ) pc_inst (
         .clk(clk),
-        .rstn_i(rst),
+        .rst(rst),
         .enable(1'b1),
-        .pc_o(program_counter)
+        .pc_out(program_counter)
     );
 
     rom #(
