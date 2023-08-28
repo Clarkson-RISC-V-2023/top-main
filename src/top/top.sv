@@ -23,8 +23,8 @@ module top #(
     parameter B_ENABLE_ROM_INIT = 0   // Default: No initialization
 
     // PC
-    parameter PC_WIDTH = 32
-    parameter PC_INCREMENT = PC_WIDTH'd1
+    parameter BUS_WIDTH = 32, 
+    parameter INCREMENT = 4
     
 )();
 
@@ -41,11 +41,12 @@ module top #(
     reg [OUT_BUS_WIDTH-1:0] r;
 
     pc #(
-        .PC_WIDTH(PC_WIDTH),
-        .PC_INCREMENT(PC_INCREMENT)
+        .BUS_WIDTH(BUS_WIDTH),
+        .INCREMENT(INCREMENT)
     ) pc_inst (
-        .clk_i(clk),
-        .rstn_i(rst_n),
+        .clk(clk),
+        .rstn_i(rst),
+        .enable(1'b1),
         .pc_o(program_counter)
     );
 
