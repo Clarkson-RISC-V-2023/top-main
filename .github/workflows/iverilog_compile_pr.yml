@@ -1,15 +1,18 @@
-name: iverilog compile
+name: All RTL
 
 on: 
-  push: 
-    branches: 
-      - main 
-# git checkout ${{ steps.extract_branch.outputs.branch }}
+  pull_request:
+
 jobs:
   set_enviroment:
     runs-on: ubuntu-latest
     steps:
-      - name: Pull Docker repo
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+      
+      - name: SetUp SSH
         env:
           SSH_PRIVATE: ${{ secrets.ACTIONS_SSH_PRIVATE }}
           SSH_PUBLIC: ${{ secrets.ACTIONS_SSH_PUBLIC }}
@@ -19,29 +22,26 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ env.SSH_PRIVATE }}" > ~/.ssh/id_rsa
           echo "${{ env.SSH_PUBLIC }}" > ~/.ssh/id_rsa.pub
-          chmod 600 ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa.pub
+          chmod +600 ~/.ssh/id_rsa
+          chmod +600 ~/.ssh/id_rsa.pub
       - name: Clone project repo
         run: |
           git clone --recurse-submodules git@github.com:Clarkson-RISC-V-2023/top-main.git
+          cd top-main
+          git checkout ${{ steps.extract_branch.outputs.branch }}
           mkdir -p out 
-      - name: Setup iverilog and vvp
-        run: |
-          sudo cp bin/iverilog /bin/iverilog
-          sudo cp bin/iverilog-vip /bin/iverilog-vip
-          sudo cp bin/vvp /bin/vvp
       - name: Build PC
         run: |
-          iverilog -o out/pc_sim -s tb_pc top-main/src/ip/pc/verif/tb_pc.sv top-main/src/ip/pc/rtl/pc.sv
+          ./bin/iverilog -o out/pc_sim -s tb_pc src/ip/pc/verif/tb_pc.sv src/ip/pc/rtl/pc.sv
           cd out/
-          vvp pc_sim
+          ../bin/vvp pc_sim
           cd ..
           tree
       - name: Build ROM
         run: |
-          iverilog -o out/rom_sim -s tb_rom top-main/src/ip/rom/verif/tb_rom.sv top-main/src/ip/rom/rtl/rom.sv -y ./top-main/src/ip/rom/
+          ./bin/iverilog -o out/rom_sim -s tb_rom src/ip/rom/verif/tb_rom.sv src/ip/rom/rtl/rom.sv -y ./src/ip/rom/
           cd out/
-          vvp rom_sim
+          ../bin/vvp rom_sim
           cd ..
           tree
       - name: Upload Artifact 
