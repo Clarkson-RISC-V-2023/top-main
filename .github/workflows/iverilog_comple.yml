@@ -9,45 +9,25 @@ jobs:
   set_enviroment:
     runs-on: ubuntu-latest
     steps:
-      - name: Pull Docker repo
-        env:
-          SSH_PRIVATE: ${{ secrets.ACTIONS_SSH_PRIVATE }}
-          SSH_PUBLIC: ${{ secrets.ACTIONS_SSH_PUBLIC }}
-          ARTIFACT_NAME: "RTL_build_$(TZ='America/New_York' date '+%F-%H')"
-          OUT_PATH: ${{ env.PWD }}/out
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+      # git checkout ${{ steps.extract_branch.outputs.branch }}
+
+      - name: Pull Docker image 
+        run:
+          docker pull ernessola/verilog_compiler:latest
+      - name: Run Docker image 
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ env.SSH_PRIVATE }}" > ~/.ssh/id_rsa
-          echo "${{ env.SSH_PUBLIC }}" > ~/.ssh/id_rsa.pub
-          chmod 600 ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa.pub
-      - name: Clone project repo
-        run: |
-          git clone --recurse-submodules git@github.com:Clarkson-RISC-V-2023/top-main.git
-          mkdir -p out 
-      - name: Setup iverilog and vvp
-        run: |
-          sudo cp bin/iverilog /bin/iverilog
-          sudo cp bin/iverilog-vip /bin/iverilog-vip
-          sudo cp bin/vvp /bin/vvp
-      - name: Build PC
-        run: |
-          iverilog -o out/pc_sim -s tb_pc top-main/src/ip/pc/verif/tb_pc.sv top-main/src/ip/pc/rtl/pc.sv
-          cd out/
-          vvp pc_sim
-          cd ..
-          tree
-      - name: Build ROM
-        run: |
-          iverilog -o out/rom_sim -s tb_rom top-main/src/ip/rom/verif/tb_rom.sv top-main/src/ip/rom/rtl/rom.sv -y ./top-main/src/ip/rom/
-          cd out/
-          vvp rom_sim
-          cd ..
-          tree
+          docker run --name RISCy_compiler -i ernessola/verilog_compiler:latest bash -c "git fetch && git checkout ${{ steps.extract_branch.outputs.branch }} && git pull && make" 
+          docker cp RISCy_compiler:/workspace/top-main/out .
+          docker stop RISCy_compiler
+          docker rm RISCy_compiler
       - name: Upload Artifact 
         uses: actions/upload-artifact@v2
         with:
-          name: "RTL_build"
+          name: "main_RTL_build"
           path: |
             **/out/**
           if-no-files-found: error
