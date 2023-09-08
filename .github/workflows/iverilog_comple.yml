@@ -20,7 +20,7 @@ jobs:
           docker pull ernessola/verilog_compiler:latest
       - name: Run Docker image 
         run: |
-          docker run --name RISCy_compiler -i ernessola/verilog_compiler:latest bash -c "git fetch && git checkout ${{ steps.extract_branch.outputs.branch }} && git pull && make" 
+          docker run --name RISCy_compiler -i ernessola/verilog_compiler:latest bash -c "git fetch && git checkout ${{ steps.extract_branch.outputs.branch }} && git pull && make all" 
           docker cp RISCy_compiler:/workspace/top-main/out .
           docker stop RISCy_compiler
           docker rm RISCy_compiler
