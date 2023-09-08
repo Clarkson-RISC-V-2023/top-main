@@ -1,10 +1,8 @@
-name: iverilog compile
+name: All RTL Build on PR push
 
 on: 
-  push: 
-    branches: 
-      - main 
-# git checkout ${{ steps.extract_branch.outputs.branch }}
+  pull_request:
+
 jobs:
   set_enviroment:
     runs-on: ubuntu-latest
@@ -20,14 +18,14 @@ jobs:
           docker pull ernessola/verilog_compiler:latest
       - name: Run Docker image 
         run: |
-          docker run --name RISCy_compiler -i ernessola/verilog_compiler:latest bash -c "git fetch && git checkout ${{ steps.extract_branch.outputs.branch }} && git pull --recurse-submodules && make all" 
+          docker run --name RISCy_compiler -i ernessola/verilog_compiler:latest bash -c "git fetch && git checkout ${{ steps.extract_branch.outputs.branch }} && git pull && make all" 
           docker cp RISCy_compiler:/workspace/top-main/out .
           docker stop RISCy_compiler
           docker rm RISCy_compiler
       - name: Upload Artifact 
         uses: actions/upload-artifact@v2
         with:
-          name: "main_RTL_build"
+          name: "PR_RTL_build"
           path: |
             **/out/**
           if-no-files-found: error
