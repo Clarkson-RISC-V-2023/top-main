@@ -1,4 +1,4 @@
-name: All RTL
+name: All RTL Build on PR push
 
 on: 
   pull_request:
@@ -11,39 +11,15 @@ jobs:
         shell: bash
         run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
         id: extract_branch
-      
-      - name: SetUp SSH
-        env:
-          SSH_PRIVATE: ${{ secrets.ACTIONS_SSH_PRIVATE }}
-          SSH_PUBLIC: ${{ secrets.ACTIONS_SSH_PUBLIC }}
-          ARTIFACT_NAME: "RTL_build_$(TZ='America/New_York' date '+%F-%H')"
-          OUT_PATH: ${{ env.PWD }}/out
+      # git checkout ${{ steps.extract_branch.outputs.branch }}
+
+      - name: Pull Docker image 
+        run:
+          docker pull ernessola/verilog_compiler:latest
+      - name: Run Docker image 
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ env.SSH_PRIVATE }}" > ~/.ssh/id_rsa
-          echo "${{ env.SSH_PUBLIC }}" > ~/.ssh/id_rsa.pub
-          chmod +600 ~/.ssh/id_rsa
-          chmod +600 ~/.ssh/id_rsa.pub
-      - name: Clone project repo
-        run: |
-          git clone --recurse-submodules git@github.com:Clarkson-RISC-V-2023/top-main.git
-          cd top-main
-          git checkout ${{ steps.extract_branch.outputs.branch }}
-          mkdir -p out 
-      - name: Build PC
-        run: |
-          ./bin/iverilog -o out/pc_sim -s tb_pc src/ip/pc/verif/tb_pc.sv src/ip/pc/rtl/pc.sv
-          cd out/
-          ../bin/vvp pc_sim
-          cd ..
-          tree
-      - name: Build ROM
-        run: |
-          ./bin/iverilog -o out/rom_sim -s tb_rom src/ip/rom/verif/tb_rom.sv src/ip/rom/rtl/rom.sv -y ./src/ip/rom/
-          cd out/
-          ../bin/vvp rom_sim
-          cd ..
-          tree
+          docker run --name RISCy_compiler -i --rm ernessola/verilog_compiler:latest bash -c "git fetch && git checkout ${{ steps.extract_branch.outputs.branch }} && git pull && make"
+          docker cp RISCy_compiler:/workspace/top-main/out .
       - name: Upload Artifact 
         uses: actions/upload-artifact@v2
         with:
