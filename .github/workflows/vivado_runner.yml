@@ -1,0 +1,68 @@
+name: RTL PR Sanity Test
+
+on:
+  pull_request:
+
+jobs:
+  Clone_Repo:
+    runs-on: vivado-2023
+    steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+      - name: Recursive pull 
+        shell: bash
+        run:  |
+              rm -rf * 
+              git clone --recurse-submodules git@github.com:Clarkson-RISC-V-2023/top-main.git 
+              cd top-main
+              git checkout ${{ steps.extract_branch.outputs.branch }}
+              git submodule update --init
+              tree
+
+  Build-SIM_alu_ip:
+    runs-on: vivado-2023
+    needs: Clone_Repo
+    steps:
+      - name: ALU_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make alu_sim
+
+  Build-SIM_pc_ip:
+    runs-on: vivado-2023
+    needs: Clone_Repo
+    steps:
+      - name: PC_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make pc_sim
+
+  Build-SIM_rom_ip:
+    runs-on: vivado-2023
+    needs: Clone_Repo
+    steps:
+      - name: ROM_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make rom_sim
+
+  Upload_Sim_Artifact:
+    runs-on: vivado-2023
+    needs: [Build-SIM_alu_ip, Build-SIM_pc_ip, Build-SIM_rom_ip]
+    steps:
+      - name: Upload Artifact 
+        uses: actions/upload-artifact@v2
+        with:
+              name: "PR_RTL_build"
+              path: |
+                ./top-main/out/**
+              if-no-files-found: error
+      - name: Clean
+        shell: bash
+        run: rm -rf top-main
+
