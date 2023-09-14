@@ -1,7 +1,13 @@
 name: RTL PR Sanity Test
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
+    branches:
+      - main
+
 
 jobs:
   Clone_Repo:
@@ -51,9 +57,19 @@ jobs:
               cd top-main 
               make rom_sim
 
-  Upload_Sim_Artifact:
+  Build-SIM_top:
     runs-on: vivado-2023
     needs: [Build-SIM_alu_ip, Build-SIM_pc_ip, Build-SIM_rom_ip]
+    steps:
+      - name: ROM_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make top_sim
+
+  Upload_Sim_Artifact:
+    runs-on: vivado-2023
+    needs: [Build-SIM_alu_ip, Build-SIM_pc_ip, Build-SIM_rom_ip, Build-SIM_top]
     steps:
       - name: Upload Artifact 
         uses: actions/upload-artifact@v2

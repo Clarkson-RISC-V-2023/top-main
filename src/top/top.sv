@@ -1,3 +1,8 @@
+`timescale 1ns/1ps
+`define ROM_Inst_INIT_PATH "src/top/mem_file/instruction.bin"
+`define ROM_A_INIT_PATH "src/top/mem_file/a.hex"
+`define ROM_B_INIT_PATH "src/top/mem_file/b.hex"
+
 module top #(
     // ALU
     parameter OPCODE_WIDTH = 4,
@@ -8,23 +13,20 @@ module top #(
     parameter INSTR_DATA_WIDTH = 4,                 // Word length
     parameter INSTR_ADDR_WIDTH = 4,                 // Addr length
     parameter INSTR_WORDS = 6,                      // Words
-    parameter INSTR_ENABLE_ROM_INIT = 0,            // Default: No initialization
 
     // ROM (A)  
     parameter A_DATA_WIDTH = 32,                    // Word length
     parameter A_ADDR_WIDTH = INSTR_ADDR_WIDTH,      // Addr length
     parameter A_WORDS = 6,                          // Words
-    parameter A_ENABLE_ROM_INIT = 0,                 // Default: No initialization
 
     // ROM (B)
     parameter B_DATA_WIDTH = 32,                    // Word length
     parameter B_ADDR_WIDTH = INSTR_ADDR_WIDTH,      // Addr length
     parameter B_WORDS = 6,                          // Words
-    parameter B_ENABLE_ROM_INIT = 0,                 // Default: No initialization
 
     // PC
     parameter BUS_WIDTH = INSTR_ADDR_WIDTH, 
-    parameter INCREMENT = 4
+    parameter INCREMENT = 1
     
 )();
 
@@ -45,7 +47,7 @@ module top #(
         .INCREMENT(INCREMENT)
     ) pc_inst (
         .clk(clk),
-        .rst(rst),
+        .rst_n(rst_n),
         .enable(1'b1),
         .pc_out(program_counter)
     );
@@ -53,8 +55,7 @@ module top #(
     rom #(
         .DATA_WIDTH(INSTR_DATA_WIDTH),
         .ADDR_WIDTH(INSTR_ADDR_WIDTH),
-        .WORDS(INSTR_WORDS),
-        .ENABLE_ROM_INIT(INSTR_ENABLE_ROM_INIT)
+        .WORDS(INSTR_WORDS)
     ) instruction_rom (
         .addr_i(program_counter),
         .data_o(instruction)
@@ -63,8 +64,7 @@ module top #(
     rom #(
         .DATA_WIDTH(A_DATA_WIDTH),
         .ADDR_WIDTH(A_ADDR_WIDTH),
-        .WORDS(A_WORDS),
-        .ENABLE_ROM_INIT(A_ENABLE_ROM_INIT)
+        .WORDS(A_WORDS)
     ) a_rom (
         .addr_i(program_counter),
         .data_o(a)
@@ -73,8 +73,7 @@ module top #(
     rom #(
         .DATA_WIDTH(B_DATA_WIDTH),
         .ADDR_WIDTH(B_ADDR_WIDTH),
-        .WORDS(B_WORDS),
-        .ENABLE_ROM_INIT(B_ENABLE_ROM_INIT)
+        .WORDS(B_WORDS)
     ) b_rom (
         .addr_i(program_counter),
         .data_o(b)
@@ -95,11 +94,11 @@ module top #(
 
     initial begin
         // Load ROMs from files
-        $readmemb("instruction.bin", instruction_rom.memory);
-        $readmemh("a.hex", a_rom.memory);
-        $readmemh("b.hex", b_rom.memory);
+        $readmemb(`ROM_Inst_INIT_PATH, instruction_rom.memory);
+        $readmemh(`ROM_A_INIT_PATH, a_rom.memory);
+        $readmemh(`ROM_B_INIT_PATH, b_rom.memory);
 
-        $dumpfile("top.vcd");
+        $dumpfile("top_tb.vcd");
         $dumpvars(0, top);
 
         clk = 0;
