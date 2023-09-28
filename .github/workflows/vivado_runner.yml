@@ -31,11 +31,18 @@ jobs:
     runs-on: vivado-2023
     needs: Clone_Repo
     steps:
-      - name: ALU_sanity_check
+      - name: IALU_sanity_check
         shell: bash
         run:  |
               cd top-main 
-              make alu
+              make ialu TMP=../../../alu/ialu/
+      - name: MALU_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make malu TMP=../../../alu/malu/
+
+
 
   # Build-SIM_pc_ip:
   #   runs-on: vivado-2023

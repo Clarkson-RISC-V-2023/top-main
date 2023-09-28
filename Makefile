@@ -1,4 +1,4 @@
-.PHONY: all alu
+.PHONY: all ialu malu
 
 all: init alu
 
@@ -6,11 +6,12 @@ init:
 	rm -rf out
 	mkdir -p out/
 
-alu:
+ialu:
 	# Build ialu
 	make -C src/ip/alu/ ialu TMP=../../../out/alu/ialu/
 
-	# Buold malu
+malu:
+	# Build malu
 	make -C src/ip/alu/ malu TMP=../../../out/alu/malu/
 
 clean:
