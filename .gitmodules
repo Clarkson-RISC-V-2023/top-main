@@ -10,3 +10,19 @@
 	path = src/ip/alu
 	url = git@github.com:Clarkson-RISC-V-2023/IP_ALU.git
 	branch = main
+[submodule "IP_Jump_Unit"]
+	path = src/ip/jump
+	url = git@github.com:Clarkson-RISC-V-2023/IP_Jump_Unit.git
+	branch = main
+[submodule "IP_Branch_Unit"]
+	path = src/ip/branch
+	url = git@github.com:Clarkson-RISC-V-2023/IP_Branch_Unit.git
+	branch = main
+[submodule "IP_Register_File"]
+	path = src/ip/regs
+	url = git@github.com:Clarkson-RISC-V-2023/IP_Register_File.git
+	branch = main
+[submodule "IP_LSU"]
+	path = src/ip/lsu
+	url = git@github.com:Clarkson-RISC-V-2023/IP_LSU.git
+	branch = main
