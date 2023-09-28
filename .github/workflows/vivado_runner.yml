@@ -70,11 +70,21 @@ jobs:
         shell: bash
         run:  |
               cd top-main 
-              make bmem OUT_DIR=../../../mem/bmem/
-              
+              make branch
+
+  Build-SIM_jump_ip:
+    runs-on: vivado-2023
+    needs: Clone_Repo
+    steps:
+      - name: MEMBLOCK_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make jump
+
   Upload_Sim_Artifact:
     runs-on: vivado-2023
-    needs: [Build-SIM_ram_ip, Build-SIM_alu_ip]
+    needs: [Build-SIM_ram_ip, Build-SIM_alu_ip, Build-SIM_branch_ip, Build-SIM_jump_ip]
     steps:
       - name: Upload Artifact 
         uses: actions/upload-artifact@v2
