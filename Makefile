@@ -1,6 +1,6 @@
 .PHONY: all ialu malu
 
-all: init ialu malu bmem rom ram
+all: init ialu malu bmem rom ram branch
 
 init:
 	rm -rf out
@@ -22,6 +22,9 @@ rom:
 
 ram:
 	make -C src/ip/mem/ ram OUT_DIR=../../../out/mem/ram
+
+branch:
+	make -C src/ip/mem/ OUT_DIR=../../../out/branch
 
 clean:
 	rm -rf out/ 

@@ -35,12 +35,12 @@ jobs:
         shell: bash
         run:  |
               cd top-main 
-              make ialu OUT_DIR=../../../alu/ialu/
+              make ialu
       - name: MALU_sanity_check
         shell: bash
         run:  |
               cd top-main 
-              make malu OUT_DIR=../../../alu/malu/
+              make malu
 
   Build-SIM_ram_ip:
     runs-on: vivado-2023
@@ -50,18 +50,28 @@ jobs:
         shell: bash
         run:  |
               cd top-main 
-              make bmem OUT_DIR=../../../mem/bmem/
+              make bmem
       - name: ROM_sanity_check
         shell: bash
         run:  |
               cd top-main 
-              make rom OUT_DIR=../../../mem/rom/
+              make rom
       - name: RAM_sanity_check
         shell: bash
         run:  |
               cd top-main 
-              make ram OUT_DIR=../../../mem/ram/
+              make ram
 
+  Build-SIM_branch_ip:
+    runs-on: vivado-2023
+    needs: Clone_Repo
+    steps:
+      - name: MEMBLOCK_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make bmem OUT_DIR=../../../mem/bmem/
+              
   Upload_Sim_Artifact:
     runs-on: vivado-2023
     needs: [Build-SIM_ram_ip, Build-SIM_alu_ip]
