@@ -35,12 +35,12 @@ jobs:
         shell: bash
         run:  |
               cd top-main 
-              make ialu TMP=../../../alu/ialu/
+              make ialu OUT_DIR=../../../alu/ialu/
       - name: MALU_sanity_check
         shell: bash
         run:  |
               cd top-main 
-              make malu TMP=../../../alu/malu/
+              make malu OUT_DIR=../../../alu/malu/
 
   Build-SIM_ram_ip:
     runs-on: vivado-2023
@@ -50,47 +50,17 @@ jobs:
         shell: bash
         run:  |
               cd top-main 
-              make bmem
+              make bmem OUT_DIR=../../../mem/bmem/
       - name: ROM_sanity_check
         shell: bash
         run:  |
               cd top-main 
-              make rom
+              make rom OUT_DIR=../../../mem/rom/
       - name: RAM_sanity_check
         shell: bash
         run:  |
               cd top-main 
-              make ram
-
-  # Build-SIM_pc_ip:
-  #   runs-on: vivado-2023
-  #   needs: Clone_Repo
-  #   steps:
-  #     - name: PC_sanity_check
-  #       shell: bash
-  #       run:  |
-  #             cd top-main 
-  #             make pc_sim
-
-  # Build-SIM_rom_ip:
-  #   runs-on: vivado-2023
-  #   needs: Clone_Repo
-  #   steps:
-  #     - name: ROM_sanity_check
-  #       shell: bash
-  #       run:  |
-  #             cd top-main 
-  #             make rom_sim
-
-  # Build-SIM_top:
-  #   runs-on: vivado-2023
-  #   needs: [Build-SIM_alu_ip, Build-SIM_pc_ip, Build-SIM_rom_ip]
-  #   steps:
-  #     - name: ROM_sanity_check
-  #       shell: bash
-  #       run:  |
-  #             cd top-main 
-  #             make top_sim
+              make ram OUT_DIR=../../../mem/ram/
 
   Upload_Sim_Artifact:
     runs-on: vivado-2023
