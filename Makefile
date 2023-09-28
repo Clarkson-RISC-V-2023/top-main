@@ -29,6 +29,9 @@ branch:
 jump:
 	make -C src/ip/jump/ OUT_DIR=../../../out/jump
 
+lsu:
+	make -C src/ip/lsu/ OUT_DIR=../../../out/lsu
+
 clean:
 	rm -rf out/ 
 	rm -rf *.pb *.log *.jou *.wdb *.vcd *.xvlog *.xelab *.xsim
