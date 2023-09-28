@@ -22,3 +22,7 @@
 	path = src/ip/lsu
 	url = git@github.com:Clarkson-RISC-V-2023/IP_LSU.git
 	branch = main
+[submodule "IP_RAM"]
+	path = src/ip/mem
+	url = git@github.com:Clarkson-RISC-V-2023/IP_RAM.git
+	branch = main
