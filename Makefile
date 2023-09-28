@@ -1,6 +1,6 @@
 .PHONY: all ialu malu
 
-all: init alu
+all: init ialu malu
 
 init:
 	rm -rf out
@@ -13,6 +13,18 @@ ialu:
 malu:
 	# Build malu
 	make -C src/ip/alu/ malu TMP=../../../out/alu/malu/
+
+bmem:
+	# Makefile in repo needs to be modified
+	# make -C src/ip/mem/ bmem
+
+rom:
+	# Makefile in repo needs to be modified
+	# make -C src/ip/mem/ rom
+
+ram:
+	# Makefile in repo needs to be modified
+	# make -C src/ip/mem/ ram
 
 clean:
 	rm -rf out/ 
