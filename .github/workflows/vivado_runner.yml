@@ -21,7 +21,7 @@ jobs:
         shell: bash
         run:  |
               rm -rf * 
-              git clone --recurse-submodules git@github.com:Clarkson-RISC-V-2023/top-main.git 
+              git clone git@github.com:Clarkson-RISC-V-2023/top-main.git 
               cd top-main
               git checkout ${{ steps.extract_branch.outputs.branch }}
               git submodule update --init
