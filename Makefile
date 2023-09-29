@@ -15,28 +15,28 @@ malu:
 	make -C src/ip/alu/ malu OUT_DIR=../../../out/alu/malu/
 
 bmem:
-	make -C src/ip/mem/ bmem OUT_DIR=../../../out/mem/bmem
+	make -C src/ip/mem/ bmem OUT_DIR=../../../out/mem/bmem/
 
 rom:
-	make -C src/ip/mem/ rom OUT_DIR=../../../out/mem/rom
+	make -C src/ip/mem/ rom OUT_DIR=../../../out/mem/rom/
 
 ram:
-	make -C src/ip/mem/ ram OUT_DIR=../../../out/mem/ram
+	make -C src/ip/mem/ ram OUT_DIR=../../../out/mem/ram/
 
 branch:
-	make -C src/ip/branch/ OUT_DIR=../../../out/branch
+	make -C src/ip/branch/ OUT_DIR=../../../out/branch/
 
 jump:
-	make -C src/ip/jump/ OUT_DIR=../../../out/jump
+	make -C src/ip/jump/ OUT_DIR=../../../out/jump/
 
 lsu:
-	make -C src/ip/lsu/ OUT_DIR=../../../out/lsu
+	make -C src/ip/lsu/ OUT_DIR=../../../out/lsu/
 
 regs:
-	make -C src/ip/regs/ OUT_DIR=../../../out/regs 
+	make -C src/ip/regs/ OUT_DIR=../../../out/regs/ 
 
 pc:
-	make -C src/ip/pc/ OUT_DIR=../../../out/pc 
+	make -C src/ip/pc/ OUT_DIR=../../../out/pc/
 
 clean:
 	rm -rf out/ 
