@@ -21,7 +21,7 @@ jobs:
         shell: bash
         run:  |
               rm -rf * 
-              git clone --recurse-submodules git@github.com:Clarkson-RISC-V-2023/top-main.git 
+              git clone git@github.com:Clarkson-RISC-V-2023/top-main.git 
               cd top-main
               git checkout ${{ steps.extract_branch.outputs.branch }}
               git submodule update --init
@@ -31,45 +31,90 @@ jobs:
     runs-on: vivado-2023
     needs: Clone_Repo
     steps:
-      - name: ALU_sanity_check
+      - name: IALU_sanity_check
         shell: bash
         run:  |
               cd top-main 
-              make alu_sim
+              make ialu
+      - name: MALU_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make malu
+
+  Build-SIM_ram_ip:
+    runs-on: vivado-2023
+    needs: Clone_Repo
+    steps:
+      - name: MEMBLOCK_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make bmem
+      - name: ROM_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make rom
+      - name: RAM_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make ram
+
+  Build-SIM_branch_ip:
+    runs-on: vivado-2023
+    needs: Clone_Repo
+    steps:
+      - name: MEMBLOCK_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make branch
+
+  Build-SIM_jump_ip:
+    runs-on: vivado-2023
+    needs: Clone_Repo
+    steps:
+      - name: MEMBLOCK_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make jump
+
+  Build-SIM_lsu_ip:
+    runs-on: vivado-2023
+    needs: Clone_Repo
+    steps:
+      - name: MEMBLOCK_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make lsu
+
+  Build-SIM_regs_ip:
+    runs-on: vivado-2023
+    needs: Clone_Repo
+    steps:
+      - name: MEMBLOCK_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make regs
 
   Build-SIM_pc_ip:
     runs-on: vivado-2023
     needs: Clone_Repo
     steps:
-      - name: PC_sanity_check
+      - name: MEMBLOCK_sanity_check
         shell: bash
         run:  |
               cd top-main 
-              make pc_sim
-
-  Build-SIM_rom_ip:
-    runs-on: vivado-2023
-    needs: Clone_Repo
-    steps:
-      - name: ROM_sanity_check
-        shell: bash
-        run:  |
-              cd top-main 
-              make rom_sim
-
-  Build-SIM_top:
-    runs-on: vivado-2023
-    needs: [Build-SIM_alu_ip, Build-SIM_pc_ip, Build-SIM_rom_ip]
-    steps:
-      - name: ROM_sanity_check
-        shell: bash
-        run:  |
-              cd top-main 
-              make top_sim
+              make pc
 
   Upload_Sim_Artifact:
     runs-on: vivado-2023
-    needs: [Build-SIM_alu_ip, Build-SIM_pc_ip, Build-SIM_rom_ip, Build-SIM_top]
+    needs: [Build-SIM_ram_ip, Build-SIM_alu_ip, Build-SIM_branch_ip, Build-SIM_jump_ip, Build-SIM_lsu_ip, Build-SIM_regs_ip, Build-SIM_pc_ip]
     steps:
       - name: Upload Artifact 
         uses: actions/upload-artifact@v2
