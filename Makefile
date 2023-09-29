@@ -32,6 +32,9 @@ jump:
 lsu:
 	make -C src/ip/lsu/ OUT_DIR=../../../out/lsu
 
+regs:
+	make -C src/ip/regs/ OUT_DIR=../../../out/regs 
+
 clean:
 	rm -rf out/ 
 	rm -rf *.pb *.log *.jou *.wdb *.vcd *.xvlog *.xelab *.xsim
