@@ -102,9 +102,19 @@ jobs:
               cd top-main 
               make regs
 
+  Build-SIM_pc_ip:
+    runs-on: vivado-2023
+    needs: Clone_Repo
+    steps:
+      - name: MEMBLOCK_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make pc
+
   Upload_Sim_Artifact:
     runs-on: vivado-2023
-    needs: [Build-SIM_ram_ip, Build-SIM_alu_ip, Build-SIM_branch_ip, Build-SIM_jump_ip, Build-SIM_lsu_ip]
+    needs: [Build-SIM_ram_ip, Build-SIM_alu_ip, Build-SIM_branch_ip, Build-SIM_jump_ip, Build-SIM_lsu_ip, Build-SIM_regs_ip, Build-SIM_pc_ip]
     steps:
       - name: Upload Artifact 
         uses: actions/upload-artifact@v2

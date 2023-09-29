@@ -1,6 +1,6 @@
 .PHONY: all ialu malu
 
-all: init ialu malu bmem rom ram branch jump
+all: init ialu malu bmem rom ram branch jump lsu regs pc
 
 init:
 	rm -rf out
@@ -34,6 +34,9 @@ lsu:
 
 regs:
 	make -C src/ip/regs/ OUT_DIR=../../../out/regs 
+
+pc:
+	make -C src/ip/pc/ OUT_DIR=../../../out/pc 
 
 clean:
 	rm -rf out/ 
