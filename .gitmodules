@@ -31,6 +31,6 @@
 	url = git@github.com:Clarkson-RISC-V-2023/IP_Decoder.git
 	branch = redline
 [submodule "IP_Sign_Extend"]
-	path = sextend
+	path = src/ip/sextend
 	url = git@github.com:Clarkson-RISC-V-2023/IP_Sign_Extend.git
 	branch = main
