@@ -26,3 +26,7 @@
 	path = src/ip/mem
 	url = git@github.com:Clarkson-RISC-V-2023/IP_RAM.git
 	branch = main
+[submodule "IP_Decoder"]
+	path = src/ip/decoder
+	url = git@github.com:Clarkson-RISC-V-2023/IP_Decoder.git
+	branch = redline
