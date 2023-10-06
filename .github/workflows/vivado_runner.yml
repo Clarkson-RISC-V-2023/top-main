@@ -61,6 +61,11 @@ jobs:
         run:  |
               cd top-main 
               make ram
+      - name: UVM_RAM_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make uvm_ram
 
   Build-SIM_branch_ip:
     runs-on: vivado-2023
