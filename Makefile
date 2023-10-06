@@ -1,6 +1,7 @@
 .PHONY: all ialu malu
 
-all: init ialu malu bmem rom ram branch jump lsu regs pc
+all: init bmem rom ram uvm_ram branch jump  regs pc
+# TEMPORARLY disabled: lsu ialu malu
 
 init:
 	rm -rf out
@@ -15,13 +16,16 @@ malu:
 	make -C src/ip/alu/ malu OUT_DIR=../../../out/alu/malu/
 
 bmem:
-	make -C src/ip/mem/ bmem OUT_DIR=../../../out/mem/bmem/
+	make -C src/ip/mem/ bmem OUT_DIR=../../../out/mem/tb/bmem
 
 rom:
-	make -C src/ip/mem/ rom OUT_DIR=../../../out/mem/rom/
+	make -C src/ip/mem/ rom OUT_DIR=../../../out/mem/tb/rom
 
 ram:
-	make -C src/ip/mem/ ram OUT_DIR=../../../out/mem/ram/
+	make -C src/ip/mem/ ram OUT_DIR=../../../out/mem/tb/ram
+
+uvm_ram:
+	make -C src/ip/mem/ uvm_ram IP=uvm_ram OUT_DIR=../../../out/mem/uvm/ram  XVLOG_FLAGS=./files_uvm.f
 
 branch:
 	make -C src/ip/branch/ OUT_DIR=../../../out/branch/
@@ -33,7 +37,7 @@ lsu:
 	make -C src/ip/lsu/ OUT_DIR=../../../out/lsu/
 
 regs:
-	make -C src/ip/regs/ OUT_DIR=../../../out/regs/ 
+	make -C src/ip/regs/ OUT_DIR=../../../out/regs/ regs
 
 pc:
 	make -C src/ip/pc/ OUT_DIR=../../../out/pc/
