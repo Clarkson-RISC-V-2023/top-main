@@ -47,6 +47,11 @@ top:
 	# BUILDING RTL TOP:
 	xvlog --sv --nolog -f files.f
 
+build_top_project:
+	mkdir -p ./out/build_vivado
+	vivado -mode batch -source vivado/project_build.tcl 
+	rm -rf vivado.* vivado_* RISCy_Buisness_Processor_*
+
 clean:
 	rm -rf out/ 
 	rm -rf *.pb *.log *.jou *.wdb *.vcd *.xvlog *.xelab *.xsim
