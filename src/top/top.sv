@@ -37,7 +37,7 @@ module top #(
     parameter RA_INIT        = 32'hFFFF_FFFF,
     parameter SP_INIT        = 32'hFFFF_FFFF,
     parameter GP_INIT        = 32'hFFFF_FFFF,
-    parameter TP_INIT        = 32'hFFFF_FFFF
+    parameter TP_INIT        = 32'hFFFF_FFFF,
 
     // // ROM (A)  
     // parameter A_DATA_WIDTH = 32,                    // Word length
@@ -76,7 +76,7 @@ module top #(
 
     wire we, mwe, sin_cos, overwrite, jump, branch_taken, load, AUIPC_sig;    //alu_status_i, alu_status_o;
     wire [REG_FILE_WIDTH-1:0] r1, r2, rd;
-    wire [OUT_BUS_WIDTH-1:0] d1, d2, d_in_reg, lsu_d_out, WriteBack_data, ialu_OUT, alu_mux_out jal_ext, jump_OUT, branch_out, i_TYPE_EXT, s_TYPE_EXT, u_TYPE_EXT, load_mux, IALU_IN1, IALU_IN2;
+    wire [OUT_BUS_WIDTH-1:0] d1, d2, d_in_reg, lsu_d_out, WriteBack_data, ialu_OUT, alu_mux_out, jal_ext, jump_OUT, branch_out, i_TYPE_EXT, s_TYPE_EXT, u_TYPE_EXT, load_mux, IALU_IN1, IALU_IN2;
     wire [TYPE_WIDTH-1:0] Type;
     wire [DTYPE_WIDTH-1:0] dtype;
     wire [BRANCH_TYPE_WIDTH-1:0] branch_type;
@@ -98,7 +98,7 @@ module top #(
         .rst_n(rst_n),
         .jump_increment(jump_OUT),
         .branch_increment(branch_out),
-        .intruction_type(Type)
+        .intruction_type(Type),
         .jump_in(overwrite),
         .pc_out(program_counter)
     );
@@ -151,7 +151,7 @@ module top #(
         .register_1(d1),
         .register_2(d2),
         .branch_type(branch_type),
-        .branch_imm({instruction[31], instruction[7], instruction[30:25], instruction[11:8]})
+        .branch_imm({instruction[31], instruction[7], instruction[30:25], instruction[11:8]}),
         .addr_offset_out(branch_out),
         .branch_taken(branch_taken)
     );
@@ -173,7 +173,7 @@ module top #(
         .reset_n(reset_n),
         .data_out(lsu_d_out), 
         .gpioA_out(gpioA_out),
-        .gpioB_out(gpioB_out),
+        .gpioB_out(gpioB_out)
     );
 
 
@@ -234,9 +234,9 @@ module top #(
         .R_o(ialu_OUT)
     );
 
-    assign i_TYPE_EXT <= {{(DATA_WIDTH-IMM_LENGTH){instruction[DATA_WIDTH-1]}},instruction[DATA_WIDTH-1:DATA_WIDTH - IMM_LENGTH]};
-    assign s_TYPE_EXT <= {{(DATA_WIDTH-IMM_LENGTH){instruction[DATA_WIDTH-1]}},instruction[DATA_WIDTH-1:25], instruction[11:7]};
-    assign u_TYPE_EXT <= {instruction[DATA_WIDTH-1:IMM_LENGTH],{(IMM_LENGTH){1'b0}}};
+    assign i_TYPE_EXT = {{(DATA_WIDTH-IMM_LENGTH){instruction[DATA_WIDTH-1]}},instruction[DATA_WIDTH-1:DATA_WIDTH - IMM_LENGTH]};
+    assign s_TYPE_EXT = {{(DATA_WIDTH-IMM_LENGTH){instruction[DATA_WIDTH-1]}},instruction[DATA_WIDTH-1:25], instruction[11:7]};
+    assign u_TYPE_EXT = {instruction[DATA_WIDTH-1:IMM_LENGTH],{(IMM_LENGTH){1'b0}}};
 
 
     // MUX 4
