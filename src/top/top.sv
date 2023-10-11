@@ -76,7 +76,8 @@ module top #(
 
     wire we, mwe, sin_cos, overwrite, jump, branch_taken, load, AUIPC_sig;    //alu_status_i, alu_status_o;
     wire [REG_FILE_WIDTH-1:0] r1, r2, rd;
-    wire [OUT_BUS_WIDTH-1:0] d1, d2, d_in_reg, lsu_d_out, WriteBack_data, ialu_OUT, alu_mux_out, jal_ext, jump_OUT, branch_out, i_TYPE_EXT, s_TYPE_EXT, u_TYPE_EXT, load_mux, IALU_IN1, IALU_IN2;
+    wire [OUT_BUS_WIDTH-1:0] d1, d2, d_in_reg, lsu_d_out, ialu_OUT, jal_ext, jump_OUT, branch_out, i_TYPE_EXT, s_TYPE_EXT, u_TYPE_EXT;
+    reg [OUT_BUS_WIDTH-1:0] load_mux, WriteBack_data, IALU_IN1, IALU_IN2, alu_mux_out;
     wire [TYPE_WIDTH-1:0] Type;
     wire [DTYPE_WIDTH-1:0] dtype;
     wire [BRANCH_TYPE_WIDTH-1:0] branch_type;
@@ -223,7 +224,7 @@ module top #(
     );
 
     ialu #(
-        .OPCODE_WIDTH(OPCODE_WIDTH),
+        .OPCODE_WIDTH(ALU_OP_WIDTH),
         .IN_BUS_WIDTH (IN_BUS_WIDTH),
         .OUT_BUS_WIDTH(OUT_BUS_WIDTH)
     ) ialu_inst (
@@ -252,17 +253,17 @@ module top #(
     always @(jump, program_counter, load_mux)   
     begin
         case(jump)
-            1'b1:     WriteBack_data <= program_counter +4;
-            default:  WriteBack_data <= load_mux;
+            1'b1:     WriteBack_data = program_counter +4;
+            default:  WriteBack_data = load_mux;
         endcase
     end
 
     // MUX 3
-    always @(d1, pc, AUIPC_sig)   
+    always @(d1, program_counter, AUIPC_sig)   
     begin
         case(AUIPC_sig)
-            1'b1:     IALU_IN1 <= program_counter;
-            default:  IALU_IN1 <= d1;
+            1'b1:     IALU_IN1 = program_counter;
+            default:  IALU_IN1 = d1;
         endcase
     end
     
@@ -270,10 +271,10 @@ module top #(
     always @(d2, i_TYPE_EXT, s_TYPE_EXT, u_TYPE_EXT, Type)   
     begin
         case(Type)
-            `U_TYPE: IALU_IN2 <= u_TYPE_EXT;
-            `I_TYPE: IALU_IN2 <= i_TYPE_EXT;
-            `S_TYPE: IALU_IN2 <= s_TYPE_EXT;
-            default: IALU_IN2 <= d2;
+            `U_TYPE: IALU_IN2 = u_TYPE_EXT;
+            `I_TYPE: IALU_IN2 = i_TYPE_EXT;
+            `S_TYPE: IALU_IN2 = s_TYPE_EXT;
+            default: IALU_IN2 = d2;
         endcase
     end
 
@@ -281,8 +282,8 @@ module top #(
     always @(ialu_OUT, alu_select)
     begin
         case(alu_select)
-            `SEL_IALU: alu_mux_out <= ialu_OUT;
-            default: alu_mux_out <= ialu_OUT;
+            `SEL_IALU: alu_mux_out = ialu_OUT;
+            default: alu_mux_out = ialu_OUT;
         endcase   
     end
     
