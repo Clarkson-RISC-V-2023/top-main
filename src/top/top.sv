@@ -93,7 +93,7 @@ module top #(
     pc #(
         .BUS_WIDTH(BUS_WIDTH),
         .TYPE_WIDTH(TYPE_WIDTH),
-        .INCREMENT(INCREMENT)
+        .DEFAULT_INCREMENT(INCREMENT)
     ) pc_inst (
         .clk(clk),
         .rst_n(rst_n),
