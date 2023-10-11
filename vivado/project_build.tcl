@@ -14,7 +14,7 @@ set_property simulator_language Verilog [current_project]
 
 add_files -fileset constrs_1 -norecurse $PROJECT_CONSTRAINT_FILE
 
-add_files -norecurse files.f
+source ./vivado/read_verilog_rtl.tcl
 
 update_compile_order -fileset RISCy_RTL
 
