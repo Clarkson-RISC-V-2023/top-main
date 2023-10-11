@@ -11,7 +11,7 @@ on:
 
 jobs:
   Clone_Repo:
-    runs-on: vivado-2023
+    runs-on: multi-vivado
     steps:
       - name: Extract branch name
         shell: bash
@@ -28,7 +28,7 @@ jobs:
               tree
 
   # Build-SIM_alu_ip:
-  #   runs-on: vivado-2023
+  #   runs-on: multi-vivado
   #   needs: Clone_Repo
   #   steps:
   #     - name: IALU_sanity_check
@@ -43,7 +43,7 @@ jobs:
   #             make malu
 
   Build-SIM_mem_ip:
-    runs-on: vivado-2023
+    runs-on: multi-vivado
     needs: Clone_Repo
     steps:
       - name: MEMBLOCK_sanity_check
@@ -68,7 +68,7 @@ jobs:
               make uvm_ram
 
   Build-SIM_branch_ip:
-    runs-on: vivado-2023
+    runs-on: multi-vivado
     needs: Clone_Repo
     steps:
       - name: MEMBLOCK_sanity_check
@@ -78,7 +78,7 @@ jobs:
               make branch
 
   Build-SIM_jump_ip:
-    runs-on: vivado-2023
+    runs-on: multi-vivado
     needs: Clone_Repo
     steps:
       - name: MEMBLOCK_sanity_check
@@ -88,7 +88,7 @@ jobs:
               make jump
 
   # Build-SIM_lsu_ip:
-  #   runs-on: vivado-2023
+  #   runs-on: multi-vivado
   #   needs: Clone_Repo
   #   steps:
   #     - name: MEMBLOCK_sanity_check
@@ -98,7 +98,7 @@ jobs:
   #             make lsu
 
   Build-SIM_regs_ip:
-    runs-on: vivado-2023
+    runs-on: multi-vivado
     needs: Clone_Repo
     steps:
       - name: MEMBLOCK_sanity_check
@@ -108,7 +108,7 @@ jobs:
               make regs
 
   Build-SIM_pc_ip:
-    runs-on: vivado-2023
+    runs-on: multi-vivado
     needs: Clone_Repo
     steps:
       - name: MEMBLOCK_sanity_check
@@ -118,7 +118,7 @@ jobs:
               make pc
 
   Build-SIM_top-level: # IN DEVELOPEMENT
-    runs-on: vivado-2023
+    runs-on: multi-vivado
     needs: Clone_Repo
     steps:
       - name: TOP-LEVEL-RTL_sanity_check
@@ -128,7 +128,7 @@ jobs:
               make top
 
   Build-Vivado-RISCy_Project:
-    runs-on: vivado-2023
+    runs-on: multi-vivado
     needs: [Build-SIM_mem_ip, Build-SIM_branch_ip, Build-SIM_jump_ip, Build-SIM_regs_ip, Build-SIM_pc_ip, Clone_Repo] # <= Needs all the IPs to pass basic verif
     steps:
       - name: MEMBLOCK_sanity_check
@@ -138,7 +138,7 @@ jobs:
               make make build_top_project
 
   Upload_Sim_Artifact:
-    runs-on: vivado-2023
+    runs-on: multi-vivado
     needs: [Build-SIM_mem_ip, Build-SIM_branch_ip, Build-SIM_jump_ip, Build-SIM_regs_ip, Build-SIM_pc_ip, Build-Vivado-RISCy_Project] #Build-SIM_alu_ip Build-SIM_lsu_ip,
     steps:
       - name: Upload Artifact 
