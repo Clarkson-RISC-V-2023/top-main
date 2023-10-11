@@ -45,7 +45,7 @@ pc:
 top:
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	# BUILDING RTL TOP:
-	xvlog -f files.f
+	xvlog --sv --nolog -f files.f
 
 clean:
 	rm -rf out/ 
