@@ -42,6 +42,11 @@ regs:
 pc:
 	make -C src/ip/pc/ OUT_DIR=../../../out/pc/
 
+top:
+	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	# BUILDING RTL TOP:
+	xvlog -f files.f
+
 clean:
 	rm -rf out/ 
 	rm -rf *.pb *.log *.jou *.wdb *.vcd *.xvlog *.xelab *.xsim

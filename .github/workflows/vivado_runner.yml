@@ -117,6 +117,16 @@ jobs:
               cd top-main 
               make pc
 
+  Build-SIM_top-level: # IN DEVELOPEMENT
+    runs-on: vivado-2023
+    needs: Clone_Repo
+    steps:
+      - name: TOP-LEVEL-RTL_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make top
+
   Upload_Sim_Artifact:
     runs-on: vivado-2023
     needs: [Build-SIM_ram_ip, Build-SIM_branch_ip, Build-SIM_jump_ip, Build-SIM_regs_ip, Build-SIM_pc_ip] #Build-SIM_alu_ip Build-SIM_lsu_ip,
