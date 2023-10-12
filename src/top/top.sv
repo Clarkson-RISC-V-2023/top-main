@@ -17,6 +17,9 @@ module top #(
     parameter IMM_LENGTH = 12,
     parameter GPIO_A_ADDR = 12'hEF0,
     parameter GPIO_B_ADDR = 12'hEF4,
+    parameter OPCODE_WIDTH = 7,
+    parameter FUNCT3_WIDTH = 3,
+    parameter FUNCT7_WIDTH = 7,
 
     // ROM (Instruction)
     parameter INSTR_DATA_WIDTH = 32,                 // Word length
@@ -54,6 +57,8 @@ module top #(
     parameter INCREMENT = 4
     
 )(
+    input wire clk,
+    input wire reset_n,
     output reg [DATA_WIDTH-1:0] gpioA_out,
     output reg [DATA_WIDTH-1:0] gpioB_out
 );
@@ -71,12 +76,11 @@ module top #(
     `define SEL_IALU    2'b01
     `define SEL_NONE    2'b00
 
-    reg clk;
-    reg rst_n;
-
-    wire we, mwe, sin_cos, overwrite, jump, branch_taken, load, AUIPC_sig;    //alu_status_i, alu_status_o;
+ //TODO: Need to add cordic Signals, need to instantiate FALU and add MUX stuff
+ //TODO: change reg file inputs to be 6 bits when cordic and falu stuff is added
+    wire we, mwe, overwrite, jump, load, AUIPC_sig;    //alu_status_i, alu_status_o;
     wire [REG_FILE_WIDTH-1:0] r1, r2, rd;
-    wire [OUT_BUS_WIDTH-1:0] d1, d2, d_in_reg, lsu_d_out, ialu_OUT, jal_ext, jump_OUT, branch_out, i_TYPE_EXT, s_TYPE_EXT, u_TYPE_EXT;
+    wire [OUT_BUS_WIDTH-1:0] d1, d2, lsu_d_out, ialu_OUT, jump_OUT, branch_out, i_TYPE_EXT, s_TYPE_EXT, u_TYPE_EXT;
     reg [OUT_BUS_WIDTH-1:0] load_mux, WriteBack_data, IALU_IN1, IALU_IN2, alu_mux_out;
     wire [TYPE_WIDTH-1:0] Type;
     wire [DTYPE_WIDTH-1:0] dtype;
@@ -85,10 +89,7 @@ module top #(
     wire [ALU_OP_WIDTH-1:0] aluop;
     wire [INSTR_ADDR_WIDTH-1:0] program_counter;
     wire [INSTR_DATA_WIDTH-1:0] instruction;
-    // wire [A_DATA_WIDTH-1:0] a;
-    // wire [B_DATA_WIDTH-1:0] b;
 
-    wire [OUT_BUS_WIDTH-1:0] r;
 
     pc #(
         .BUS_WIDTH(BUS_WIDTH),
@@ -96,7 +97,7 @@ module top #(
         .DEFAULT_INCREMENT(INCREMENT)
     ) pc_inst (
         .clk(clk),
-        .rst_n(rst_n),
+        .rst_n(reset_n),
         .jump_increment(jump_OUT),
         .branch_increment(branch_out),
         .intruction_type(Type),
@@ -131,6 +132,7 @@ module top #(
     //     .addr_i(program_counter),
     //     .data_o(b)
     // );
+
     jump #(
         .TYPE_SIGNAL_WIDTH(TYPE_WIDTH),
         .JAL_WIDTH(20),    // Do we want to use 32 or 20 here since it sign extends by default
@@ -183,7 +185,10 @@ module top #(
         .DTYPE_WIDTH(DTYPE_WIDTH),
         .BRANCH_TYPE_WIDTH(BRANCH_TYPE_WIDTH),
         .ALUSELECT_WIDTH(ALUSELECT_WIDTH),
-        .DATA_WIDTH(DATA_WIDTH)
+        .DATA_WIDTH(DATA_WIDTH),
+        .OPCODE_WIDTH(OPCODE_WIDTH),
+        .FUNCT3_WIDTH(FUNCT3_WIDTH),
+        .FUNCT7_WIDTH(FUNCT7_WIDTH)
     ) decoder_inst (
         .instr(instruction),
         .ALUOp(aluop),
@@ -194,7 +199,8 @@ module top #(
         .RWE(we),
         .branchType(branch_type),
         .jump(jump),
-        .ALUSelect(alu_select)
+        .ALUSelect(alu_select),
+        .auipcBit(AUIPC_sig)
     );
 
     regs #(
@@ -214,10 +220,10 @@ module top #(
         .clk(clk),
         .rst_n(reset_n),
         .WE_i(we),
-        .WA_i(rd),
+        .WA_i({instruction[11:7]}),
         .WD_i(WriteBack_data),
-        .RA1_i(r1),
-        .RA2_i(r2),
+        .RA1_i({instruction[19:15]}),
+        .RA2_i({instruction[24:20]}),
         .RD1_o(d1),
         .RD2_o(d2)
     );
