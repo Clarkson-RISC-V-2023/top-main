@@ -50,4 +50,4 @@ close_design
 # launch_runs impl_1 -to_step write_bitstream -jobs 8
 
 write_project_tcl -all_properties -use_bd_files -dump_project_info {./out/build_vivado/run_me.tcl}
-#close_project
+close_project
