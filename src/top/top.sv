@@ -106,12 +106,12 @@ module top #(
 
     rom #(
         .DEPTH(256),
-        .ADDR_WIDTH(INSTR_ADDR_WIDTH),
+        .DATA_WIDTH(INSTR_DATA_WIDTH),
         .MEM_INIT_PATH("")
     ) instruction_rom (
         .clk(clk),
         .addr_i(program_counter),
-        .data_o(instruction)
+        .rom_o(instruction)
     );
 
     // rom #(
@@ -153,8 +153,7 @@ module top #(
         .register_2(d2),
         .branch_type(branch_type),
         .branch_imm({instruction[31], instruction[7], instruction[30:25], instruction[11:8]}),
-        .addr_offset_out(branch_out),
-        .branch_taken(branch_taken)
+        .addr_offset_out(branch_out)
     );
     
     lsu #(
@@ -230,7 +229,7 @@ module top #(
     ) ialu_inst (
         .A_i(IALU_IN1),
         .B_i(IALU_IN2),
-        .shamt(instruction[24:20]),
+        .shamt_i(instruction[24:20]),
         .opcode_i(aluop),
         .R_o(ialu_OUT)
     );

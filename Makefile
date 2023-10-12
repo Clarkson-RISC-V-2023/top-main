@@ -1,6 +1,6 @@
 .PHONY: all ialu malu
 
-all: init bmem rom ram uvm_ram branch jump  regs pc
+all: init bmem rom ram uvm_ram branch jump regs pc build_top_project
 # TEMPORARLY disabled: lsu ialu malu
 
 init:
@@ -46,6 +46,11 @@ top:
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	# BUILDING RTL TOP:
 	xvlog --sv --nolog -f files.f
+
+build_top_project:
+	vivado -mode batch -source vivado/project_build.tcl 
+	rm -rf out/vivado_project/**.hw out/vivado_project/**.cache out/vivado_project/**.ip_user_files out/vivado_project/**.Xil out/vivado_project/**.xpr out/vivado_project/**.runs
+	rm -rf vivado.* vivado_* RISCy_Buisness_Processor_*
 
 clean:
 	rm -rf out/ 
