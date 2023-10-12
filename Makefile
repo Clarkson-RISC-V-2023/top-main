@@ -1,6 +1,6 @@
 .PHONY: all ialu malu
 
-all: init bmem rom ram uvm_ram branch jump  regs pc
+all: init bmem rom ram uvm_ram branch jump regs pc build_top_project
 # TEMPORARLY disabled: lsu ialu malu
 
 init:
