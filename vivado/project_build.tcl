@@ -18,6 +18,7 @@ set_property simulator_language Verilog [current_project]
 source ./vivado/read_verilog_rtl.tcl
 
 add_files -fileset constrs_1 -norecurse $PROJECT_CONSTRAINT_FILE
+import_files -norecurse $PROJECT_CONSTRAINT_FILE
 
 set_property top top [current_fileset]
 update_compile_order -fileset sources_1
@@ -49,5 +50,5 @@ close_design
 # # Generate Bitstream
 # launch_runs impl_1 -to_step write_bitstream -jobs 8
 
-write_project_tcl -all_properties -use_bd_files -dump_project_info {./out/build_vivado/run_me.tcl}
+write_project_tcl -all_properties -use_bd_files -dump_project_info -force $OUT_DIR/run_me.tcl
 close_project

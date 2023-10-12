@@ -9,6 +9,8 @@ import_files -norecurse ./src/ip/alu/rtl/ialu.sv
 add_files -norecurse -scan_for_includes ./src/ip/branch/rtl/branch.sv
 import_files -norecurse ./src/ip/branch/rtl/branch.sv
 
+add_files -norecurse -scan_for_includes ./src/ip/decoder/params/riscv_instr.sv
+import_files -norecurse ./src/ip/decoder/params/riscv_instr.sv
 add_files -norecurse -scan_for_includes ./src/ip/decoder/rtl/decoder.sv
 import_files -norecurse ./src/ip/decoder/rtl/decoder.sv
 

@@ -48,8 +48,8 @@ top:
 	xvlog --sv --nolog -f files.f
 
 build_top_project:
-	mkdir -p ./out/build_vivado
 	vivado -mode batch -source vivado/project_build.tcl 
+	rm -rf out/vivado_project/**.hw out/vivado_project/**.cache out/vivado_project/**.ip_user_files out/vivado_project/**.Xil out/vivado_project/**.xpr out/vivado_project/**.runs
 	rm -rf vivado.* vivado_* RISCy_Buisness_Processor_*
 
 clean:
