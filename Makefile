@@ -51,6 +51,11 @@ build_top_sim:
 	xvlog -sv src/top/top.sv verif/tb_top.sv src/ip/alu/rtl/ialu.sv src/ip/branch/rtl/branch.sv src/ip/decoder/rtl/decoder.sv src/ip/jump/rtl/jump.sv src/ip/lsu/rtl/lsu.sv src/ip/mem/rtl/memblock.sv src/ip/mem/rtl/ram.sv src/ip/mem/rtl/rom.sv src/ip/pc/rtl/pc.sv src/ip/regs/rtl/regs.sv src/ip/mem/params/ram_params.sv
 	xelab -debug typical -top tb_top
 	xsim tb_top -R
+	mkdir -p ./out/tb_top/
+	mv xvlog* xelab* xsim** ./out/tb_top/
+	mv *.log ./out/tb_top/ || true
+	mv *.wdb ./out/tb_top/ || true
+	mv *.vcd ./out/tb_top/ || true
 
 clean:
 	rm -rf out/ 
