@@ -1,6 +1,6 @@
 .PHONY: all ialu malu
 
-all: init bmem rom ram uvm_ram branch jump regs pc build_top_project
+all: build_top_sim
 # TEMPORARLY disabled: lsu ialu malu
 
 init:
@@ -47,6 +47,13 @@ build_top_project:
 	rm -rf out/vivado_project/**.hw out/vivado_project/**.cache out/vivado_project/**.ip_user_files out/vivado_project/**.Xil out/vivado_project/**.xpr out/vivado_project/**.runs
 	rm -rf vivado.* vivado_* RISCy_Buisness_Processor_*
 
+build_top_sim:
+	xvlog -sv src/top/top.sv verif/tb_top.sv src/ip/alu/rtl/ialu.sv src/ip/branch/rtl/branch.sv src/ip/decoder/rtl/decoder.sv src/ip/jump/rtl/jump.sv src/ip/lsu/rtl/lsu.sv src/ip/mem/rtl/memblock.sv src/ip/mem/rtl/ram.sv src/ip/mem/rtl/rom.sv src/ip/pc/rtl/pc.sv src/ip/regs/rtl/regs.sv src/ip/mem/params/ram_params.sv
+	xelab -debug typical -top tb_top
+	xsim tb_top -R
+
 clean:
 	rm -rf out/ 
 	rm -rf *.pb *.log *.jou *.wdb *.vcd *.xvlog *.xelab *.xsim
+	rm -rf vivado
+	rm -rf xsim.dir

@@ -5,6 +5,7 @@
 
 module top #(
     // ALU
+    parameter ROM_DEPTH = 8192,
     parameter TYPE_WIDTH = 3,
     parameter DTYPE_WIDTH = 3,
     parameter BRANCH_TYPE_WIDTH = 3,
@@ -20,6 +21,7 @@ module top #(
     parameter OPCODE_WIDTH = 7,
     parameter FUNCT3_WIDTH = 3,
     parameter FUNCT7_WIDTH = 7,
+    parameter  MEM_INIT_PATH = "",
 
     // ROM (Instruction)
     parameter INSTR_DATA_WIDTH = 32,                 // Word length
@@ -101,37 +103,19 @@ module top #(
         .jump_increment(jump_OUT),
         .branch_increment(branch_out),
         .intruction_type(Type),
-        .jump_in(overwrite),
+        .jump_in(jump),
         .pc_out(program_counter)
     );
 
     rom #(
-        .DEPTH(256),
+        .DEPTH(ROM_DEPTH),
         .DATA_WIDTH(INSTR_DATA_WIDTH),
-        .MEM_INIT_PATH("")
+        .MEM_INIT_PATH(MEM_INIT_PATH)
     ) instruction_rom (
         .clk(clk),
         .addr_i(program_counter),
         .rom_o(instruction)
     );
-
-    // rom #(
-    //     .DATA_WIDTH(A_DATA_WIDTH),
-    //     .ADDR_WIDTH(A_ADDR_WIDTH),
-    //     .WORDS(A_WORDS)
-    // ) a_rom (
-    //     .addr_i(program_counter),
-    //     .data_o(a)
-    // );
-    
-    // rom #(
-    //     .DATA_WIDTH(B_DATA_WIDTH),
-    //     .ADDR_WIDTH(B_ADDR_WIDTH),
-    //     .WORDS(B_WORDS)
-    // ) b_rom (
-    //     .addr_i(program_counter),
-    //     .data_o(b)
-    // );
 
     jump #(
         .TYPE_SIGNAL_WIDTH(TYPE_WIDTH),
@@ -142,8 +126,7 @@ module top #(
         .type_in(Type),
         .JALR_in(alu_mux_out),
         .JAL_in({instruction[31], instruction[19:12], instruction[20], instruction[30:21]}),
-        .addr_out(jump_OUT),
-        .overwrite(overwrite)
+        .addr_out(jump_OUT)
     );
 
     branch #(
@@ -258,8 +241,8 @@ module top #(
     always @(jump, program_counter, load_mux)   
     begin
         case(jump)
-            1'b1:     WriteBack_data = program_counter +4;
-            default:  WriteBack_data = load_mux;
+            1'b1:     WriteBack_data <= program_counter +4;
+            default:  WriteBack_data <= load_mux;
         endcase
     end
 
@@ -267,8 +250,8 @@ module top #(
     always @(d1, program_counter, AUIPC_sig)   
     begin
         case(AUIPC_sig)
-            1'b1:     IALU_IN1 = program_counter;
-            default:  IALU_IN1 = d1;
+            1'b1:     IALU_IN1 <= program_counter;
+            default:  IALU_IN1 <= d1;
         endcase
     end
     
@@ -276,10 +259,10 @@ module top #(
     always @(d2, i_TYPE_EXT, s_TYPE_EXT, u_TYPE_EXT, Type)   
     begin
         case(Type)
-            `U_TYPE: IALU_IN2 = u_TYPE_EXT;
-            `I_TYPE: IALU_IN2 = i_TYPE_EXT;
-            `S_TYPE: IALU_IN2 = s_TYPE_EXT;
-            default: IALU_IN2 = d2;
+            `U_TYPE: IALU_IN2 <= u_TYPE_EXT;
+            `I_TYPE: IALU_IN2 <= i_TYPE_EXT;
+            `S_TYPE: IALU_IN2 <= s_TYPE_EXT;
+            default: IALU_IN2 <= d2;
         endcase
     end
 
@@ -287,29 +270,8 @@ module top #(
     always @(ialu_OUT, alu_select)
     begin
         case(alu_select)
-            `SEL_IALU: alu_mux_out = ialu_OUT;
-            default: alu_mux_out = ialu_OUT;
+            `SEL_IALU: alu_mux_out <= ialu_OUT;
+            default: alu_mux_out   <= ialu_OUT;
         endcase   
     end
-    
-
-
-    // initial begin
-    //     // Load ROMs from files
-    //     $readmemb(`ROM_Inst_INIT_PATH, instruction_rom.memory);
-    //     $readmemh(`ROM_A_INIT_PATH, a_rom.memory);
-    //     $readmemh(`ROM_B_INIT_PATH, b_rom.memory);
-
-    //     $dumpfile("top_tb.vcd");
-    //     $dumpvars(0, top);
-
-    //     clk = 0;
-    //     rst_n = 0;
-    //     #20 rst_n = 1;
-        
-    //     #140 $finish;
-    // end
-
-    // always #10 clk= ~clk;
-
 endmodule

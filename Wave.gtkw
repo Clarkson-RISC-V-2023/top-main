@@ -1,0 +1,49 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Fri Oct 13 18:46:32 2023
+[*]
+[dumpfile] "/home/skinne/projects/top-main/tb_top.vcd"
+[dumpfile_mtime] "Fri Oct 13 18:43:30 2023"
+[dumpfile_size] 19566
+[savefile] "/home/skinne/projects/top-main/Wave.gtkw"
+[timestart] 110700
+[size] 1920 1011
+[pos] -39 -39
+*-14.290652 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_top.
+[treeopen] tb_top.dut_top.
+[sst_width] 251
+[signals_width] 142
+[sst_expanded] 1
+[sst_vpaned_height] 285
+@28
+tb_top.dut_top.pc_inst.rst_n
+tb_top.dut_top.pc_inst.clk
+@22
+tb_top.dut_top.pc_inst.pc_out[31:0]
+tb_top.dut_top.instruction_rom.rom_o[31:0]
+@24
+tb_top.dut_top.regs_inst.RA1_i[19:15]
+tb_top.dut_top.regs_inst.RA2_i[24:20]
+@420
+tb_top.dut_top.regs_inst.RD1_o[31:0]
+tb_top.dut_top.regs_inst.RD2_o[31:0]
+@25
+tb_top.dut_top.regs_inst.WA_i[11:7]
+@420
+tb_top.dut_top.regs_inst.WD_i[31:0]
+@28
+tb_top.dut_top.regs_inst.WE_i
+@420
+tb_top.dut_top.ialu_inst.A_i[31:0]
+tb_top.dut_top.ialu_inst.B_i[31:0]
+tb_top.dut_top.ialu_inst.R_o[31:0]
+@22
+tb_top.dut_top.ialu_inst.opcode_i[4:0]
+tb_top.dut_top.lsu_inst.addr_in[11:0]
+tb_top.dut_top.lsu_inst.data_in[31:0]
+tb_top.dut_top.lsu_inst.data_out[31:0]
+@28
+tb_top.dut_top.lsu_inst.dtypes_in[2:0]
+[pattern_trace] 1
+[pattern_trace] 0
