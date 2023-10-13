@@ -55,5 +55,4 @@ build_top_sim:
 clean:
 	rm -rf out/ 
 	rm -rf *.pb *.log *.jou *.wdb *.vcd *.xvlog *.xelab *.xsim
-	rm -rf vivado
 	rm -rf xsim.dir
