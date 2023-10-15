@@ -2,5 +2,5 @@
 import uvm_pkg::*;
 
 interface single_cycle_vif (input bit clk);
-
+    
 endinterface
