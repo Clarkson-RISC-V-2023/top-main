@@ -2,8 +2,9 @@
 
 ./Interface/single_cycle_vif.svh
 
-./Sequencer/Sequence_items/*
-./Sequencer/single_cycle_sequencer.svh
+./Sequence/Sequence_items/reg/reg_lw_item.svh
+./Sequence/Sequence_items/alu/ialu_add_item.svh
+./Sequence/gen_ialu_add_seq.svh
 
 ./Driver/single_cycle_driver.svh
 

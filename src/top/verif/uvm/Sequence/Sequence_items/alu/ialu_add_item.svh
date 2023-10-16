@@ -4,7 +4,8 @@ import uvm_pkg::*;
 class ialu_add_item extends uvm_sequence_item;
 
     // Constant func OPCODES
-    bit func7 [5:0] = 5'b00000;
+    bit opcode[6:0] = 7'b0110011; 
+    bit func7 [5:0] = 6'b00000;
     bit func3 [2:0] = 3'b000;
 
     // Constrained random REG addresses
@@ -14,9 +15,9 @@ class ialu_add_item extends uvm_sequence_item;
 
     // Constraint the random reg address to be in the 'temporary registers', rs1 should not be the same as rs2 
     // TODO can rs1 be the same as rs2?
-    constraint rs1_range { rs1 ~= rs2; rs1 inside {[5, 7], [28, 31]}; };
-    constraint rs2_range { rs2 ~= rs1; rs2 inside {[5, 7], [28, 31]};};
-    constraint rsd_range { rd inside {[5, 7], [28, 31]}; };
+    constraint ialu_add_rs1_range { rs1 ~= rs2; rs1 inside {[5, 7], [28, 31]}; };
+    constraint ialu_add_rs2_range { rs2 ~= rs1; rs2 inside {[5, 7], [28, 31]};};
+    constraint ialu_add_rsd_range { rd inside {[5, 7], [28, 31]}; };
 
     // Add arguments that will be loaded to the register
     // TODO what happens if addition ends in overflow?
@@ -37,7 +38,7 @@ class ialu_add_item extends uvm_sequence_item;
         `uvm_field_int(func3, UVM_DEFAULT)
         `uvm_field_int(rs1, UVM_DEFAULT)
         `uvm_field_int(rs2, UVM_DEFAULT)
-        `uvm_field_int(rsd, UVM_DEFAULT)
+        `uvm_field_int(rd, UVM_DEFAULT)
         `uvm_field_int(rs1_val, UVM_DEFAULT)
         `uvm_field_int(rs2_val, UVM_DEFAULT)
         `uvm_field_int(rd_expected, UVM_DEFAULT)
