@@ -1,7 +1,7 @@
 `define ROM_INIT_PATH "testtest"
 
 module tb_top #(
-    parameter MEM_INIT_PATH = `ROM_INIT_PATH
+    parameter string MEM_INIT_PATH = `ROM_INIT_PATH
 )
 ();
 
