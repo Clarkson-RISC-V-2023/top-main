@@ -5,7 +5,7 @@ class ialu_add_item extends uvm_sequence_item;
 
     // Constant func OPCODES
     bit opcode[6:0] = 7'b0110011; 
-    bit func7 [5:0] = 6'b00000;
+    bit func7 [6:0] = 7'b0000000;
     bit func3 [2:0] = 3'b000;
 
     // Constrained random REG addresses
