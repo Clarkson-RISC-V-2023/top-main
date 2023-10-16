@@ -15,7 +15,7 @@ class reg_sw_item extends uvm_sequence_item;
     constraint reg_sw_rsd_range { rsd inside {[5, 7], [8, 9], [18, 27], [28, 31]}; };
 
     // Constrained random REG addresses offset
-    rand signed [11:0];
+    rand signed addr_offset [11:0];
     // TODO is this lw offset right
     constraint reg_sw_imm_offset { imm inside [-2048, 2048] };
 
