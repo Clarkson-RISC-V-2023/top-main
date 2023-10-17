@@ -203,11 +203,12 @@ module top #(
         .clk(clk),
         .rst_n(reset_n),
         .WE_i(we),
-        .WA_i({alu_select[1],instruction[11:7]}),
+        .WA_i({f_rd,instruction[11:7]}),  //some float instructions write to integer regs
+        //ALSO: there will be integer to float case, use IALU and then keep alu_select[1] concat the same? yes
         .WD_i(WriteBack_data),
         //if the zero register is used in float instructions, we might have a problem here
         .RA1_i({alu_select[1],instruction[19:15]}),  
-        .RA2_i({alu_select[1],instruction[24:20]}),
+        .RA2_i({alu_select[1],instruction[24:20]}),  //
         .RD1_o(d1),
         .RD2_o(d2)
     );
