@@ -203,10 +203,11 @@ module top #(
         .clk(clk),
         .rst_n(reset_n),
         .WE_i(we),
-        .WA_i({instruction[11:7]}),
+        .WA_i({alu_select[1],instruction[11:7]}),
         .WD_i(WriteBack_data),
-        .RA1_i({instruction[19:15]}),
-        .RA2_i({instruction[24:20]}),
+        //if the zero register is used in float instructions, we might have a problem here
+        .RA1_i({alu_select[1],instruction[19:15]}),  
+        .RA2_i({alu_select[1],instruction[24:20]}),
         .RD1_o(d1),
         .RD2_o(d2)
     );
