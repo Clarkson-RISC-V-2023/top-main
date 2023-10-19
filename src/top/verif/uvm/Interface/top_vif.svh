@@ -14,6 +14,9 @@ interface top_vif (input bit clk);
     logic [31:0] reg_file_rd1;
     logic [31:0] reg_file_rd2;
 
+    // Read Enable Signal
+    logic reg_file_we;
+
     // Memory Mapped I/O
     logic [31:0] gpioA;
     logic [31:0] gpioB;

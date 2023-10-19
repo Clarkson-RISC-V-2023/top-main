@@ -22,9 +22,10 @@ module tb_uvm_ram;
         .regs_inst.RA1_i(vif.reg_file_rs1),
         .regs_inst.RA2_i(vif.reg_file_rs2),
         .regs_inst.WA_i(vif.reg_file_rd),
-        .regs_inst_WD_i(vif.reg_file_din),
-        .regs_inst_RD1_o(vif.reg_file_rd1),
-        .regs_inst_RD2_o(vid.reg_file_rd2)
+        .regs_inst.WD_i(vif.reg_file_din),
+        .regs_inst.WE_i(vif.reg_file_we),
+        .regs_inst.RD1_o(vif.reg_file_rd1),
+        .regs_inst.RD2_o(vid.reg_file_rd2)
     );
 
     initial begin

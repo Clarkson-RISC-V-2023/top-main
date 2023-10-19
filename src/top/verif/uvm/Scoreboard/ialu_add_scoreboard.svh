@@ -18,26 +18,12 @@ class ialu_add_scoreboard extends uvm_scoreboard;
     endfunction
 
     virtual function write(ram_packet_item item);
-        if(item.wr_en) begin
-            if(refq[item.addr] == null) begin 
-                refq[item.addr] =  new;
-                mem_space = mem_space - 1;
-                `uvm_info(get_type_name(), $sformatf("New value written. 0x%0h at 0x%0h %d of %d left to be written", item.wdata, item.addr, mem_space, DEPTH), UVM_LOW);
-            end else 
-                `uvm_info(get_type_name(), $sformatf("Overwrote value @ 0x%0h with 0x%0h", item.addr, item.wdata), UVM_LOW);
-    
-            refq[item.addr] = item;
-            // `uvm_info(get_type_name(), $sformatf("Wrote 0x%0h to addr 0x%0h", item.wdata, item.addr), UVM_LOW);
+        if(item.regs_wr_en) begin
+            // TODO function implementation to detect register writes
         end
 
-        if(!item.wr_en) begin
-            if(refq[item.addr] == null)
-                `uvm_error (get_type_name(), $sformatf("First time read addr=0x%0h. RAM initialization error, this address should have been written by sequence", item.addr))
-            else
-                if (item.rdata != refq[item.addr].wdata)
-                    `uvm_error(get_type_name(), $sformatf("Data missmatch, read addr 0x%0h and got 0x%h but 0x%h was expectedd...", item.addr, item.rdata, refq[item.addr].wdata))
-                else 
-                    `uvm_info(get_type_name(), $sformatf("PASS! read addr 0x%0h got 0x%0h and mattched the expected 0x%h", item.addr, item.rdata, refq[item.addr].wdata), UVM_LOW)
+        if(!item.regs_wr_en) begin
+            // TODO function implementation to detect rgister reads
         end
     endfunction
 endclass

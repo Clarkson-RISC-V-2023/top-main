@@ -28,12 +28,16 @@ class top_driver_li extends uvm_driver #(li_item);
         end
     endtask
 
+    // TODO update addi items to have a member that contains the whole 32 bit instruction
     virtual task drive_item(ram_packet_item item);
-        vif.reg_file_rs1 = item.addr;
-        vif.wdata = item.wdata;
-        vif.mem_block_en = item.mem_block_en;
-        vif.wr_en = item.wr_en;
-        vif.rdata = item.rdata;
+        vif.reg_file_rs1    = item.addr;
+        vif.reg_file_rs2    = item.wdata;
+        vif.mem_block_en    = item.mem_block_en;
+        vif.reg_file_rd     = item.wr_en;
+        vif.reg_file_din    = item.rdata;
+        vif.reg_file_rd1    = // TODO how to handle this
+        vif.reg_file_rd2    = // TODO how to handle this
+        vif.reg_file_we     = item.regs_wr_en
         @ (posedge vif.clk);
     endtask
 endclass
