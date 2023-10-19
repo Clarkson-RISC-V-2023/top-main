@@ -11,13 +11,12 @@ class gen_ialu_addi_seq extends uvm_sequence;
     ialu_addi_item item;
 
     virtual task body();
-        `uvm_info(get_type_name(), $sformatf("Sending random addi instruction packet"), UVM_DEFAULT)
         item =  ialu_addi_item::type_id::create("initial addi ialu item");
 
         start_item(item);
         item.randomize();
-        `uvm_info(get_type_name(), $sformatf("ialu_addi item has been randomized"), UVM_DEFAULT)
-        `uvm_info(get_type_name(), item, UVM_DEFAULT);
+        `uvm_info(get_type_name(), $sformatf("ialu_addi item has been created and randomized"), UVM_DEFAULT)
+        item.print();
         finish_item(itme);
     endtask
 endclass

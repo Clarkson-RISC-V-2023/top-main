@@ -22,12 +22,12 @@ class gen_ialu_add_seq extends uvm_sequence;
     ialu_add_item add_item;
 
     virtual task body();
-        `uvm_info(get_type_name(), $sformatf("Sending random addition packet"), UVM_DEFAULT)
-
         add_item = ialu_add_item::type_id::create("Initial add ialu item");
 
         start_item(add_item);
         add_item.randomize()
+        `uvm_info(get_type_name(), $sformatf("Random ADDi item created and randomized:"), UVM_DEFAULT)
+        add_item.print();
         finish_item(add_item);
     endtask
 endclass
