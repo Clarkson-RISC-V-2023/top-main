@@ -12,7 +12,7 @@ class ialu_addi_item extends i_type_item;
         'uvm_field_int(func3, UVM_DEFAULT)
         'uvm_field_int(rs1, UVM_DEFAULT)
         'uvm_field_int(rs2, UVM_DEFAULT)
-        'uvm_filed_int(rd, UVM_DEFAULT)
+        'uvm_field_int(rd, UVM_DEFAULT)
         'uvm_field_int(imm, UVM_DEFAULT)
     'uvm_object_utils_end
 
@@ -36,7 +36,7 @@ class li_item extends ialu_addi_item;
         'uvm_field_int(func3, UVM_DEFAULT)
         'uvm_field_int(rs1, UVM_DEFAULT)
         'uvm_field_int(rs2, UVM_DEFAULT)
-        'uvm_filed_int(rd, UVM_DEFAULT)
+        'uvm_field_int(rd, UVM_DEFAULT)
         'uvm_field_int(imm, UVM_DEFAULT)
     'uvm_object_utils_end
 endclass
