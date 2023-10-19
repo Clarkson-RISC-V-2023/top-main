@@ -17,6 +17,9 @@ interface top_vif (input bit clk);
     // Read Enable Signal
     logic reg_file_we;
 
+    // ROM out instr
+    logic [8191:0] ROM_mem [31:0]
+
     // Memory Mapped I/O
     logic [31:0] gpioA;
     logic [31:0] gpioB;

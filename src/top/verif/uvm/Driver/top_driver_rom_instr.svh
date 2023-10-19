@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-class top_driver_li extends uvm_driver #(li_item);
+class top_driver_rom_instr extends uvm_driver #(li_item);
     `uvm_component_utils(top_driver)
 
     ialu_addi_item item;
