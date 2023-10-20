@@ -21,6 +21,8 @@ module top #(
     parameter OPCODE_WIDTH = 7,
     parameter FUNCT3_WIDTH = 3,
     parameter FUNCT7_WIDTH = 7,
+    parameter FUNCT3_RIGHT = 12,
+    parameter FUNCT3_LEFT = FUNCT3_WIDTH-1+FUNCT3_RIGHT,
     parameter  MEM_INIT_PATH = "",
 
     // ROM (Instruction)
@@ -80,7 +82,7 @@ module top #(
 
  //TODO: Need to add cordic Signals, need to instantiate FALU and add MUX stuff
  //TODO: change reg file inputs to be 6 bits when cordic and falu stuff is added
-    wire we, mwe, overwrite, jump, load, AUIPC_sig;    //alu_status_i, alu_status_o;
+    wire we, mwe, overwrite, jump, load, AUIPC_sig, f_d1, f_d2, f_rd;    //alu_status_i, alu_status_o;
     wire [REG_FILE_WIDTH-1:0] r1, r2, rd;
     wire [OUT_BUS_WIDTH-1:0] d1, d2, lsu_d_out, ialu_OUT, jump_OUT, branch_out, i_TYPE_EXT, s_TYPE_EXT, u_TYPE_EXT;
     reg [OUT_BUS_WIDTH-1:0] load_mux, WriteBack_data, IALU_IN1, IALU_IN2, alu_mux_out;
@@ -171,7 +173,9 @@ module top #(
         .DATA_WIDTH(DATA_WIDTH),
         .OPCODE_WIDTH(OPCODE_WIDTH),
         .FUNCT3_WIDTH(FUNCT3_WIDTH),
-        .FUNCT7_WIDTH(FUNCT7_WIDTH)
+        .FUNCT7_WIDTH(FUNCT7_WIDTH),
+        .FUNCT3_RIGHT(FUNCT3_RIGHT),
+        .FUNCT3_LEFT(FUNCT3_LEFT)
     ) decoder_inst (
         .instr(instruction),
         .ALUOp(aluop),
@@ -183,7 +187,10 @@ module top #(
         .branchType(branch_type),
         .jump(jump),
         .ALUSelect(alu_select),
-        .auipcBit(AUIPC_sig)
+        .auipcBit(AUIPC_sig),
+        .f_rd(f_rd),
+        .f_d1(f_d1),
+        .f_d2(f_d2)
     );
 
     regs #(
@@ -206,9 +213,8 @@ module top #(
         .WA_i({f_rd,instruction[11:7]}),  //some float instructions write to integer regs
         //ALSO: there will be integer to float case, use IALU and then keep alu_select[1] concat the same? yes
         .WD_i(WriteBack_data),
-        //if the zero register is used in float instructions, we might have a problem here
-        .RA1_i({alu_select[1],instruction[19:15]}),  
-        .RA2_i({alu_select[1],instruction[24:20]}),  //
+        .RA1_i({f_d1,instruction[19:15]}),  
+        .RA2_i({f_d2,instruction[24:20]}),  //
         .RD1_o(d1),
         .RD2_o(d2)
     );
@@ -224,6 +230,8 @@ module top #(
         .opcode_i(aluop),
         .R_o(ialu_OUT)
     );
+
+    
 
     assign i_TYPE_EXT = {{(DATA_WIDTH-IMM_LENGTH){instruction[DATA_WIDTH-1]}},instruction[DATA_WIDTH-1:DATA_WIDTH - IMM_LENGTH]};
     assign s_TYPE_EXT = {{(DATA_WIDTH-IMM_LENGTH){instruction[DATA_WIDTH-1]}},instruction[DATA_WIDTH-1:25], instruction[11:7]};
