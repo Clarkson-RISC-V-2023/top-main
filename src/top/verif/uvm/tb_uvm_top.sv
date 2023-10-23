@@ -26,7 +26,8 @@ module tb_uvm_ram;
         .regs_inst.WE_i(vif.reg_file_we),
         .regs_inst.RD1_o(vif.reg_file_rd1),
         .regs_inst.RD2_o(vif.reg_file_rd2),
-        .instruction_rom.mem_inst.bmem(vif.ROM_mem)
+        .instruction_rom.mem_inst.bmem(vif.ROM_mem), 
+        .ialu_inst.signed_B(vif.ialu_imm) // For i-type like addi and li
     );
 
     initial begin

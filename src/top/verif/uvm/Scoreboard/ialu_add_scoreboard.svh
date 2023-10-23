@@ -17,13 +17,14 @@ class ialu_add_scoreboard extends uvm_scoreboard;
         m_analysis_imp = new("m_analysis_imp", this);
     endfunction
 
-    virtual function write(ram_packet_item item);
-        if(item.regs_wr_en) begin
-            // TODO function implementation to detect register writes
-        end
+    virtual function write(li_item item);
+        item.print();
+        // if(item.regs_wr_en) begin
+        //     // TODO function implementation to detect register writes
+        // end
 
-        if(!item.regs_wr_en) begin
-            // TODO function implementation to detect rgister reads
-        end
+        // if(!item.regs_wr_en) begin
+        //     // TODO function implementation to detect rgister reads
+        // end
     endfunction
 endclass

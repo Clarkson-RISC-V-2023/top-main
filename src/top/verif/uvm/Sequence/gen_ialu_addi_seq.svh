@@ -5,15 +5,16 @@ import uvm_pkg::*;
 
 class gen_ialu_add_seq extends uvm_sequence;
     `uvm_object_utils(gen_ialu_add_seq)
+    int id = 0;
 
-    function new (string name = "DEFAULT ialu add sequence");
+    function new (string name = "DEFAULT ialu add sequence", id = 0);
         super.new(name);
     endfunction;
 
     ialu_add_item add_item;
 
     virtual task body();
-        add_item = ialu_add_item::type_id::create("Initial add ialu item");
+        add_item = ialu_add_item::type_id::create("Initial add ialu item", id);
 
         start_item(add_item);
         add_item.randomize()
@@ -25,15 +26,16 @@ endclass
 
 class gen_ialu_addi_seq extends uvm_sequence;
     `uvm_object_utils(gen_ialu_addi_seq)
+    int id = 0;
 
-    function new (string name = "DEFAULT ialu addi sequence");
+    function new (string name = "DEFAULT ialu addi sequence", id = 0);
         super.new(name);
     endfunction;
 
     ialu_addi_item item;
 
     virtual task body();
-        item =  ialu_addi_item::type_id::create("initial addi ialu item");
+        item =  ialu_addi_item::type_id::create("initial addi ialu item", id);
 
         start_item(item);
         item.randomize();
@@ -45,15 +47,16 @@ endclass
 
 class gen_li_seq extends uvm_sequence;
     `uvm_object_utils(gen_ialu_addi_seq)
+    int id = 0;
 
-    function new (string name = "DEFAULT li sequence");
+    function new (string name = "DEFAULT li sequence", id = 0);
         super.new(name);
     endfunction;
 
     ialu_addi_item item;
 
     virtual task body();
-        item =  ialu_li_item::type_id::create("initial li item");
+        item =  ialu_li_item::type_id::create("initial li item", id);
 
         start_item(item);
         item.randomize();

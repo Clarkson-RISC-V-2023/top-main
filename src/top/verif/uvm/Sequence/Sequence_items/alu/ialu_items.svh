@@ -31,6 +31,9 @@ class ialu_addi_item extends i_type_item;
     // This will be used to identify whych memory address this item was assigned to
     int id;
 
+    // Register data in, to be used by monitor
+    bit [31:0] din;
+    
     // Item Constructor
     function new(string name = "DEFAULT_ialu_add_item", int id = 0);
         super.new(name);
@@ -55,7 +58,7 @@ endclass
 class ialu_li_item extends ialu_addi_item;
 
     constraint li_rs1_is_always_zero { rs1 == 6'b000000; };
-    
+
     // Item Constructor
     function new(string name = "DEFAULT_li_item", int id = 0);
         super.new(name, id);

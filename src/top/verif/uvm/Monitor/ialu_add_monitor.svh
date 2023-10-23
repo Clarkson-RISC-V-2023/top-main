@@ -21,13 +21,16 @@ class ialu_add_monitor extends uvm_monitor
         super.run_phase(phase);
         
         // Initial test for load word
+        // din falling edge
         forever begin
             li_item item = new;
-            @ (negedge vif.clk);
+            @ (posedge vif.clk);
             item.rs1 = vif.reg_file_rs1;
             item.rs2 = vif.reg_file_rs2;
             item.rd = vif.reg_file_rd;
-            item.imm = vif.reg_file_din [11:0];
+            item.imm = vif.ialu_imm [11:0];
+            @ (negedge);
+            item.din = vif.reg_file_din
 
             // Send packet to scoreboard to be analyzed
             mon_analysis_port.write(item);

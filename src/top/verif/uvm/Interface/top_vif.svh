@@ -23,4 +23,8 @@ interface top_vif (input bit clk);
     // Memory Mapped I/O
     logic [DATA_WIDTH-1:0] gpioA;
     logic [DATA_WIDTH-1:0] gpioB;
+
+    // IALU immediate i-type
+    logic [11:0] ialu_imm;
+
 endinterface
