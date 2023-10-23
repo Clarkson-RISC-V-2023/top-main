@@ -41,7 +41,7 @@ module tb_uvm_ram;
 
         uvm_config_db #(virtual ram_if)::set(uvm_root::get(), "*", "ram_vif", vif);
 
-        run_test("verify_ram_test");
+        run_test("verify_ialu_addi");
     end
 
 endmodule
