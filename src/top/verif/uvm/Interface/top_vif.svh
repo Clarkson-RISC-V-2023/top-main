@@ -1,7 +1,7 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
+import top_params::*;
 
-// TODO parametrize this
 interface top_vif (input bit clk);
 
     // Register file inputs
@@ -18,9 +18,9 @@ interface top_vif (input bit clk);
     logic reg_file_we;
 
     // ROM out instr
-    logic [8191:0] ROM_mem [31:0]
+    logic [ROM_DEPTH-1:0] ROM_mem [DATA_WIDTH-:0]
 
     // Memory Mapped I/O
-    logic [31:0] gpioA;
-    logic [31:0] gpioB;
+    logic [DATA_WIDTH-1:0] gpioA;
+    logic [DATA_WIDTH-1:0] gpioB;
 endinterface

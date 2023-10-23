@@ -21,4 +21,5 @@
 
 ./src/ip/sextend/rtl/sign_extend.sv
 
+./src/top/params/top_params.sv
 ./src/top/top.sv
