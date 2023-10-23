@@ -1,5 +1,5 @@
 // Add
-class ralu_add_item extends r_type_item;
+class ialu_add_item extends r_type_item;
 
     // This will be used to identify which memory address this item was assigned to
     int id;
@@ -52,7 +52,7 @@ class ialu_addi_item extends i_type_item;
 endclass
 
 // Load imediate
-class li_item extends ialu_addi_item;
+class ialu_li_item extends ialu_addi_item;
 
     constraint li_rs1_is_always_zero { rs1 == 6'b000000; };
     
