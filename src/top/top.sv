@@ -5,11 +5,11 @@
 
 import top_params::*;
 
-module top #(
+module top (
     input wire clk,
     input wire reset_n,
-    output reg [DATA_WIDTH-1:0] gpioA_out,
-    output reg [DATA_WIDTH-1:0] gpioB_out
+    output reg [TOP_DATA_WIDTH-1:0] gpioA_out,
+    output reg [TOP_DATA_WIDTH-1:0] gpioB_out
 );
     // Types
     `define R_TYPE 3'b000
@@ -67,7 +67,7 @@ module top #(
     jump #(
         .TYPE_SIGNAL_WIDTH(TYPE_WIDTH),
         .JAL_WIDTH(20),    // Do we want to use 32 or 20 here since it sign extends by default
-        .DATA_WIDTH(DATA_WIDTH)
+        .DATA_WIDTH(TOP_DATA_WIDTH)
     ) jump_inst (
         .jump_in(jump),
         .type_in(Type),
@@ -77,7 +77,7 @@ module top #(
     );
 
     branch #(
-        .DATA_WIDTH(DATA_WIDTH),
+        .DATA_WIDTH(TOP_DATA_WIDTH),
         .BRANCH_TYPE_WIDTH(BRANCH_TYPE_WIDTH),
         .BRANCH_IMM_WIDTH(12)   // DO we want 32 or 12 
     ) branch_inst (
@@ -89,7 +89,7 @@ module top #(
     );
     
     lsu #(
-        .DATA_WIDTH(DATA_WIDTH),
+        .DATA_WIDTH(TOP_DATA_WIDTH),
         .DEPTH(1024),
         .NUM_MEM_BLOCKS(4),
         .ADDRESS_SPACE(4096),
@@ -115,7 +115,7 @@ module top #(
         .DTYPE_WIDTH(DTYPE_WIDTH),
         .BRANCH_TYPE_WIDTH(BRANCH_TYPE_WIDTH),
         .ALUSELECT_WIDTH(ALUSELECT_WIDTH),
-        .DATA_WIDTH(DATA_WIDTH),
+        .DATA_WIDTH(TOP_DATA_WIDTH),
         .OPCODE_WIDTH(OPCODE_WIDTH),
         .FUNCT3_WIDTH(FUNCT3_WIDTH),
         .FUNCT7_WIDTH(FUNCT7_WIDTH),
@@ -139,7 +139,7 @@ module top #(
     );
 
     regs #(
-        .DATA_WIDTH(DATA_WIDTH),
+        .DATA_WIDTH(TOP_DATA_WIDTH),
         .NUM_REGS(NUM_REGS),
         .INDEX_WIDTH(INDEX_WIDTH),
         .WR_MASK(WR_MASK),
@@ -176,23 +176,23 @@ module top #(
         .R_o(ialu_OUT)
     );
 
-    falu #(
-        .OPCODE_WIDTH(ALU_OP_WIDTH),
-        .IN_BUS_WIDTH(IN_BUS_WIDTH),
-        .OUT_BUS_WIDTH(OUT_BUS_WIDTH)
-    ) falu_inst (
-        .A_i(d1),
-        .B_i(IALU_IN2),
-        .opcode_i(aluop),
-        .R_o(falu_out)
-    );
+    // falu #(
+    //     .OPCODE_WIDTH(ALU_OP_WIDTH),
+    //     .IN_BUS_WIDTH(IN_BUS_WIDTH),
+    //     .OUT_BUS_WIDTH(OUT_BUS_WIDTH)
+    // ) falu_inst (
+    //     .A_i(d1),
+    //     .B_i(IALU_IN2),
+    //     .opcode_i(aluop),
+    //     .R_o(falu_out)
+    // );
 
 
     
 
-    assign i_TYPE_EXT = {{(DATA_WIDTH-IMM_LENGTH){instruction[DATA_WIDTH-1]}},instruction[DATA_WIDTH-1:DATA_WIDTH - IMM_LENGTH]};
-    assign s_TYPE_EXT = {{(DATA_WIDTH-IMM_LENGTH){instruction[DATA_WIDTH-1]}},instruction[DATA_WIDTH-1:25], instruction[11:7]};
-    assign u_TYPE_EXT = {instruction[DATA_WIDTH-1:IMM_LENGTH],{(IMM_LENGTH){1'b0}}};
+    assign i_TYPE_EXT = {{(TOP_DATA_WIDTH-IMM_LENGTH){instruction[TOP_DATA_WIDTH-1]}},instruction[TOP_DATA_WIDTH-1:TOP_DATA_WIDTH - IMM_LENGTH]};
+    assign s_TYPE_EXT = {{(TOP_DATA_WIDTH-IMM_LENGTH){instruction[TOP_DATA_WIDTH-1]}},instruction[TOP_DATA_WIDTH-1:25], instruction[11:7]};
+    assign u_TYPE_EXT = {instruction[TOP_DATA_WIDTH-1:IMM_LENGTH],{(IMM_LENGTH){1'b0}}};
 
 
     // MUX 4
@@ -234,11 +234,12 @@ module top #(
     end
 
     // MUX 5
-    always @(ialu_OUT, falu_out, alu_select)
+    //always @(ialu_OUT, falu_out, alu_select)
+    always @(ialu_OUT, alu_select)
     begin
         case(alu_select)
             `SEL_IALU: alu_mux_out <= ialu_OUT;
-            `SEL_FALU: alu_mux_out <= falu_out;
+            //`SEL_FALU: alu_mux_out <= falu_out;
             default: alu_mux_out   <= ialu_OUT;
         endcase   
     end
