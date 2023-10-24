@@ -8,7 +8,7 @@ class gen_ialu_add_seq extends uvm_sequence;
     int id = 0;
 
     function new (string name = "DEFAULT ialu add sequence", id = 0);
-        super.new(name);
+        super.new(name, id);
     endfunction;
 
     ialu_add_item add_item;

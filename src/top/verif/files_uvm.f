@@ -19,3 +19,5 @@
 ./src/top/verif/uvm/Env/ialu_addi_env.svh
 
 ./src/top/verif/uvm/Test/verify_ialu_addi.svh
+
+./src/top/verif/uvm/tb_uvm_top.sv
