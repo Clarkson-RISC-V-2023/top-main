@@ -18,7 +18,7 @@ interface top_vif (input bit clk);
     logic reg_file_we;
 
     // ROM out instr
-    logic [ROM_DEPTH-1:0] ROM_mem [DATA_WIDTH-:0]
+    logic [ROM_DEPTH-1:0] ROM_mem [DATA_WIDTH-1:0];
 
     // Memory Mapped I/O
     logic [DATA_WIDTH-1:0] gpioA;

@@ -13,7 +13,7 @@ class ialu_add_item extends r_type_item;
         this.id = id;
     endfunction : new
 
-    `uvm_object_utils_begin(ralu_add_item)
+    `uvm_object_utils_begin(ialu_add_item)
         `uvm_field_int(opcode, UVM_DEFAULT)
         `uvm_field_int(func3, UVM_DEFAULT)
         `uvm_field_int(func7, UVM_DEFAULT)
@@ -50,7 +50,7 @@ class ialu_addi_item extends i_type_item;
         `uvm_field_int(rd, UVM_DEFAULT)
         `uvm_field_int(imm, UVM_DEFAULT)
         `uvm_field_int(regs_wr_en, UVM_DEFAULT)
-    'uvm_object_utils_end
+    `uvm_object_utils_end
 
 endclass
 

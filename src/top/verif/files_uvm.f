@@ -1,19 +1,21 @@
--f ../files.f
+-f ./files.f
 
-./Interface/single_cycle_vif.svh
+./src/top/verif/uvm/params/uvm_params.sv
 
-./Sequence/Sequence_items/reg/reg_lw_item.svh
-./Sequence/Sequence_items/alu/ialu_add_item.svh
-./Sequence/gen_ialu_add_seq.svh
+./src/top/verif/uvm/Interface/top_vif.sv
 
-./Driver/single_cycle_driver.svh
+./src/top/verif/uvm/Sequence/Sequence_items/instruction-type/risc-v_instruction_types.svh
+./src/top/verif/uvm/Sequence/Sequence_items/alu/ialu_items.svh
+./src/top/verif/uvm/Sequence/gen_ialu_addi_seq.svh
 
-./Scoreboard/single_cycle_scoreboard.svh
+./src/top/verif/uvm/Driver/generic_rom_instr_driver.svh
 
-./Monitor/single_cycle_monitor.svh
+./src/top/verif/uvm/Scoreboard/ialu_add_scoreboard.svh
 
-./Agent/sngle_cycle_agent.svh
+./src/top/verif/uvm/Monitor/ialu_add_monitor.svh
 
-./Env/single_cycle_env.svh
+./src/top/verif/uvm/Agent/ialu_addi_agent.svh
 
-./Test/single_cycle_test_1.svh
+./src/top/verif/uvm/Env/ialu_addi_env.svh
+
+./src/top/verif/uvm/Test/verify_ialu_addi.svh
