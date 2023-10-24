@@ -1,5 +1,6 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
+import uvm_params::*;
 
 // virtual stands for abstract class
 
@@ -22,17 +23,22 @@ import uvm_pkg::*;
 */
 virtual class r_type_item extends uvm_sequence_item;
 
-    rand bit rs1 [5:0];
-    rand bit rs2 [5:0];
-    rand bit rd  [5:0];
+    rand bit [5:0] rs1;
+    rand bit [5:0] rs2;
+    rand bit [5:0] rd;
 
-    bit opcode [6:0];
-    bit func7  [6:0]
-    bit func3  [2:0];
+    bit [6:0] opcode;
+    bit [6:0] func7;
+    bit [2:0] func3;
 
-    bit rom_instr [31:0];
+    bit [31:0] rom_instr ;
 
-    constraint r_type_reg_range { rs1 inside [reg_min, reg_max]; rs2 inside [reg_min, reg_max]; rd inside [reg_min, reg_max]; };
+    constraint r_type_reg_range { 
+        rs1 inside {[0 : 31]}; 
+        rs2 inside {[0 : 31]}; 
+        rd inside  {[1 : 31]}; 
+        rs1 != rs2 && rs2 != rd && rs1 != rd;
+    };
 
     function void post_randomize();
         rom_instr[31:25] = func7;
@@ -40,7 +46,7 @@ virtual class r_type_item extends uvm_sequence_item;
         rom_instr[19:15] = rs1;
         rom_instr[14:12] = func3;
         rom_instr[11:7]  = rd;
-        rom_instr[6:0]   = opcode 
+        rom_instr[6:0]   = opcode;
     endfunction
 
 endclass
@@ -51,24 +57,24 @@ endclass
 */
 virtual class i_type_item extends uvm_sequence_item;
 
-    rand signed imm [11:0];
-    rand bit rs1 [5:0];
-    rand bit rd  [5:0];
+    rand bit    [11:0] imm;
+    rand bit    [5:0]  rs1;
+    rand bit    [5:0]  rd;
 
-    bit opcode [6:0];
-    bit func3  [2:0];
+    bit [6:0] opcode;
+    bit [2:0] func3;
 
-    bit rom_instr [31:0];
+    bit [31:0]rom_instr;
 
-    constraint i_type_reg_range { rs1 inside [reg_min, reg_max-1]; rd inside [reg_min, reg_max-1]; };
-    constraint i_type_imm_range { imm inside [-2047, 2047] };
+    constraint i_type_reg_range { rs1 inside {[0 : 31]}; rd inside {[1 : 31]}; rs1 != rd; };
+    constraint i_type_imm_range { imm inside {[0 : 2047]}; };
 
     function void post_randomize();
         rom_instr[31:20] = imm;
         rom_instr[19:15] = rs1;
         rom_instr[14:12] = func3;
         rom_instr[11:7]  = rd;
-        rom_instr[6:0]   = opcode 
+        rom_instr[6:0]   = opcode;
     endfunction
 
 endclass
@@ -79,17 +85,17 @@ endclass
 */
 virtual class s_type_item extends uvm_sequence_item;
 
-    rand signed imm [11:0];
-    rand bit rs1 [5:0];
-    rand bit rs2 [5:0]
+    rand bit    [11:0] imm;
+    rand bit    [5:0] rs1;
+    rand bit    [5:0] rs2;
 
-    bit opcode [6:0];
-    bit func3  [2:0];
+    bit         [6:0] opcode;
+    bit         [2:0] func3;
 
-    bit rom_instr [31:0];
+    bit         [31:0] rom_instr;
 
-    constraint s_type_reg_range { rs1 inside [reg_min, reg_max-1]; rs2 inside [reg_min, reg_max-1]; rd inside [reg_min, reg_max-1]; };
-    constraint s_type_imm_range { imm inside [-2047, 2047] };
+    constraint s_type_reg_range { rs1 inside {[0 : 31]}; rs2 inside {[0 : 31]}; };
+    constraint s_type_imm_range { imm inside {[0 : 2047]}; };
 
     function void post_randomize();
         rom_instr[31:25] = imm[11:5];
@@ -97,7 +103,7 @@ virtual class s_type_item extends uvm_sequence_item;
         rom_instr[19:15] = rs1;
         rom_instr[14:12] = func3;
         rom_instr[11:7]  = imm[4:0];
-        rom_instr[6:0]   = opcode 
+        rom_instr[6:0]   = opcode;
     endfunction
 
 endclass
@@ -108,17 +114,17 @@ endclass
 */
 virtual class b_type_item extends uvm_sequence_item;
 
-    rand signed imm [12:0];
-    rand bit rs1 [5:0];
-    rand bit rs2 [5:0];
+    rand bit    [12:0] imm;
+    rand bit    [5:0]  rs1;
+    rand bit    [5:0]  rs2;
 
-    bit opcode [6:0];
-    bit func3  [2:0];
+    bit         [6:0] opcode;
+    bit         [2:0] func3;
 
-    bit rom_instr [31:0];
+    bit         [31:0] rom_instr;
 
-    constraint b_type_reg_range { rs1 inside [reg_min, reg_max-1]; rs2 inside [reg_min, reg_max-1]; };
-    constraint b_type_imm_range { imm inside [-4095, 4095] };
+    constraint b_type_reg_range { rs1 inside {[0 : 31]}; rs2 inside {[0 : 31]}; };
+    constraint b_type_imm_range { imm inside {[0 : 4095]}; };
 
     function void post_randomize();
         rom_instr[31]    = imm[12];
@@ -139,15 +145,14 @@ endclass
 */
 virtual class u_type_item extends uvm_sequence_item;
 
-    rand bit imm [31:12];
-    rand bit rd  [5:0];
+    rand bit    [31:12]imm;
+    rand bit    [5:0]  rd;
 
-    bit opcode [6:0];
+    bit         [6:0]  opcode;
+    bit         [31:0] rom_instr;
 
-    bit rom_instr [31:0];
-
-    constraint u_type_reg_range { rd inside [reg_min, reg_max-1]; };
-    constraint u_type_imm_range { imm inside [12'h000, 12'hFFF] };
+    constraint u_type_reg_range { rd inside {[1 : 31]}; };
+    constraint u_type_imm_range { imm inside {[12'h000 : 12'hFFF]}; };
 
     function void post_randomize();
         rom_instr[31:12] = imm;
@@ -163,15 +168,14 @@ endclass
 */
 virtual class j_type_item extends uvm_sequence_item;
 
-    rand signed imm [20:0];
-    rand bit rd  [5:0];
+    rand bit    [20:0] imm;
+    rand bit    [5:0]  rd;
 
-    bit opcode [6:0];
+    bit         [6:0]  opcode;
+    bit         [31:0] rom_instr;
 
-    bit rom_instr [31:0];
-
-    constraint j_type_reg_range { rd inside [reg_min, reg_max-1]; };
-    constraint j_type_imm_range { imm inside [-1048575, 1048575] };
+    constraint j_type_reg_range { rd inside {[1 : 31]}; };
+    constraint j_type_imm_range { imm inside {[0 : 1048575]}; };
 
     function void post_randomize();
         rom_instr[31]    = imm[20];
