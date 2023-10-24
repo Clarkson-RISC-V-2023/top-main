@@ -9,15 +9,15 @@ class ialu_add_scoreboard extends uvm_scoreboard;
     endfunction
 
     int mem_space = DEPTH;
-    li_item refq;
-    uvm_analysis_imp #(li_item, ialu_add_scoreboard) m_analysis_imp; // Monittor analysis
+    ialu_li_item refq;
+    uvm_analysis_imp #(ialu_li_item, ialu_add_scoreboard) m_analysis_imp; // Monittor analysis
 
     virtual function void build_phase(uvm_phase phase);
         super.build_phase(phase);
         m_analysis_imp = new("m_analysis_imp", this);
     endfunction
 
-    virtual function write(li_item item);
+    virtual function write(ialu_li_item item);
         item.print();
         // if(item.regs_wr_en) begin
         //     // TODO function implementation to detect register writes

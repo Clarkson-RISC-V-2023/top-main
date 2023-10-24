@@ -9,14 +9,14 @@ class ialu_addi_agent extends uvm_agent;
 
     generic_rom_instr_driver            d0;
     ialu_add_monitor                    m0;
-    uvm_sequencer #(li_item)            s0;
+    uvm_sequencer #(ialu_li_item)       s0;
 
     virtual function void build_phase(uvm_phase phase);
         super.build_phase(phase);
 
-        d0 = ram_driver::type_id::create("ADDi_DRIVER", this);
-        m0 = ram_monitor::type_id::create("ADDi_MONITOR", this);
-        s0 = uvm_sequencer#(ram_packet_item)::type_id::create("ADDi_SEQUENCER", this);
+        d0 = generic_rom_instr_driver::type_id::create("ADDi_DRIVER", this);
+        m0 = ialu_add_monitor::type_id::create("ADDi_MONITOR", this);
+        s0 = uvm_sequencer#(ialu_li_item)::type_id::create("ADDi_SEQUENCER", this);
     endfunction
 
     virtual function void connect_phase(uvm_phase phase);

@@ -17,7 +17,7 @@ class gen_ialu_add_seq extends uvm_sequence;
         add_item = ialu_add_item::type_id::create("Initial add ialu item", id);
 
         start_item(add_item);
-        add_item.randomize()
+        add_item.randomize();
         `uvm_info(get_type_name(), $sformatf("ialu_add item has been created and randomized"), UVM_DEFAULT)
         add_item.print();
         finish_item(add_item);

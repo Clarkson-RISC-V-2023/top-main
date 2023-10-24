@@ -46,10 +46,9 @@ class ialu_addi_item extends i_type_item;
         `uvm_field_int(opcode, UVM_DEFAULT)
         `uvm_field_int(func3, UVM_DEFAULT)
         `uvm_field_int(rs1, UVM_DEFAULT)
-        `uvm_field_int(rs2, UVM_DEFAULT)
         `uvm_field_int(rd, UVM_DEFAULT)
         `uvm_field_int(imm, UVM_DEFAULT)
-        `uvm_field_int(regs_wr_en, UVM_DEFAULT)
+        `uvm_field_int(din, UVM_DEFAULT)
     `uvm_object_utils_end
 
 endclass
@@ -60,18 +59,17 @@ class ialu_li_item extends ialu_addi_item;
     constraint li_rs1_is_always_zero { rs1 == 6'b000000; };
 
     // Item Constructor
-    function new(string name = "DEFAULT_li_item", int id = 0);
+    function new(string name = "DEFAULT_ialu_li_item", int id = 0);
         super.new(name, id);
         rs1   = 6'b000000;
     endfunction : new
 
-    `uvm_object_utils_begin(li_item)
+    `uvm_object_utils_begin(ialu_li_item)
         `uvm_field_int(opcode, UVM_DEFAULT)
         `uvm_field_int(func3, UVM_DEFAULT)
         `uvm_field_int(rs1, UVM_DEFAULT)
-        `uvm_field_int(rs2, UVM_DEFAULT)
+        `uvm_field_int(din, UVM_DEFAULT)
         `uvm_field_int(rd, UVM_DEFAULT)
         `uvm_field_int(imm, UVM_DEFAULT)
-        `uvm_field_int(regs_wr_en, UVM_DEFAULT)
     `uvm_object_utils_end
 endclass
