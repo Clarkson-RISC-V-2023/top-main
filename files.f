@@ -1,4 +1,5 @@
 ./src/ip/alu/rtl/ialu.sv
+./src/ip/alu/rtl/falu.sv
 
 ./src/ip/branch/rtl/branch.sv
 ./src/ip/branch/verif/tb_branch.sv

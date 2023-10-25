@@ -29,7 +29,7 @@ module top (
  //TODO: change reg file inputs to be 6 bits when cordic and falu stuff is added
     wire we, mwe, overwrite, jump, load, AUIPC_sig, f_d1, f_d2, f_rd;    //alu_status_i, alu_status_o;
     wire [REG_FILE_WIDTH-1:0] r1, r2, rd;
-    wire [OUT_BUS_WIDTH-1:0] d1, d2, lsu_d_out, ialu_OUT, jump_OUT, branch_out, i_TYPE_EXT, s_TYPE_EXT, u_TYPE_EXT, falu_OUT;
+    wire [OUT_BUS_WIDTH-1:0] d1, d2, lsu_d_out, ialu_OUT, jump_OUT, branch_out, i_TYPE_EXT, s_TYPE_EXT, u_TYPE_EXT, falu_out;
     reg [OUT_BUS_WIDTH-1:0] load_mux, WriteBack_data, IALU_IN1, IALU_IN2, alu_mux_out, FALU_IN1, FALU_IN2;
     wire [TYPE_WIDTH-1:0] Type;
     wire [DTYPE_WIDTH-1:0] dtype;
@@ -176,16 +176,16 @@ module top (
         .R_o(ialu_OUT)
     );
 
-    // falu #(
-    //     .OPCODE_WIDTH(ALU_OP_WIDTH),
-    //     .IN_BUS_WIDTH(IN_BUS_WIDTH),
-    //     .OUT_BUS_WIDTH(OUT_BUS_WIDTH)
-    // ) falu_inst (
-    //     .A_i(d1),
-    //     .B_i(IALU_IN2),
-    //     .opcode_i(aluop),
-    //     .R_o(falu_out)
-    // );
+    falu #(
+        .OPCODE_WIDTH(ALU_OP_WIDTH),
+        .IN_BUS_WIDTH(IN_BUS_WIDTH),
+        .OUT_BUS_WIDTH(OUT_BUS_WIDTH)
+    ) falu_inst (
+        .A_i(d1),
+        .B_i(IALU_IN2),
+        .opcode_i(aluop),
+        .R_o(falu_out)
+    );
 
 
     
@@ -234,12 +234,12 @@ module top (
     end
 
     // MUX 5
-    //always @(ialu_OUT, falu_out, alu_select)
-    always @(ialu_OUT, alu_select)
+    always @(ialu_OUT, falu_out, alu_select)
+    //always @(ialu_OUT, alu_select)
     begin
         case(alu_select)
             `SEL_IALU: alu_mux_out <= ialu_OUT;
-            //`SEL_FALU: alu_mux_out <= falu_out;
+            `SEL_FALU: alu_mux_out <= falu_out;
             default: alu_mux_out   <= ialu_OUT;
         endcase   
     end
