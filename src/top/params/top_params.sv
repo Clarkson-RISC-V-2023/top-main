@@ -18,7 +18,7 @@ package top_params;
     parameter FUNCT7_WIDTH = 7;
     parameter FUNCT3_RIGHT = 12;
     parameter FUNCT3_LEFT = FUNCT3_WIDTH-1+FUNCT3_RIGHT;
-    parameter  MEM_INIT_PATH = "testtest";
+    parameter  MEM_INIT_PATH = "/home/esola-thomas/Desktop/top-main/testtest";
 
     // ROM (Instruction)
     parameter INSTR_DATA_WIDTH = 32;                 // Word length

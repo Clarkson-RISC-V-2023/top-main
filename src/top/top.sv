@@ -39,7 +39,6 @@ module top (
     wire [INSTR_ADDR_WIDTH-1:0] program_counter;
     wire [INSTR_DATA_WIDTH-1:0] instruction;
 
-
     pc #(
         .BUS_WIDTH(BUS_WIDTH),
         .TYPE_WIDTH(TYPE_WIDTH),
