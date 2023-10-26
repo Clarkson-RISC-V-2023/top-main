@@ -11,9 +11,9 @@ ialu:
 	# Build ialu
 	make -C src/ip/alu/ ialu OUT_DIR=../../../out/alu/ialu/
 
-malu:
-	# Build malu
-	make -C src/ip/alu/ malu OUT_DIR=../../../out/alu/malu/
+falu:
+	# Build falu
+	make -C src/ip/alu/ falu OUT_DIR=../../../out/alu/falu/
 
 bmem:
 	make -C src/ip/mem/ bmem OUT_DIR=../../../out/mem/tb/bmem
