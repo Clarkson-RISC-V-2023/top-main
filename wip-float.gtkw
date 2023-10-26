@@ -1,0 +1,74 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Wed Oct 25 17:22:00 2023
+[*]
+[dumpfile] "/home/nguyennt/_m/top-main/out/tb_top/tb_top.vcd"
+[dumpfile_mtime] "Wed Oct 25 16:37:35 2023"
+[dumpfile_size] 436454
+[savefile] "/home/nguyennt/_m/top-main/wip-float.gtkw"
+[timestart] 54300
+[size] 1920 1011
+[pos] -39 -39
+*-15.000000 188300 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_top.
+[treeopen] tb_top.dut_top.
+[sst_width] 251
+[signals_width] 265
+[sst_expanded] 1
+[sst_vpaned_height] 285
+@28
+tb_top.clk
+tb_top.reset_n
+@22
+tb_top.dut_top.instruction[31:0]
+@200
+-
+@22
+tb_top.dut_top.regs_inst.RA1_i[4:0]
+tb_top.dut_top.regs_inst.RA2_i[4:0]
+tb_top.dut_top.regs_inst.WA_i[4:0]
+tb_top.dut_top.regs_inst.WD_i[31:0]
+@28
+tb_top.dut_top.regs_inst.WE_i
+@200
+-
+@28
+tb_top.dut_top.decoder_inst.jump
+@29
+tb_top.dut_top.decoder_inst.load
+@28
+tb_top.dut_top.decoder_inst.rawType[2:0]
+@22
+tb_top.dut_top.decoder_inst.ALUOp[4:0]
+@28
+tb_top.dut_top.decoder_inst.ALUSelect[1:0]
+tb_top.dut_top.decoder_inst.MWE
+tb_top.dut_top.decoder_inst.RWE
+tb_top.dut_top.decoder_inst.auipcBit
+tb_top.dut_top.decoder_inst.branchType[2:0]
+tb_top.dut_top.decoder_inst.dType[2:0]
+tb_top.dut_top.decoder_inst.f_d1
+tb_top.dut_top.decoder_inst.f_d2
+tb_top.dut_top.decoder_inst.f_rd
+@200
+-
+@22
+tb_top.dut_top.ialu_inst.A_i[31:0]
+tb_top.dut_top.ialu_inst.B_i[31:0]
+tb_top.dut_top.ialu_inst.R_o[31:0]
+tb_top.dut_top.ialu_inst.opcode_i[4:0]
+@200
+-
+-
+@22
+tb_top.dut_top.falu_inst.A_i[31:0]
+tb_top.dut_top.falu_inst.B_i[31:0]
+@28
+tb_top.dut_top.falu_inst.A
+tb_top.dut_top.falu_inst.B
+tb_top.dut_top.falu_inst.R
+@22
+tb_top.dut_top.falu_inst.R_arr[31:0]
+tb_top.dut_top.falu_inst.R_o[31:0]
+[pattern_trace] 1
+[pattern_trace] 0

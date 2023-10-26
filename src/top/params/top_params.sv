@@ -18,7 +18,8 @@ package top_params;
     parameter FUNCT7_WIDTH = 7;
     parameter FUNCT3_RIGHT = 12;
     parameter FUNCT3_LEFT = FUNCT3_WIDTH-1+FUNCT3_RIGHT;
-    parameter  MEM_INIT_PATH = "testtest";
+    parameter MEM_INIT_PATH = "testtest";
+    parameter RAM_INIT_PATH[4] = {"ram1", "ram2", "ram3", "ram4"};
 
     // ROM (Instruction)
     parameter INSTR_DATA_WIDTH = 32;                 // Word length

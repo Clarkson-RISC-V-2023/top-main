@@ -95,7 +95,8 @@ module top (
         .ADDRESS_SPACE(4096),
         .NUM_DATA_TYPES(6),
         .GPIO_A_ADDR(GPIO_A_ADDR),
-        .GPIO_B_ADDR(GPIO_B_ADDR)
+        .GPIO_B_ADDR(GPIO_B_ADDR),
+        .RAM_INIT_PATH(RAM_INIT_PATH)
     ) lsu_inst (
         .clk(clk),
         .addr_in(alu_mux_out),
