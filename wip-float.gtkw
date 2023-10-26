@@ -1,25 +1,21 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Thu Oct 26 20:40:35 2023
+[*] Thu Oct 26 23:08:19 2023
 [*]
 [dumpfile] "/home/nguyennt/_m/top-main/out/tb_top/tb_top.vcd"
-[dumpfile_mtime] "Thu Oct 26 20:17:11 2023"
-[dumpfile_size] 536349
+[dumpfile_mtime] "Thu Oct 26 22:59:46 2023"
+[dumpfile_size] 588719
 [savefile] "/home/nguyennt/_m/top-main/wip-float.gtkw"
-[timestart] 149500
+[timestart] 147300
 [size] 1920 1011
 [pos] -1 -1
-*-15.061564 194400 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-15.061564 273300 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb_top.
 [treeopen] tb_top.dut_top.
 [treeopen] tb_top.dut_top.lsu_inst.
 [treeopen] tb_top.dut_top.lsu_inst.ram_ip.
-[treeopen] tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[0].
-[treeopen] tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[1].
-[treeopen] tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[2].
-[treeopen] tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[3].
 [sst_width] 251
-[signals_width] 323
+[signals_width] 367
 [sst_expanded] 1
 [sst_vpaned_height] 285
 @28
@@ -87,7 +83,7 @@ tb_top.dut_top.lsu_inst.addr_in[11:0]
 tb_top.dut_top.lsu_inst.data_in[31:0]
 @28
 tb_top.dut_top.lsu_inst.WE_in
-@22
+@23
 tb_top.dut_top.lsu_inst.data_out[31:0]
 @28
 tb_top.dut_top.lsu_inst.reset_n
@@ -101,8 +97,6 @@ tb_top.dut_top.lsu_inst.memory_bank_we[3:0]
 tb_top.dut_top.lsu_inst.data_input_internal[31:0]
 @200
 -
-@22
-tb_top.dut_top.lsu_inst.ram_ip.addr_i[9:0]
 @28
 tb_top.dut_top.lsu_inst.ram_ip.clk
 @22
@@ -113,57 +107,9 @@ tb_top.dut_top.lsu_inst.ram_ip.wdata_i[31:0]
 tb_top.dut_top.lsu_inst.ram_ip.wr_en_i
 @200
 -
-@201
 -
-@22
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[0].u_memblock.addr_i[9:0]
-@28
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[0].u_memblock.clk
-@420
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[0].u_memblock.i
-@22
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[0].u_memblock.rdata_o[7:0]
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[0].u_memblock.wdata_i[7:0]
-@28
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[0].u_memblock.wr_en_i
-@200
 -
-@22
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[1].u_memblock.addr_i[9:0]
-@28
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[1].u_memblock.clk
-@420
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[1].u_memblock.i
-@22
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[1].u_memblock.rdata_o[7:0]
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[1].u_memblock.wdata_i[15:8]
-@28
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[1].u_memblock.wr_en_i
-@200
 -
-@22
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[2].u_memblock.addr_i[9:0]
-@28
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[2].u_memblock.clk
-@420
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[2].u_memblock.i
-@22
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[2].u_memblock.rdata_o[7:0]
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[2].u_memblock.wdata_i[23:16]
-@28
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[2].u_memblock.wr_en_i
-@200
 -
-@22
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[3].u_memblock.addr_i[9:0]
-@28
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[3].u_memblock.clk
-@420
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[3].u_memblock.i
-@22
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[3].u_memblock.rdata_o[7:0]
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[3].u_memblock.wdata_i[31:24]
-@28
-tb_top.dut_top.lsu_inst.ram_ip.memblock_gen[3].u_memblock.wr_en_i
 [pattern_trace] 1
 [pattern_trace] 0
