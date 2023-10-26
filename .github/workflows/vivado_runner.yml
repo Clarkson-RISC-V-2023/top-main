@@ -27,20 +27,20 @@ jobs:
               git submodule update --init
               tree
 
-  # Build-SIM_alu_ip:
-  #   runs-on: multi-vivado
-  #   needs: Clone_Repo
-  #   steps:
-  #     - name: IALU_sanity_check
-  #       shell: bash
-  #       run:  |
-  #             cd top-main 
-  #             make ialu
-  #     - name: MALU_sanity_check
-  #       shell: bash
-  #       run:  |
-  #             cd top-main 
-  #             make malu
+  Build-SIM_alu_ip:
+    runs-on: multi-vivado
+    needs: Clone_Repo
+    steps:
+      - name: IALU_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make ialu
+      - name: MALU_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make falu
 
   Build-SIM_mem_ip:
     runs-on: multi-vivado
@@ -87,15 +87,15 @@ jobs:
               cd top-main 
               make jump
 
-  # Build-SIM_lsu_ip:
-  #   runs-on: multi-vivado
-  #   needs: Clone_Repo
-  #   steps:
-  #     - name: MEMBLOCK_sanity_check
-  #       shell: bash
-  #       run:  |
-  #             cd top-main 
-  #             make lsu
+  Build-SIM_lsu_ip:
+    runs-on: multi-vivado
+    needs: Clone_Repo
+    steps:
+      - name: MEMBLOCK_sanity_check
+        shell: bash
+        run:  |
+              cd top-main 
+              make lsu
 
   Build-SIM_regs_ip:
     runs-on: multi-vivado
@@ -119,7 +119,7 @@ jobs:
 
   Build-SIM_top-level:
     runs-on: multi-vivado
-    needs: [Build-SIM_mem_ip, Build-SIM_branch_ip, Build-SIM_jump_ip, Build-SIM_regs_ip, Build-SIM_pc_ip, Clone_Repo] # <= Needs all the IPs to pass basic verif
+    needs: [Build-SIM_mem_ip, Build-SIM_branch_ip, Build-SIM_jump_ip, Build-SIM_regs_ip, Build-SIM_pc_ip, Build-SIM_alu_ip, Build-SIM_lsu_ip, Clone_Repo] # <= Needs all the IPs to pass basic verif
     steps:
       - name: Build-Vivado-Project
         shell: bash
@@ -129,7 +129,7 @@ jobs:
 
   Build-Vivado-RISCy_Project:
     runs-on: multi-vivado
-    needs: [Build-SIM_mem_ip, Build-SIM_branch_ip, Build-SIM_jump_ip, Build-SIM_regs_ip, Build-SIM_pc_ip, Clone_Repo] # <= Needs all the IPs to pass basic verif
+    needs: [Build-SIM_mem_ip, Build-SIM_branch_ip, Build-SIM_jump_ip, Build-SIM_regs_ip, Build-SIM_pc_ip, Build-SIM_alu_ip, Build-SIM_lsu_ip, Clone_Repo] # <= Needs all the IPs to pass basic verif
     steps:
       - name: Build-Vivado-Project
         shell: bash
@@ -139,7 +139,7 @@ jobs:
 
   Upload_Sim_Artifact:
     runs-on: multi-vivado
-    needs: [Build-SIM_mem_ip, Build-SIM_branch_ip, Build-SIM_jump_ip, Build-SIM_regs_ip, Build-SIM_pc_ip, Build-SIM_top-level, Build-Vivado-RISCy_Project] #Build-SIM_alu_ip Build-SIM_lsu_ip,
+    needs: [Build-SIM_mem_ip, Build-SIM_branch_ip, Build-SIM_jump_ip, Build-SIM_regs_ip, Build-SIM_pc_ip, Build-SIM_top-level, Build-SIM_alu_ip, Build-SIM_lsu_ip, Build-Vivado-RISCy_Project]
     steps:
       - name: Upload Artifact 
         uses: actions/upload-artifact@v2

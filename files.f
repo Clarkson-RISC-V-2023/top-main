@@ -4,7 +4,7 @@
 ./src/ip/branch/verif/tb_branch.sv
 
 ./src/ip/decoder/rtl/decoder.sv
-./src/ip/decoder/rtl/riscv_instr.sv
+./src/ip/decoder/params/riscv_instr.sv
 
 ./src/ip/jump/rtl/jump.sv
 
@@ -21,4 +21,5 @@
 
 ./src/ip/sextend/rtl/sign_extend.sv
 
+./src/top/params/top_params.sv
 ./src/top/top.sv

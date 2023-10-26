@@ -11,9 +11,9 @@ ialu:
 	# Build ialu
 	make -C src/ip/alu/ ialu OUT_DIR=../../../out/alu/ialu/
 
-malu:
-	# Build malu
-	make -C src/ip/alu/ malu OUT_DIR=../../../out/alu/malu/
+falu:
+	# Build falu
+	make -C src/ip/alu/ falu OUT_DIR=../../../out/alu/falu/
 
 bmem:
 	make -C src/ip/mem/ bmem OUT_DIR=../../../out/mem/tb/bmem
@@ -48,7 +48,7 @@ build_top_project:
 	rm -rf vivado.* vivado_* RISCy_Buisness_Processor_*
 
 build_top_sim:
-	xvlog -sv src/top/top.sv verif/tb_top.sv src/ip/alu/rtl/ialu.sv src/ip/branch/rtl/branch.sv src/ip/decoder/rtl/decoder.sv src/ip/jump/rtl/jump.sv src/ip/lsu/rtl/lsu.sv src/ip/mem/rtl/memblock.sv src/ip/mem/rtl/ram.sv src/ip/mem/rtl/rom.sv src/ip/pc/rtl/pc.sv src/ip/regs/rtl/regs.sv src/ip/mem/params/ram_params.sv
+	xvlog -sv -f ./files.f src/top/verif/tb_top.sv
 	xelab -debug typical -top tb_top
 	xsim tb_top -R
 	mkdir -p ./out/tb_top/

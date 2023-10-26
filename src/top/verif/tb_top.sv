@@ -1,19 +1,14 @@
-`define ROM_INIT_PATH "test"
+// ROM_INIT_PATH is set in top_params.sv
+import top_params::*;
 
-module tb_top #(
-    parameter MEM_INIT_PATH = `ROM_INIT_PATH
-)
-();
+module tb_top ();
 
 reg clk;
 reg reset_n;
 wire [31:0] gpioA;
 wire [31:0] gpioB;
 
-top #(
-    .MEM_INIT_PATH(MEM_INIT_PATH)
-)
-dut_top( 
+top dut_top( 
     .clk(clk),
     .reset_n(reset_n),
     .gpioA_out(gpioA),
@@ -31,7 +26,7 @@ initial begin
     reset_n = 1'b0; 
     #100ns
     reset_n = 1'b1;
-    #500ns
+    #25ms
 
     $finish; 
 end

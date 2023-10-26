@@ -1,3 +1,5 @@
+add_files -norecurse -scan_for_includes ./src/top/params/top_params.sv
+import_files -norecurse ./src/top/params/top_params.sv
 add_files -norecurse -scan_for_includes ./src/top/top.sv
 import_files -norecurse ./src/top/top.sv
 

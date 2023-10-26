@@ -3,66 +3,13 @@
 `define ROM_A_INIT_PATH "src/top/mem_file/a.hex"
 `define ROM_B_INIT_PATH "src/top/mem_file/b.hex"
 
-module top #(
-    // ALU
-    parameter ROM_DEPTH = 8192,
-    parameter TYPE_WIDTH = 3,
-    parameter DTYPE_WIDTH = 3,
-    parameter BRANCH_TYPE_WIDTH = 3,
-    parameter ALUSELECT_WIDTH = 2,
-    parameter ALU_OP_WIDTH = 5,
-    parameter REG_FILE_WIDTH = 6,
-    parameter IN_BUS_WIDTH = 32,
-    parameter OUT_BUS_WIDTH = 32,
-    parameter DATA_WIDTH = 32,
-    parameter IMM_LENGTH = 12,
-    parameter GPIO_A_ADDR = 12'hEF0,
-    parameter GPIO_B_ADDR = 12'hEF4,
-    parameter OPCODE_WIDTH = 7,
-    parameter FUNCT3_WIDTH = 3,
-    parameter FUNCT7_WIDTH = 7,
-    parameter  MEM_INIT_PATH = "",
+import top_params::*;
 
-    // ROM (Instruction)
-    parameter INSTR_DATA_WIDTH = 32,                 // Word length
-    parameter INSTR_ADDR_WIDTH = 32,                 // Addr length
-    parameter INSTR_WORDS = 6,                      // Words
-
-    parameter NUM_REGS      = 32,        // 64 32-bit registers
-    parameter INDEX_WIDTH   = $clog2(NUM_REGS), // number of bits needed to address NUM_REGS number of registers
-    parameter WR_MASK       = 32'b1111_1111_1111_1111_1111_1111_1111_1110, // Reg x0 is read only
-
-    // Default values for register pointers
-    parameter RA             = 1,   // Return Address
-    parameter SP             = 2,   // Stack-Ponter
-    parameter GP             = 3,   // Global-Pointer
-    parameter TP             = 4,   // Thread-Pointer
-
-    // THIS VALUES NEED TO BE SET TO THE RIGHT INIT STATE:
-    parameter RA_INIT        = 32'hFFFF_FFFF,
-    parameter SP_INIT        = 32'hFFFF_FFFF,
-    parameter GP_INIT        = 32'hFFFF_FFFF,
-    parameter TP_INIT        = 32'hFFFF_FFFF,
-
-    // // ROM (A)  
-    // parameter A_DATA_WIDTH = 32,                    // Word length
-    // parameter A_ADDR_WIDTH = INSTR_ADDR_WIDTH,      // Addr length
-    // parameter A_WORDS = 6,                          // Words
-
-    // // ROM (B)
-    // parameter B_DATA_WIDTH = 32,                    // Word length
-    // parameter B_ADDR_WIDTH = INSTR_ADDR_WIDTH,      // Addr length
-    // parameter B_WORDS = 6,                          // Words
-
-    // PC
-    parameter BUS_WIDTH = INSTR_ADDR_WIDTH, 
-    parameter INCREMENT = 4
-    
-)(
+module top (
     input wire clk,
     input wire reset_n,
-    output reg [DATA_WIDTH-1:0] gpioA_out,
-    output reg [DATA_WIDTH-1:0] gpioB_out
+    output reg [TOP_DATA_WIDTH-1:0] gpioA_out,
+    output reg [TOP_DATA_WIDTH-1:0] gpioB_out
 );
     // Types
     `define R_TYPE 3'b000
@@ -80,10 +27,10 @@ module top #(
 
  //TODO: Need to add cordic Signals, need to instantiate FALU and add MUX stuff
  //TODO: change reg file inputs to be 6 bits when cordic and falu stuff is added
-    wire we, mwe, overwrite, jump, load, AUIPC_sig;    //alu_status_i, alu_status_o;
+    wire we, mwe, overwrite, jump, load, AUIPC_sig, f_d1, f_d2, f_rd;    //alu_status_i, alu_status_o;
     wire [REG_FILE_WIDTH-1:0] r1, r2, rd;
-    wire [OUT_BUS_WIDTH-1:0] d1, d2, lsu_d_out, ialu_OUT, jump_OUT, branch_out, i_TYPE_EXT, s_TYPE_EXT, u_TYPE_EXT;
-    reg [OUT_BUS_WIDTH-1:0] load_mux, WriteBack_data, IALU_IN1, IALU_IN2, alu_mux_out;
+    wire [OUT_BUS_WIDTH-1:0] d1, d2, lsu_d_out, ialu_OUT, jump_OUT, branch_out, i_TYPE_EXT, s_TYPE_EXT, u_TYPE_EXT, falu_OUT;
+    reg [OUT_BUS_WIDTH-1:0] load_mux, WriteBack_data, IALU_IN1, IALU_IN2, alu_mux_out, FALU_IN1, FALU_IN2;
     wire [TYPE_WIDTH-1:0] Type;
     wire [DTYPE_WIDTH-1:0] dtype;
     wire [BRANCH_TYPE_WIDTH-1:0] branch_type;
@@ -120,7 +67,7 @@ module top #(
     jump #(
         .TYPE_SIGNAL_WIDTH(TYPE_WIDTH),
         .JAL_WIDTH(20),    // Do we want to use 32 or 20 here since it sign extends by default
-        .DATA_WIDTH(DATA_WIDTH)
+        .DATA_WIDTH(TOP_DATA_WIDTH)
     ) jump_inst (
         .jump_in(jump),
         .type_in(Type),
@@ -130,7 +77,7 @@ module top #(
     );
 
     branch #(
-        .DATA_WIDTH(DATA_WIDTH),
+        .DATA_WIDTH(TOP_DATA_WIDTH),
         .BRANCH_TYPE_WIDTH(BRANCH_TYPE_WIDTH),
         .BRANCH_IMM_WIDTH(12)   // DO we want 32 or 12 
     ) branch_inst (
@@ -142,7 +89,7 @@ module top #(
     );
     
     lsu #(
-        .DATA_WIDTH(DATA_WIDTH),
+        .DATA_WIDTH(TOP_DATA_WIDTH),
         .DEPTH(1024),
         .NUM_MEM_BLOCKS(4),
         .ADDRESS_SPACE(4096),
@@ -168,10 +115,12 @@ module top #(
         .DTYPE_WIDTH(DTYPE_WIDTH),
         .BRANCH_TYPE_WIDTH(BRANCH_TYPE_WIDTH),
         .ALUSELECT_WIDTH(ALUSELECT_WIDTH),
-        .DATA_WIDTH(DATA_WIDTH),
+        .DATA_WIDTH(TOP_DATA_WIDTH),
         .OPCODE_WIDTH(OPCODE_WIDTH),
         .FUNCT3_WIDTH(FUNCT3_WIDTH),
-        .FUNCT7_WIDTH(FUNCT7_WIDTH)
+        .FUNCT7_WIDTH(FUNCT7_WIDTH),
+        .FUNCT3_RIGHT(FUNCT3_RIGHT),
+        .FUNCT3_LEFT(FUNCT3_LEFT)
     ) decoder_inst (
         .instr(instruction),
         .ALUOp(aluop),
@@ -183,11 +132,14 @@ module top #(
         .branchType(branch_type),
         .jump(jump),
         .ALUSelect(alu_select),
-        .auipcBit(AUIPC_sig)
+        .auipcBit(AUIPC_sig),
+        .f_rd(f_rd),
+        .f_d1(f_d1),
+        .f_d2(f_d2)
     );
 
     regs #(
-        .DATA_WIDTH(DATA_WIDTH),
+        .DATA_WIDTH(TOP_DATA_WIDTH),
         .NUM_REGS(NUM_REGS),
         .INDEX_WIDTH(INDEX_WIDTH),
         .WR_MASK(WR_MASK),
@@ -203,10 +155,11 @@ module top #(
         .clk(clk),
         .rst_n(reset_n),
         .WE_i(we),
-        .WA_i({instruction[11:7]}),
+        .WA_i({f_rd,instruction[11:7]}),  //some float instructions write to integer regs
+        //ALSO: there will be integer to float case, use IALU and then keep alu_select[1] concat the same? yes
         .WD_i(WriteBack_data),
-        .RA1_i({instruction[19:15]}),
-        .RA2_i({instruction[24:20]}),
+        .RA1_i({f_d1,instruction[19:15]}),  
+        .RA2_i({f_d2,instruction[24:20]}),  //
         .RD1_o(d1),
         .RD2_o(d2)
     );
@@ -223,10 +176,31 @@ module top #(
         .R_o(ialu_OUT)
     );
 
-    assign i_TYPE_EXT = {{(DATA_WIDTH-IMM_LENGTH){instruction[DATA_WIDTH-1]}},instruction[DATA_WIDTH-1:DATA_WIDTH - IMM_LENGTH]};
-    assign s_TYPE_EXT = {{(DATA_WIDTH-IMM_LENGTH){instruction[DATA_WIDTH-1]}},instruction[DATA_WIDTH-1:25], instruction[11:7]};
-    assign u_TYPE_EXT = {instruction[DATA_WIDTH-1:IMM_LENGTH],{(IMM_LENGTH){1'b0}}};
+    // falu #(
+    //     .OPCODE_WIDTH(ALU_OP_WIDTH),
+    //     .IN_BUS_WIDTH(IN_BUS_WIDTH),
+    //     .OUT_BUS_WIDTH(OUT_BUS_WIDTH)
+    // ) falu_inst (
+    //     .A_i(d1),
+    //     .B_i(IALU_IN2),
+    //     .opcode_i(aluop),
+    //     .R_o(falu_out)
+    // );
 
+
+    
+
+    assign i_TYPE_EXT = {{(TOP_DATA_WIDTH-IMM_LENGTH){instruction[TOP_DATA_WIDTH-1]}},instruction[TOP_DATA_WIDTH-1:TOP_DATA_WIDTH - IMM_LENGTH]};
+    assign s_TYPE_EXT = {{(TOP_DATA_WIDTH-IMM_LENGTH){instruction[TOP_DATA_WIDTH-1]}},instruction[TOP_DATA_WIDTH-1:25], instruction[11:7]};
+    assign u_TYPE_EXT = {instruction[TOP_DATA_WIDTH-1:IMM_LENGTH],{(IMM_LENGTH){1'b0}}};
+
+    // //Shifting AUIPC values
+    // always @(AUIPC_sig, u_TYPE_EXT)
+    // begin
+    //     if(AUIPC_sig == 1'b1)
+    //         u_TYPE_EXT <= A
+    
+    // end
 
     // MUX 4
     always @(load, lsu_d_out, alu_mux_out)   
@@ -267,10 +241,12 @@ module top #(
     end
 
     // MUX 5
+    //always @(ialu_OUT, falu_out, alu_select)
     always @(ialu_OUT, alu_select)
     begin
         case(alu_select)
             `SEL_IALU: alu_mux_out <= ialu_OUT;
+            //`SEL_FALU: alu_mux_out <= falu_out;
             default: alu_mux_out   <= ialu_OUT;
         endcase   
     end
