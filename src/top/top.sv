@@ -194,6 +194,13 @@ module top (
     assign s_TYPE_EXT = {{(TOP_DATA_WIDTH-IMM_LENGTH){instruction[TOP_DATA_WIDTH-1]}},instruction[TOP_DATA_WIDTH-1:25], instruction[11:7]};
     assign u_TYPE_EXT = {instruction[TOP_DATA_WIDTH-1:IMM_LENGTH],{(IMM_LENGTH){1'b0}}};
 
+    // //Shifting AUIPC values
+    // always @(AUIPC_sig, u_TYPE_EXT)
+    // begin
+    //     if(AUIPC_sig == 1'b1)
+    //         u_TYPE_EXT <= A
+    
+    // end
 
     // MUX 4
     always @(load, lsu_d_out, alu_mux_out)   
