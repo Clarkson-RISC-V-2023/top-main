@@ -36,7 +36,7 @@ jobs:
         run:  |
               cd top-main 
               make ialu
-      - name: MALU_sanity_check
+      - name: FALU_sanity_check
         shell: bash
         run:  |
               cd top-main 
