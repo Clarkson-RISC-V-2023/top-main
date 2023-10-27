@@ -1,7 +1,7 @@
 set PROJECT_NAME                RISCy_Buisness_Processor
 set PROJECT_CONSTRAINT_FILE     ./vivado/riscy.xdc
 
-set OUT_DIR                     ./out/vivado_project                     
+set OUT_DIR                     ./out/vivado_project2                     
 
 set PART_NUM                    xc7a100tcsg324-1
 set BOARD                       digilentinc.com:nexys4:part0:1.1

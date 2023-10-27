@@ -97,3 +97,8 @@ create_debug_port u_ila_0 probe
 set_property port_width 32 [get_debug_ports u_ila_0/probe20]
 set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe20]
 connect_debug_port u_ila_0/probe20 [get_nets [list {gpioA_out_OBUF[0]} {gpioA_out_OBUF[1]} {gpioA_out_OBUF[2]} {gpioA_out_OBUF[3]} {gpioA_out_OBUF[4]} {gpioA_out_OBUF[5]} {gpioA_out_OBUF[6]} {gpioA_out_OBUF[7]} {gpioA_out_OBUF[8]} {gpioA_out_OBUF[9]} {gpioA_out_OBUF[10]} {gpioA_out_OBUF[11]} {gpioA_out_OBUF[12]} {gpioA_out_OBUF[13]} {gpioA_out_OBUF[14]} {gpioA_out_OBUF[15]} {gpioA_out_OBUF[16]} {gpioA_out_OBUF[17]} {gpioA_out_OBUF[18]} {gpioA_out_OBUF[19]} {gpioA_out_OBUF[20]} {gpioA_out_OBUF[21]} {gpioA_out_OBUF[22]} {gpioA_out_OBUF[23]} {gpioA_out_OBUF[24]} {gpioA_out_OBUF[25]} {gpioA_out_OBUF[26]} {gpioA_out_OBUF[27]} {gpioA_out_OBUF[28]} {gpioA_out_OBUF[29]} {gpioA_out_OBUF[30]} {gpioA_out_OBUF[31]} ]]
+file mkdir ./vivado_project/RISCy_Buisness_Processor.srcs/constrs_1/new
+close [ open ./vivado_project/RISCy_Buisness_Processor.srcs/constrs_1/new/debug_riscy.xdc w ]
+add_files -fileset constrs_1 ./vivado_project/RISCy_Buisness_Processor.srcs/constrs_1/new/debug_riscy.xdc
+set_property target_constrs_file ./vivado_project/RISCy_Buisness_Processor.srcs/constrs_1/new/debug_riscy.xdc [current_fileset -constrset]
+save_constraints -force
