@@ -26,9 +26,9 @@ package top_params;
     parameter INSTR_ADDR_WIDTH = 32;                 // Addr length
     parameter INSTR_WORDS = 6;                      // Words
 
-    parameter NUM_REGS      = 32;        // 64 32-bit registers
+    parameter NUM_REGS      = 64;        // 64 32-bit registers
     parameter INDEX_WIDTH   = $clog2(NUM_REGS); // number of bits needed to address NUM_REGS number of registers
-    parameter WR_MASK       = 32'b1111_1111_1111_1111_1111_1111_1111_1110; // Reg x0 is read only
+    parameter WR_MASK       = 64'b1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1110; // Reg x0 is read only
 
     // Default values for register pointers
     parameter RA             = 1;   // Return Address
