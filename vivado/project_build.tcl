@@ -8,6 +8,8 @@ set BOARD                       digilentinc.com:nexys4:part0:1.1
 
 set board.repoPaths /opt/Vivado/2023.1/data/xhub/boards/
 
+set ATTACH_MODE [lindex $::argv 0]
+
 exec mkdir -p $OUT_DIR
 
 create_project $PROJECT_NAME $OUT_DIR -part $PART_NUM -force
@@ -15,13 +17,15 @@ create_project $PROJECT_NAME $OUT_DIR -part $PART_NUM -force
 set_property board_part $BOARD [current_project]
 set_property simulator_language Verilog [current_project]
 
-if {[info exists ::env(ATTACH_MODE)]} { # Attached or detached
-    if {$::env(ATTACH_MODE) == "Attached"}{
-        source ./vivado/read_verilog_rtl.tcl
-    } else{
-        source ./vivado/load_verilog_rtl.tcl
-    }
+# Attached or Detached
+if {$ATTACH_MODE == "Attached"} {
+    puts "Building Attached"
+    source ./vivado/read_verilog_rtl.tcl
+} else {
+    puts "Building Detached"
+    source ./vivado/load_verilog_rtl.tcl
 }
+
 
 set_property top top [current_fileset]
 update_compile_order -fileset sources_1
