@@ -41,6 +41,10 @@ wait_on_run synth_1
 open_run synth_1
 report_timing_summary -delay_type max -report_unconstrained -check_timing_verbose -max_paths 10 -input_pins -file $OUT_DIR/syn_timing.rpt
 report_power -file $OUT_DIR/syn_power.rpt
+
+# Generate debug core
+source ./vivado/generate_debug_core.tcl
+
 close_design
 
 # Launch Implementation
@@ -55,7 +59,7 @@ report_power -file $OUT_DIR/imp_power.rpt
 close_design
 
 # # Generate Bitstream
-# launch_runs impl_1 -to_step write_bitstream -jobs 8
+launch_runs impl_1 -to_step write_bitstream -jobs 8
 
 write_project_tcl -all_properties -use_bd_files -dump_project_info -force $OUT_DIR/run_me.tcl
 if {$rdi::mode != "gui"} {

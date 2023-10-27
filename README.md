@@ -11,12 +11,12 @@ This is the main repo of the project and this contains all the subrepos as submo
 # Build commands
 - ## Create Vivado project from sourcers 
     `make build_top_project_gui`
+
+    or 
+
+    `make build_top_project_gui VIVADO_SOURCES=Attached` 
 - ## Run top_tb
     `make build_top_sim` <= DEFAULT detached
-
-    or
-    
-    `make build_top_sim VIVADO_SOURCES=Attached` 
 - ## 
 - ## 
 - ## 
