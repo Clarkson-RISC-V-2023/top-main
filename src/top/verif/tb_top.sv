@@ -9,7 +9,9 @@ wire [31:0] gpioA;
 wire [31:0] gpioB;
 
 top dut_top( 
-    .clk(clk),
+    // TODO see #33
+    //.clk(clk),
+    .clk_i(clk),
     .reset_n(reset_n),
     .gpioA_out(gpioA),
     .gpioB_out(gpioB)
