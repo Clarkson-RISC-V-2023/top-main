@@ -1,3 +1,4 @@
+import_files -norecurse ./testtest
 add_files -norecurse -scan_for_includes ./src/top/params/top_params.sv
 import_files -norecurse ./src/top/params/top_params.sv
 add_files -norecurse -scan_for_includes ./src/top/top.sv
@@ -5,8 +6,8 @@ import_files -norecurse ./src/top/top.sv
 
 add_files -norecurse -scan_for_includes ./src/ip/alu/rtl/ialu.sv
 import_files -norecurse ./src/ip/alu/rtl/ialu.sv
-# add_files -norecurse -scan_for_includes src/ip/alu/rtl/falu.sv
-# import_files -norecurse src/ip/alu/rtl/falu.sv
+add_files -norecurse -scan_for_includes src/ip/alu/rtl/falu.sv
+import_files -norecurse src/ip/alu/rtl/falu.sv
 
 add_files -norecurse -scan_for_includes ./src/ip/branch/rtl/branch.sv
 import_files -norecurse ./src/ip/branch/rtl/branch.sv
@@ -39,3 +40,6 @@ import_files -norecurse ./src/ip/regs/rtl/regs.sv
 
 add_files -norecurse -scan_for_includes ./src/ip/sextend/rtl/sign_extend.sv
 import_files -norecurse ./src/ip/sextend/rtl/sign_extend.sv
+
+add_files -fileset constrs_1 -norecurse $PROJECT_CONSTRAINT_FILE
+import_files -norecurse $PROJECT_CONSTRAINT_FILE

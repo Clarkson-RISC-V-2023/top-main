@@ -3,9 +3,7 @@
 all: build_top_sim
 # TEMPORARLY disabled: lsu ialu malu
 
-init:
-	rm -rf out
-	mkdir -p out/
+VIVADO_SOURCES="Detached" # Detached or Attached
 
 ialu:
 	# Build ialu
@@ -43,8 +41,11 @@ pc:
 	make -C src/ip/pc/ OUT_DIR=../../../out/pc/
 
 build_top_project:
-	vivado -mode batch -source vivado/project_build.tcl 
-	rm -rf out/vivado_project/**.hw out/vivado_project/**.cache out/vivado_project/**.ip_user_files out/vivado_project/**.Xil out/vivado_project/**.xpr out/vivado_project/**.runs
+	vivado -mode batch -source vivado/project_build.tcl  -tclargs $(VFILES)
+	rm -rf vivado.* vivado_* RISCy_Buisness_Processor_*
+
+build_top_project_gui:
+	vivado -mode gui -source vivado/project_build.tcl -tclargs $(VFILES)
 	rm -rf vivado.* vivado_* RISCy_Buisness_Processor_*
 
 build_top_sim:
