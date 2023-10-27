@@ -6,7 +6,10 @@
 import top_params::*;
 
 module top (
-    input wire clk,
+    /* TODO see #33
+    // https://github.com/Clarkson-RISC-V-2023/top-main/issues/33
+    */
+    input wire clk_i,
     input wire reset_n,
     output reg [TOP_DATA_WIDTH-1:0] gpioA_out,
     output reg [TOP_DATA_WIDTH-1:0] gpioB_out
@@ -39,6 +42,23 @@ module top (
     wire [INSTR_ADDR_WIDTH-1:0] program_counter;
     wire [INSTR_DATA_WIDTH-1:0] instruction;
 
+    // TODO see #33
+    reg [2:0] clk_count;
+    reg clk;
+
+    initial begin
+        clk_count = 'b0;
+        clk = 'b0;
+    end
+    // Temporary clock divider
+    always @(posedge clk_i) begin
+        clk_count <= clk_count + 1'b1;
+        if (clk_count >= 'b11) begin
+            clk <= ~clk;
+            clk_count <= 'b0;
+        end
+    end
+        
     pc #(
         .BUS_WIDTH(BUS_WIDTH),
         .TYPE_WIDTH(TYPE_WIDTH),
@@ -193,13 +213,7 @@ module top (
     assign s_TYPE_EXT = {{(TOP_DATA_WIDTH-IMM_LENGTH){instruction[TOP_DATA_WIDTH-1]}},instruction[TOP_DATA_WIDTH-1:25], instruction[11:7]};
     assign u_TYPE_EXT = {instruction[TOP_DATA_WIDTH-1:IMM_LENGTH],{(IMM_LENGTH){1'b0}}};
 
-    // //Shifting AUIPC values
-    // always @(AUIPC_sig, u_TYPE_EXT)
-    // begin
-    //     if(AUIPC_sig == 1'b1)
-    //         u_TYPE_EXT <= A
-    
-    // end
+    // TODO Shifting AUIPC values
 
     // MUX 4
     always @(load, lsu_d_out, alu_mux_out)   
