@@ -15,8 +15,13 @@ create_project $PROJECT_NAME $OUT_DIR -part $PART_NUM -force
 set_property board_part $BOARD [current_project]
 set_property simulator_language Verilog [current_project]
 
-# source ./vivado/load_verilog_rtl.tcl
-source ./vivado/read_verilog_rtl.tcl
+if {[info exists ::env(ATTACH_MODE)]} { # Attached or detached
+    if {$::env(ATTACH_MODE) == "Attached"}{
+        source ./vivado/read_verilog_rtl.tcl
+    } else{
+        source ./vivado/load_verilog_rtl.tcl
+    }
+}
 
 set_property top top [current_fileset]
 update_compile_order -fileset sources_1
