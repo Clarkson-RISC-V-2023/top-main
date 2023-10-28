@@ -9,8 +9,15 @@ module top (
     /* TODO see #33
     // https://github.com/Clarkson-RISC-V-2023/top-main/issues/33
     */
+    // Clk and Reset
     input wire clk_i,
     input wire reset_n,
+
+    // ROM Programming Inputs
+    input wire prog_i,
+    input wire serial_i,
+
+    // GPIO Outputs
     output reg [TOP_DATA_WIDTH-1:0] gpioA_out,
     output reg [TOP_DATA_WIDTH-1:0] gpioB_out
 );
@@ -76,11 +83,15 @@ module top (
     rom #(
         .DEPTH(ROM_DEPTH),
         .DATA_WIDTH(INSTR_DATA_WIDTH),
-        .MEM_INIT_PATH(MEM_INIT_PATH)
+        .MEM_INIT_PATH(MEM_INIT_PATH),
+        .BAUD_FACTOR(ROM_BAUD_FACTOR),
+        .NUM_BYTES(ROM_NUM_BYTES)
     ) instruction_rom (
         .clk(clk),
         .addr_i(program_counter),
-        .rom_o(instruction)
+        .rom_o(instruction),
+        .prog_i(prog_i),
+        .serial_i(serial_i)
     );
 
     jump #(

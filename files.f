@@ -12,6 +12,7 @@
 ./src/ip/mem/rtl/memblock.sv
 ./src/ip/mem/rtl/ram.sv
 ./src/ip/mem/rtl/rom.sv
+./src/ip/mem/rtl/uart_rx.sv
 
 ./src/ip/lsu/rtl/lsu.sv
 

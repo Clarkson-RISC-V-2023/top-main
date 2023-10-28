@@ -24,6 +24,8 @@ package top_params;
     parameter INSTR_DATA_WIDTH = 32;                 // Word length
     parameter INSTR_ADDR_WIDTH = 32;                 // Addr length
     parameter INSTR_WORDS = 6;                      // Words
+    parameter ROM_BAUD_FACTOR = 217;
+    parameter ROM_NUM_BYTES = 4;
 
     parameter NUM_REGS      = 32;        // 64 32-bit registers
     parameter INDEX_WIDTH   = $clog2(NUM_REGS); // number of bits needed to address NUM_REGS number of registers
