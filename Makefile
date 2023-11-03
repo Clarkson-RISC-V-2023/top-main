@@ -1,9 +1,8 @@
-.PHONY: all ialu falu bmem 
-
-all: build_top_sim
-# TEMPORARLY disabled: lsu ialu malu
+.PHONY: all ialu falu bmem rom instr_rom ram uvm_ram branch jump lsu regs pc build_top_project gui_build_top_sim build_top_sim clean
 
 VFILES="Detached" # Detached or Attached
+
+all: gui_build_top_project 
 
 ialu:
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
