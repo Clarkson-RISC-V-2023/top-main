@@ -469,8 +469,8 @@ set_property IOSTANDARD LVCMOS33 [get_ports {gpioB_out[31]}]
 
 # #USB-RS232 Interface
 # #Bank = 35, Pin name = IO_L7P_T1_AD6P_35,					Sch name = UART_TXD_IN
- set_property PACKAGE_PIN C4 [get_ports serial_i]
- set_property IOSTANDARD LVCMOS33 [get_ports serial_i]
+set_property PACKAGE_PIN C4 [get_ports serial_i]
+set_property IOSTANDARD LVCMOS33 [get_ports serial_i]
 # #Bank = 35, Pin name = IO_L11N_T1_SRCC_35,					Sch name = UART_RXD_OUT
 # set_property PACKAGE_PIN D4 [get_ports RsTx]
 # 	set_property IOSTANDARD LVCMOS33 [get_ports RsTx]
@@ -704,3 +704,5 @@ set_property IOSTANDARD LVCMOS33 [get_ports {gpioB_out[31]}]
 # #Bank = 14, Pin name = IO_L23N_T3_A02_D18_14,				Sch name = CRAM_A22
 # set_property PACKAGE_PIN U13 [get_ports {MemAdr[22]}]
 # 	set_property IOSTANDARD LVCMOS33 [get_ports {MemAdr[22]}]
+
+

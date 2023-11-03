@@ -89,6 +89,7 @@ module top (
         .NUM_BYTES(ROM_NUM_BYTES)
     ) instruction_rom (
         .clk(clk_i),
+        .rst_n(reset_n),
         .addr_i(program_counter),
         .rom_o(instruction),
         .prog_i(~reset_n),
