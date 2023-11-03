@@ -120,7 +120,7 @@ set_property IOSTANDARD LVCMOS33 [get_ports {gpioA_out[16]}]
 set_property PACKAGE_PIN F13 [get_ports {gpioA_out[17]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {gpioA_out[17]}]
 #Bank = 35, Pin name = IO_L19N_T3_VREF_35,					Sch name = gpioA_out16_B
-set_property PACKAGE_PIN F6 [get_ports {gpioA_out[18]}]
+set_property PACKAGE_PIN B13 [get_ports {gpioA_out[18]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {gpioA_out[18]}]
 #Bank = 34, Pin name = IO_0_34,								Sch name = gpioA_out17_R
 set_property PACKAGE_PIN K6 [get_ports {gpioA_out[19]}]
@@ -132,7 +132,8 @@ set_property IOSTANDARD LVCMOS33 [get_ports {gpioA_out[20]}]
 set_property PACKAGE_PIN L16 [get_ports {gpioA_out[21]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {gpioA_out[21]}]
 
-
+set_property PACKAGE_PIN F6 [get_ports programming_mode]
+set_property IOSTANDARD LVCMOS33 [get_ports programming_mode]
 
 #7 segment display
 #Bank = 34, Pin name = IO_L2N_T0_34,						Sch name = CA

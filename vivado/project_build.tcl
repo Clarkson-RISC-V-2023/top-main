@@ -30,40 +30,40 @@ if {$ATTACH_MODE == "Attached"} {
 set_property top top [current_fileset]
 update_compile_order -fileset sources_1
 
-# Launch Vivado linter
-synth_design -top top -part $PART_NUM -lint
+# # Launch Vivado linter
+# synth_design -top top -part $PART_NUM -lint
 
-set_property STEPS.SYNTH_DESIGN.ARGS.FLATTEN_HIERARCHY none [get_runs synth_1]
+# set_property STEPS.SYNTH_DESIGN.ARGS.FLATTEN_HIERARCHY none [get_runs synth_1]
 
-# Launch Synthesis and wait on completion
-launch_runs synth_1 -jobs 8
-wait_on_run synth_1
+# # Launch Synthesis and wait on completion
+# launch_runs synth_1 -jobs 8
+# wait_on_run synth_1
 
-# Generate a timing and power reports and write to disk
-open_run synth_1
-report_timing_summary -delay_type max -report_unconstrained -check_timing_verbose -max_paths 10 -input_pins -file $OUT_DIR/syn_timing.rpt
-report_power -file $OUT_DIR/syn_power.rpt
+# # Generate a timing and power reports and write to disk
+# open_run synth_1
+# report_timing_summary -delay_type max -report_unconstrained -check_timing_verbose -max_paths 10 -input_pins -file $OUT_DIR/syn_timing.rpt
+# report_power -file $OUT_DIR/syn_power.rpt
 
-# Generate debug core
-source ./vivado/generate_debug_core.tcl
+# # Generate debug core
+# source ./vivado/generate_debug_core.tcl
 
-close_design
+# close_design
 
-# Launch Implementation
-launch_runs impl_1 -jobs 8
-wait_on_run impl_1
+# # Launch Implementation
+# launch_runs impl_1 -jobs 8
+# wait_on_run impl_1
 
-# Generate a timing and power reports and write to disk
-# comment out the open_run for batch mode
-open_run impl_1
-report_timing_summary -delay_type min_max -report_unconstrained -check_timing_verbose -max_paths 10 -input_pins -file $OUT_DIR/imp_timing.rpt
-report_power -file $OUT_DIR/imp_power.rpt
-close_design
+# # Generate a timing and power reports and write to disk
+# # comment out the open_run for batch mode
+# open_run impl_1
+# report_timing_summary -delay_type min_max -report_unconstrained -check_timing_verbose -max_paths 10 -input_pins -file $OUT_DIR/imp_timing.rpt
+# report_power -file $OUT_DIR/imp_power.rpt
+# close_design
 
-# # Generate Bitstream
-launch_runs impl_1 -to_step write_bitstream -jobs 8
+# # # Generate Bitstream
+# launch_runs impl_1 -to_step write_bitstream -jobs 8
 
-write_project_tcl -all_properties -use_bd_files -dump_project_info -force $OUT_DIR/run_me.tcl
-if {$rdi::mode != "gui"} {
-    close_project
-}
+# write_project_tcl -all_properties -use_bd_files -dump_project_info -force $OUT_DIR/run_me.tcl
+# if {$rdi::mode != "gui"} {
+#     close_project
+# }
