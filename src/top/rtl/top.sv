@@ -187,11 +187,14 @@ module top (
         .clk(clk),
         .rst_n(reset_n),
         .WE_i(we),
-        .WA_i({f_rd,instruction[11:7]}),  //some float instructions write to integer regs
+        //.WA_i({f_rd,instruction[11:7]}),  //some float instructions write to integer regs
+        .WA_i(instruction[11:7]), 
         //ALSO: there will be integer to float case, use IALU and then keep alu_select[1] concat the same? yes
         .WD_i(WriteBack_data),
-        .RA1_i({f_d1,instruction[19:15]}),  
-        .RA2_i({f_d2,instruction[24:20]}),  //
+        // .RA1_i({f_d1,instruction[19:15]}),  
+        // .RA2_i({f_d2,instruction[24:20]}), 
+        .RA1_i(instruction[19:15]),  
+        .RA2_i(instruction[24:20]), 
         .RD1_o(d1),
         .RD2_o(d2)
     );
