@@ -14,7 +14,6 @@ module top (
     input wire reset_n,
 
     // ROM Programming Inputs
-    input wire prog_i,
     input wire serial_i,
     output reg programming_mode,
 
@@ -91,7 +90,7 @@ module top (
         .clk(clk_i),
         .addr_i(program_counter),
         .rom_o(instruction),
-        .prog_i(prog_i),
+        .prog_i(~reset_n),
         .serial_i(serial_i),
         .programming_mode(programming_mode)
     );

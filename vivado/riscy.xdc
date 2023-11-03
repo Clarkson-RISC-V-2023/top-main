@@ -16,8 +16,8 @@ create_clock -period 10.000 -name sys_clk_pin -waveform {0.000 5.000} -add [get_
 set_property PACKAGE_PIN U9 [get_ports reset_n]
 set_property IOSTANDARD LVCMOS33 [get_ports reset_n]
 # #Bank = 34, Pin name = IO_25_34,							Sch name = SW1
-set_property PACKAGE_PIN U8 [get_ports prog_i]
-set_property IOSTANDARD LVCMOS33 [get_ports prog_i]
+# set_property PACKAGE_PIN U8 [get_ports prog_i]
+# set_property IOSTANDARD LVCMOS33 [get_ports prog_i]
 # #Bank = 34, Pin name = IO_L23P_T3_34,						Sch name = SW2
 # set_property PACKAGE_PIN R7 [get_ports {sw[2]}]
 # 	set_property IOSTANDARD LVCMOS33 [get_ports {sw[2]}]
