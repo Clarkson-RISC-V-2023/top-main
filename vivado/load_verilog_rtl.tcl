@@ -1,8 +1,8 @@
 import_files -norecurse ./testtest
 add_files -norecurse -scan_for_includes ./src/top/params/top_params.sv
 import_files -norecurse ./src/top/params/top_params.sv
-add_files -norecurse -scan_for_includes ./src/top/top.sv
-import_files -norecurse ./src/top/top.sv
+add_files -norecurse -scan_for_includes ./src/top/rtl/top.sv
+import_files -norecurse ./src/top/rtl/top.sv
 
 add_files -norecurse -scan_for_includes ./src/ip/alu/rtl/ialu.sv
 import_files -norecurse ./src/ip/alu/rtl/ialu.sv

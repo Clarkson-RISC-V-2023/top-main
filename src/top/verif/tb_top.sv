@@ -28,7 +28,7 @@ initial begin
     reset_n = 1'b0; 
     #100ns
     reset_n = 1'b1;
-    #25ms
+    #1000ns
 
     $finish; 
 end
