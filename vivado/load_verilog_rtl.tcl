@@ -31,6 +31,10 @@ add_files -norecurse -scan_for_includes ./src/ip/mem/rtl/rom.sv
 import_files -norecurse ./src/ip/mem/rtl/rom.sv
 add_files -norecurse -scan_for_includes ./src/ip/mem/rtl/ram.sv
 import_files -norecurse ./src/ip/mem/rtl/ram.sv
+add_files -norecurse -scan_for_includes ./src/ip/mem/rtl/instr_rom.sv
+import_files -norecurse ./src/ip/mem/rtl/instr_rom.sv
+add_files -norecurse -scan_for_includes ./src/ip/mem/rtl/uart_rx.sv
+import_files -norecurse ./src/ip/mem/rtl/uart_rx.sv
 
 add_files -norecurse -scan_for_includes ./src/ip/pc/rtl/pc.sv
 import_files -norecurse ./src/ip/pc/rtl/pc.sv

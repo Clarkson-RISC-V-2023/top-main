@@ -16,6 +16,7 @@ module top (
     // ROM Programming Inputs
     input wire prog_i,
     input wire serial_i,
+    output reg programming_mode,
 
     // GPIO Outputs
     output reg [TOP_DATA_WIDTH-1:0] gpioA_out,
@@ -80,18 +81,19 @@ module top (
         .pc_out(program_counter)
     );
 
-    rom #(
+    instr_rom #(
         .DEPTH(ROM_DEPTH),
         .DATA_WIDTH(INSTR_DATA_WIDTH),
         .MEM_INIT_PATH(MEM_INIT_PATH),
         .BAUD_FACTOR(ROM_BAUD_FACTOR),
         .NUM_BYTES(ROM_NUM_BYTES)
     ) instruction_rom (
-        .clk(clk),
+        .clk(clk_i),
         .addr_i(program_counter),
         .rom_o(instruction),
         .prog_i(prog_i),
-        .serial_i(serial_i)
+        .serial_i(serial_i),
+        .programming_mode(programming_mode)
     );
 
     jump #(

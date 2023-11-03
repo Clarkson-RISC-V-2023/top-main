@@ -1,6 +1,6 @@
 package top_params;
        // ALU
-    parameter ROM_DEPTH = 8192;
+    parameter ROM_DEPTH = 512;
     parameter TYPE_WIDTH = 3;
     parameter DTYPE_WIDTH = 3;
     parameter BRANCH_TYPE_WIDTH = 3;
@@ -18,13 +18,13 @@ package top_params;
     parameter FUNCT7_WIDTH = 7;
     parameter FUNCT3_RIGHT = 12;
     parameter FUNCT3_LEFT = FUNCT3_WIDTH-1+FUNCT3_RIGHT;
-    parameter  MEM_INIT_PATH = "/home/esola-thomas/Desktop/top-main/testtest";
+    parameter  MEM_INIT_PATH = "/workspace/testtest";
 
     // ROM (Instruction)
     parameter INSTR_DATA_WIDTH = 32;                 // Word length
     parameter INSTR_ADDR_WIDTH = 32;                 // Addr length
     parameter INSTR_WORDS = 6;                      // Words
-    parameter ROM_BAUD_FACTOR = 217;
+    parameter ROM_BAUD_FACTOR = 868;
     parameter ROM_NUM_BYTES = 4;
 
     parameter NUM_REGS      = 32;        // 64 32-bit registers
