@@ -3,7 +3,8 @@
 `define ROM_A_INIT_PATH "src/top/mem_file/a.hex"
 `define ROM_B_INIT_PATH "src/top/mem_file/b.hex"
 
-import top_params::*;
+`include "./params/top_params.sv"
+//import top_params::*;
 
 module top (
     /* TODO see #33

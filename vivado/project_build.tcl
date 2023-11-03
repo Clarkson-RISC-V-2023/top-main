@@ -33,6 +33,8 @@ update_compile_order -fileset sources_1
 # Launch Vivado linter
 synth_design -top top -part $PART_NUM -lint
 
+set_property STEPS.SYNTH_DESIGN.ARGS.FLATTEN_HIERARCHY none [get_runs synth_1]
+
 # Launch Synthesis and wait on completion
 launch_runs synth_1 -jobs 8
 wait_on_run synth_1

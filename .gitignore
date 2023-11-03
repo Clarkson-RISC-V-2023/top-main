@@ -1,4 +1,5 @@
 out/*
 **/xsim.dir/
 **/.Xil
-vivado*
+vivado.*
+**_pid**
