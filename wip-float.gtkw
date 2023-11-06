@@ -1,17 +1,19 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Fri Oct 27 17:31:46 2023
+[*] Mon Nov  6 22:05:00 2023
 [*]
 [dumpfile] "/home/nguyennt/_m/top-main/out/tb_top/tb_top.vcd"
-[dumpfile_mtime] "Fri Oct 27 17:25:18 2023"
-[dumpfile_size] 620033
+[dumpfile_mtime] "Mon Nov  6 22:03:06 2023"
+[dumpfile_size] 652969
 [savefile] "/home/nguyennt/_m/top-main/wip-float.gtkw"
-[timestart] 1192600
+[timestart] 1187700
 [size] 1920 1011
 [pos] -1 -1
-*-15.061564 1294100 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-15.061564 1273700 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb_top.
 [treeopen] tb_top.dut_top.
+[treeopen] tb_top.dut_top.falu_inst.
+[treeopen] tb_top.dut_top.falu_inst.inst_float_alu.
 [treeopen] tb_top.dut_top.lsu_inst.ram_ip.
 [sst_width] 251
 [signals_width] 367
@@ -57,12 +59,13 @@ tb_top.dut_top.instruction[31:0]
 (31)tb_top.dut_top.instruction[31:0]
 @1401200
 -group_end
+@23
+tb_top.dut_top.pc_inst.pc_out[31:0]
 @200
 -
 @28
 tb_top.dut_top.regs_inst.RA1_i[5:0]
 tb_top.dut_top.regs_inst.RA2_i[5:0]
-@29
 tb_top.dut_top.regs_inst.WA_i[5:0]
 @22
 tb_top.dut_top.regs_inst.WD_i[31:0]
@@ -91,6 +94,40 @@ tb_top.dut_top.decoder_inst.f_d2
 tb_top.dut_top.decoder_inst.f_rd
 @200
 -
+-
+@22
+tb_top.dut_top.falu_inst.A_i[31:0]
+tb_top.dut_top.falu_inst.B_i[31:0]
+tb_top.dut_top.falu_inst.R_o[31:0]
+tb_top.dut_top.falu_inst.opcode_i[4:0]
+@28
+tb_top.dut_top.falu_inst.open
+@22
+tb_top.dut_top.falu_inst.r_from_theirs[31:0]
+tb_top.dut_top.falu_inst.r_immed[31:0]
+@24
+tb_top.dut_top.falu_inst.theAluOp[4:0]
+@200
+-
+-
+@22
+tb_top.dut_top.falu_inst.inst_float_alu.a_operand[31:0]
+tb_top.dut_top.falu_inst.inst_float_alu.b_operand[31:0]
+tb_top.dut_top.falu_inst.inst_float_alu.ALU_Output[31:0]
+tb_top.dut_top.falu_inst.inst_float_alu.AND_Output[31:0]
+@28
+tb_top.dut_top.falu_inst.inst_float_alu.AddBar_Sub
+@22
+tb_top.dut_top.falu_inst.inst_float_alu.Add_Sub_A[31:0]
+tb_top.dut_top.falu_inst.inst_float_alu.Add_Sub_B[31:0]
+@28
+tb_top.dut_top.falu_inst.inst_float_alu.Add_Sub_Exception
+@22
+tb_top.dut_top.falu_inst.inst_float_alu.Add_Sub_Output[31:0]
+@200
+-
+-
+-
 @22
 tb_top.dut_top.ialu_inst.A_i[31:0]
 tb_top.dut_top.ialu_inst.B_i[31:0]
@@ -103,12 +140,6 @@ tb_top.dut_top.ialu_inst.opcode_i[4:0]
 @22
 tb_top.dut_top.falu_inst.A_i[31:0]
 tb_top.dut_top.falu_inst.B_i[31:0]
-@28
-tb_top.dut_top.falu_inst.A
-tb_top.dut_top.falu_inst.B
-tb_top.dut_top.falu_inst.R
-@22
-tb_top.dut_top.falu_inst.R_arr[31:0]
 tb_top.dut_top.falu_inst.R_o[31:0]
 @200
 -
@@ -149,8 +180,3 @@ tb_top.dut_top.lsu_inst.ram_ip.wr_en_i
 -
 [pattern_trace] 1
 [pattern_trace] 0
-!010000@@
-?"00F777D3
-@c00023
-tb_top.dut_top.instruction[31:0]
-!!
