@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Mon Nov  6 22:05:00 2023
+[*] Mon Nov  6 23:38:30 2023
 [*]
 [dumpfile] "/home/nguyennt/_m/top-main/out/tb_top/tb_top.vcd"
-[dumpfile_mtime] "Mon Nov  6 22:03:06 2023"
-[dumpfile_size] 652969
+[dumpfile_mtime] "Mon Nov  6 23:35:15 2023"
+[dumpfile_size] 658344
 [savefile] "/home/nguyennt/_m/top-main/wip-float.gtkw"
-[timestart] 1187700
+[timestart] 1187200
 [size] 1920 1011
 [pos] -1 -1
-*-15.061564 1273700 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-15.061564 1273100 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb_top.
 [treeopen] tb_top.dut_top.
 [treeopen] tb_top.dut_top.falu_inst.
@@ -59,7 +59,7 @@ tb_top.dut_top.instruction[31:0]
 (31)tb_top.dut_top.instruction[31:0]
 @1401200
 -group_end
-@23
+@22
 tb_top.dut_top.pc_inst.pc_out[31:0]
 @200
 -
@@ -98,7 +98,9 @@ tb_top.dut_top.decoder_inst.f_rd
 @22
 tb_top.dut_top.falu_inst.A_i[31:0]
 tb_top.dut_top.falu_inst.B_i[31:0]
+@23
 tb_top.dut_top.falu_inst.R_o[31:0]
+@22
 tb_top.dut_top.falu_inst.opcode_i[4:0]
 @28
 tb_top.dut_top.falu_inst.open
