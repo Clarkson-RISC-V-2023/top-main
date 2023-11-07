@@ -1,5 +1,5 @@
 read_verilog [ glob ./src/top/params/**]
-read_verilog [ glob ./src/top/top.sv ]
+read_verilog [ glob ./src/top/rtl/top.sv ]
 read_verilog [ glob ./src/ip/alu/rtl/ialu.sv ]
 read_verilog [ glob ./src/ip/alu/rtl/falu.sv ]
 read_verilog [ glob ./src/ip/branch/rtl/** ]

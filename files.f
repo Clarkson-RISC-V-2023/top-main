@@ -12,6 +12,8 @@
 ./src/ip/mem/rtl/memblock.sv
 ./src/ip/mem/rtl/ram.sv
 ./src/ip/mem/rtl/rom.sv
+./src/ip/mem/rtl/instr_rom.sv
+./src/ip/mem/rtl/uart_rx.sv
 
 ./src/ip/lsu/rtl/lsu.sv
 
@@ -22,4 +24,4 @@
 ./src/ip/sextend/rtl/sign_extend.sv
 
 ./src/top/params/top_params.sv
-./src/top/top.sv
+./src/top/rtl/top.sv
