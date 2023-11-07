@@ -21,7 +21,7 @@ package top_params;
     localparam FUNCT7_WIDTH = 7;
     localparam FUNCT3_RIGHT = 12;
     localparam FUNCT3_LEFT = FUNCT3_WIDTH-1+FUNCT3_RIGHT;
-    localparam  MEM_INIT_PATH = "/workspace/testtest";
+    localparam  MEM_INIT_PATH = "";
 
     // ROM (Instruction)
     localparam INSTR_DATA_WIDTH = 32;                 // Word length
