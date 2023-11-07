@@ -5,6 +5,7 @@ module tb_top ();
 
 reg clk;
 reg reset_n;
+reg serial;
 wire [31:0] gpioA;
 wire [31:0] gpioB;
 
@@ -13,11 +14,12 @@ top dut_top(
     //.clk(clk),
     .clk_i(clk),
     .reset_n(reset_n),
+    .serial_i(serial),
     .gpioA_out(gpioA),
-    .gpioB_out(gpioB)
+    .gpioB_in(gpioB)
 );
 
-always #10 clk= ~clk;
+always #1 clk= ~clk;
 
 initial begin
     $readmemb(MEM_INIT_PATH, dut_top.instruction_rom.mem_inst.bmem);   
@@ -25,10 +27,11 @@ initial begin
     $dumpvars(0, tb_top);
     $display("ROM data loaded from %s", MEM_INIT_PATH);
     clk = 1'b0;
-    reset_n = 1'b0; 
+    reset_n = 1'b0;
+    serial = 1'b1;
     #100ns
     reset_n = 1'b1;
-    #1000ns
+    #1000000ns
 
     $finish; 
 end

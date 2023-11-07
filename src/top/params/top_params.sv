@@ -3,7 +3,7 @@
 
 package top_params;
        // ALU
-    localparam ROM_DEPTH = 512;
+    localparam ROM_DEPTH = 8192;
     localparam TYPE_WIDTH = 3;
     localparam DTYPE_WIDTH = 3;
     localparam BRANCH_TYPE_WIDTH = 3;
@@ -21,7 +21,7 @@ package top_params;
     localparam FUNCT7_WIDTH = 7;
     localparam FUNCT3_RIGHT = 12;
     localparam FUNCT3_LEFT = FUNCT3_WIDTH-1+FUNCT3_RIGHT;
-    localparam  MEM_INIT_PATH = "";
+    localparam  MEM_INIT_PATH = "testtest";
 
     // ROM (Instruction)
     localparam INSTR_DATA_WIDTH = 32;                 // Word length
@@ -42,7 +42,7 @@ package top_params;
 
     // THIS VALUES NEED TO BE SET TO THE RIGHT INIT STATE:
     localparam RA_INIT        = 32'hFFFF_FFFF;
-    localparam SP_INIT        = 32'hFFFF_FFFF;
+    localparam SP_INIT        = 32'h0000_3FFF;
     localparam GP_INIT        = 32'hFFFF_FFFF;
     localparam TP_INIT        = 32'hFFFF_FFFF;
 
