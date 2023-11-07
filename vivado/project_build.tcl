@@ -9,6 +9,7 @@ set BOARD                       digilentinc.com:nexys4:part0:1.1
 set board.repoPaths /opt/Vivado/2023.1/data/xhub/boards/
 
 set ATTACH_MODE [lindex $::argv 0]
+set DEBUG [lindex $::argv 1]
 
 exec mkdir -p $OUT_DIR
 
@@ -45,7 +46,9 @@ report_timing_summary -delay_type max -report_unconstrained -check_timing_verbos
 report_power -file $OUT_DIR/syn_power.rpt
 
 # Generate debug core
-source ./vivado/generate_debug_core.tcl
+if {$DEBUG == "True"} {
+    source ./vivado/generate_debug_core.tcl
+}
 
 close_design
 

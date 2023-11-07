@@ -1,6 +1,7 @@
 .PHONY: all ialu falu bmem rom instr_rom ram uvm_ram branch jump lsu regs pc build_top_project gui_build_top_project build_top_sim clean
 
 VFILES="Detached" # Detached or Attached
+DEBUG=False
 
 all: gui_build_top_project 
 
@@ -64,18 +65,21 @@ pc:
 	# BUILDING pc
 	make -C src/ip/pc/ OUT_DIR=../../../out/pc/
 
-build_top_project:
+vivado_batch:
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	# BUILDING build_top_sim
-	vivado -mode batch -source vivado/project_build.tcl  -tclargs $(VFILES)
+	vivado -mode batch -source vivado/project_build.tcl  -tclargs $(VFILES) -tclargs $(DEBUG)
 	rm -rf vivado.* vivado_* RISCy_Buisness_Processor_*
 
 gui_build_top_project:
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	# BUILDING top-main Vivado Project GUI mode
 	# Use VFILES=<Attached/Detached> default is Detached
-	vivado -mode gui -source vivado/project_build.tcl -tclargs $(VFILES)
+	vivado -mode gui -source vivado/project_build.tcl -tclargs $(VFILES) -tclargs $(DEBUG)
 	rm -rf vivado.* vivado_* RISCy_Buisness_Processor_*
+
+debug:
+	make gui_build_top_project DEBUG=True
 
 build_top_sim:
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
