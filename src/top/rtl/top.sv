@@ -20,7 +20,7 @@ module top (
 
     // GPIO Outputs
     output reg [TOP_DATA_WIDTH-1:0] gpioA_out,
-    output reg [TOP_DATA_WIDTH-1:0] gpioB_out
+    input reg [TOP_DATA_WIDTH-1:0] gpioB_in
 );
     // Types
     `define R_TYPE 3'b000
@@ -123,9 +123,9 @@ module top (
     
     lsu #(
         .DATA_WIDTH(TOP_DATA_WIDTH),
-        .DEPTH(1024),
-        .NUM_MEM_BLOCKS(4),
-        .ADDRESS_SPACE(4096),
+        .DEPTH(LSU_DEPTH),
+        .NUM_MEM_BLOCKS(LSU_NUM_MEM_BLOCKS),
+        .ADDRESS_SPACE(LSU_ADDRESS_SPACE),
         .NUM_DATA_TYPES(6),
         .GPIO_A_ADDR(GPIO_A_ADDR),
         .GPIO_B_ADDR(GPIO_B_ADDR)
@@ -138,7 +138,7 @@ module top (
         .reset_n(reset_n),
         .data_out(lsu_d_out), 
         .gpioA_out(gpioA_out),
-        .gpioB_out(gpioB_out)
+        .gpioB_in(gpioB_in)
     );
 
 

@@ -239,6 +239,7 @@ set_property MARK_DEBUG true [get_nets {instruction[6]}]
 set_property MARK_DEBUG true [get_nets {instruction[7]}]
 set_property MARK_DEBUG true [get_nets {instruction[8]}]
 set_property MARK_DEBUG true [get_nets {instruction[9]}]
+
 create_debug_core u_ila_0 ila
 set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_0]
 set_property ALL_PROBE_SAME_MU_CNT 1 [get_debug_cores u_ila_0]

@@ -1,5 +1,5 @@
 set PROJECT_NAME                RISCy_Buisness_Processor
-set PROJECT_CONSTRAINT_FILE     ./vivado/riscy.xdc
+set PROJECT_CONSTRAINT_FILE     ./vivado/riscy_seven_seg.xdc
 
 set OUT_DIR                     ./out/vivado_project                     
 
