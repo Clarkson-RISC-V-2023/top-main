@@ -3,13 +3,24 @@
 `define ROM_A_INIT_PATH "src/top/mem_file/a.hex"
 `define ROM_B_INIT_PATH "src/top/mem_file/b.hex"
 
+`include "../params/top_params.sv"
 import top_params::*;
 
 module top (
-    input wire clk,
+    /* TODO see #33
+    // https://github.com/Clarkson-RISC-V-2023/top-main/issues/33
+    */
+    // Clk and Reset
+    input wire clk_i,
     input wire reset_n,
+
+    // ROM Programming Inputs
+    input wire serial_i,
+    output reg programming_mode,
+
+    // GPIO Outputs
     output reg [TOP_DATA_WIDTH-1:0] gpioA_out,
-    output reg [TOP_DATA_WIDTH-1:0] gpioB_out
+    input reg [TOP_DATA_WIDTH-1:0] gpioB_in
 );
     // Types
     `define R_TYPE 3'b000
@@ -39,7 +50,23 @@ module top (
     wire [INSTR_ADDR_WIDTH-1:0] program_counter;
     wire [INSTR_DATA_WIDTH-1:0] instruction;
 
+    // TODO see #33
+    reg [2:0] clk_count;
+    reg clk;
 
+    initial begin
+        clk_count = 'b0;
+        clk = 'b0;
+    end
+    // Temporary clock divider
+    always @(posedge clk_i) begin
+        clk_count <= clk_count + 1'b1;
+        if (clk_count >= 'b11) begin
+            clk <= ~clk;
+            clk_count <= 'b0;
+        end
+    end
+        
     pc #(
         .BUS_WIDTH(BUS_WIDTH),
         .TYPE_WIDTH(TYPE_WIDTH),
@@ -54,14 +81,20 @@ module top (
         .pc_out(program_counter)
     );
 
-    rom #(
+    instr_rom #(
         .DEPTH(ROM_DEPTH),
         .DATA_WIDTH(INSTR_DATA_WIDTH),
-        .MEM_INIT_PATH(MEM_INIT_PATH)
+        .MEM_INIT_PATH(MEM_INIT_PATH),
+        .BAUD_FACTOR(ROM_BAUD_FACTOR),
+        .NUM_BYTES(ROM_NUM_BYTES)
     ) instruction_rom (
-        .clk(clk),
+        .clk(clk_i),
+        .rst_n(reset_n),
         .addr_i(program_counter),
-        .rom_o(instruction)
+        .rom_o(instruction),
+        .prog_i(~reset_n),
+        .serial_i(serial_i),
+        .programming_mode(programming_mode)
     );
 
     jump #(
@@ -90,9 +123,9 @@ module top (
     
     lsu #(
         .DATA_WIDTH(TOP_DATA_WIDTH),
-        .DEPTH(1024),
-        .NUM_MEM_BLOCKS(4),
-        .ADDRESS_SPACE(4096),
+        .DEPTH(LSU_DEPTH),
+        .NUM_MEM_BLOCKS(LSU_NUM_MEM_BLOCKS),
+        .ADDRESS_SPACE(LSU_ADDRESS_SPACE),
         .NUM_DATA_TYPES(6),
         .GPIO_A_ADDR(GPIO_A_ADDR),
         .GPIO_B_ADDR(GPIO_B_ADDR)
@@ -105,7 +138,7 @@ module top (
         .reset_n(reset_n),
         .data_out(lsu_d_out), 
         .gpioA_out(gpioA_out),
-        .gpioB_out(gpioB_out)
+        .gpioB_in(gpioB_in)
     );
 
 
@@ -155,11 +188,14 @@ module top (
         .clk(clk),
         .rst_n(reset_n),
         .WE_i(we),
-        .WA_i({f_rd,instruction[11:7]}),  //some float instructions write to integer regs
+        //.WA_i({f_rd,instruction[11:7]}),  //some float instructions write to integer regs
+        .WA_i(instruction[11:7]), 
         //ALSO: there will be integer to float case, use IALU and then keep alu_select[1] concat the same? yes
         .WD_i(WriteBack_data),
-        .RA1_i({f_d1,instruction[19:15]}),  
-        .RA2_i({f_d2,instruction[24:20]}),  //
+        // .RA1_i({f_d1,instruction[19:15]}),  
+        // .RA2_i({f_d2,instruction[24:20]}), 
+        .RA1_i(instruction[19:15]),  
+        .RA2_i(instruction[24:20]), 
         .RD1_o(d1),
         .RD2_o(d2)
     );
@@ -194,13 +230,7 @@ module top (
     assign s_TYPE_EXT = {{(TOP_DATA_WIDTH-IMM_LENGTH){instruction[TOP_DATA_WIDTH-1]}},instruction[TOP_DATA_WIDTH-1:25], instruction[11:7]};
     assign u_TYPE_EXT = {instruction[TOP_DATA_WIDTH-1:IMM_LENGTH],{(IMM_LENGTH){1'b0}}};
 
-    // //Shifting AUIPC values
-    // always @(AUIPC_sig, u_TYPE_EXT)
-    // begin
-    //     if(AUIPC_sig == 1'b1)
-    //         u_TYPE_EXT <= A
-    
-    // end
+    // TODO Shifting AUIPC values
 
     // MUX 4
     always @(load, lsu_d_out, alu_mux_out)   
