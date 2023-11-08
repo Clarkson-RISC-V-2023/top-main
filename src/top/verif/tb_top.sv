@@ -6,6 +6,7 @@ module tb_top ();
 reg clk;
 reg reset_n;
 reg serial;
+reg programming_mode
 wire [31:0] gpioA;
 wire [31:0] gpioB;
 
@@ -15,6 +16,7 @@ top dut_top(
     .clk_i(clk),
     .reset_n(reset_n),
     .serial_i(serial),
+    .programming_mode_o(programming_mode),
     .gpioA_out(gpioA),
     .gpioB_in(gpioB)
 );

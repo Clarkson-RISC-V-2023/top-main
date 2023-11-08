@@ -16,7 +16,7 @@ module top (
 
     // ROM Programming Inputs
     input wire serial_i,
-    output reg programming_mode,
+    output reg programming_mode_o,
 
     // GPIO Outputs
     output reg [TOP_DATA_WIDTH-1:0] gpioA_out,
@@ -94,7 +94,7 @@ module top (
         .rom_o(instruction),
         .prog_i(~reset_n),
         .serial_i(serial_i),
-        .programming_mode(programming_mode)
+        .programming_mode(programming_mode_o)
     );
 
     jump #(

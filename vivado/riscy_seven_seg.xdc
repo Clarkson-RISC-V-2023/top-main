@@ -132,8 +132,8 @@ set_property IOSTANDARD LVCMOS33 [get_ports {gpioA_out[31]}]
 # set_property PACKAGE_PIN L16 [get_ports {gpioA_out[21]}]
 # set_property IOSTANDARD LVCMOS33 [get_ports {gpioA_out[21]}]
 
-set_property PACKAGE_PIN F6 [get_ports programming_mode]
-set_property IOSTANDARD LVCMOS33 [get_ports programming_mode]
+set_property PACKAGE_PIN F6 [get_ports programming_mode_o]
+set_property IOSTANDARD LVCMOS33 [get_ports programming_mode_o]
 
 #7 segment display
 #Bank = 34, Pin name = IO_L2N_T0_34,						Sch name = CA
