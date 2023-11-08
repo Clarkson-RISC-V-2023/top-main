@@ -123,9 +123,9 @@ module top (
     
     lsu #(
         .DATA_WIDTH(TOP_DATA_WIDTH),
-        .DEPTH(4096),
-        .NUM_MEM_BLOCKS(4),
-        .ADDRESS_SPACE(16384),
+        .DEPTH(LSU_DEPTH),
+        .NUM_MEM_BLOCKS(LSU_NUM_MEM_BLOCKS),
+        .ADDRESS_SPACE(LSU_ADDRESS_SPACE),
         .NUM_DATA_TYPES(6),
         .GPIO_A_ADDR(GPIO_A_ADDR),
         .GPIO_B_ADDR(GPIO_B_ADDR)

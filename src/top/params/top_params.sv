@@ -21,7 +21,10 @@ package top_params;
     localparam FUNCT7_WIDTH = 7;
     localparam FUNCT3_RIGHT = 12;
     localparam FUNCT3_LEFT = FUNCT3_WIDTH-1+FUNCT3_RIGHT;
-    localparam  MEM_INIT_PATH = "testtest";
+    localparam MEM_INIT_PATH = "testtest";
+    localparam LSU_DEPTH = 4096;
+    localparam LSU_NUM_MEM_BLOCKS = 4;
+    localparam LSU_ADDRESS_SPACE = 16384; // Should be (Num Mem Blocks)x the Depth
 
     // ROM (Instruction)
     localparam INSTR_DATA_WIDTH = 32;                 // Word length
