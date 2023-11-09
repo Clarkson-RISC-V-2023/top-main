@@ -1,5 +1,6 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
+import top_params::*;
 
 class ialu_add_scoreboard extends uvm_scoreboard;
     
@@ -8,7 +9,7 @@ class ialu_add_scoreboard extends uvm_scoreboard;
         super.new(name, parent);
     endfunction
 
-    int mem_space = DEPTH;
+    int mem_space = ROM_DEPTH;
     ialu_li_item refq;
     uvm_analysis_imp #(ialu_li_item, ialu_add_scoreboard) m_analysis_imp; // Monittor analysis
 

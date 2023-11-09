@@ -40,7 +40,12 @@ virtual class r_type_item extends uvm_sequence_item;
         rs1 != rs2 && rs2 != rd && rs1 != rd;
     };
 
+    function new(string name = "r_type_item");
+        super.new(name);
+    endfunction
+
     function void post_randomize();
+        super.post_randomize();
         rom_instr[31:25] = func7;
         rom_instr[24:20]  = rs2;
         rom_instr[19:15] = rs1;
