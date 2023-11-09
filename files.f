@@ -25,3 +25,5 @@
 
 ./src/top/params/top_params.sv
 ./src/top/rtl/top.sv
+
+./src/top/verif/tb_top.sv

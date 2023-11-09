@@ -6,7 +6,7 @@ module tb_top ();
 reg clk;
 reg reset_n;
 reg serial;
-reg programming_mode
+reg programming_mode;
 wire [31:0] gpioA;
 wire [31:0] gpioB;
 

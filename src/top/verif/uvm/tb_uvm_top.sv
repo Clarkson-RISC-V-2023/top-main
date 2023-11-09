@@ -3,69 +3,50 @@ import uvm_pkg::*;
 
 import ram_params::*;
 
-module tb_uvm_ram;
+module tb_uvm_top;
 
     reg clk;
-    reg rst_n;
-
-    logic [ROM_DEPTH-1:0] ROM [DATA_WIDTH-1:0]; 
-
-    always #10 clk = ~clk;
 
     top_vif vif (
         .clk(clk)
     );
 
-    assign ROM = vif.ROM_mem;
-
     top dut_top (
-        .clk(clk),
-        .reset_n(rst_n),
+        .clk_i(clk),
+        .reset_n(vif.reset_n),
+        .serial_i(vif.serial),
+        .programming_mode_o(vif.programming_mode),
         .gpioA_out(vif.gpioA),
-        .gpioB_out(vif.gpioB)
+        .gpioB_in(vif.gpioB)
     );
 
-    // bind top.regs_inst vif(
-    //     .reg_file_rs1(RA1_i),
-    //     .reg_file_rs2(RA2_i),
-    //     .reg_file_rd(WA_i)
-    //     .reg_file_din(WD_i),
-    //     .reg_file_we(WE_i),
-    //     .reg_file_rd1(RD1_o),
-    //     .reg_file_rd2(RD2_o),
-        
-    // )
-    //     .regs_inst.RA1_i(vif.reg_file_rs1),
-    //     .regs_inst.RA2_i(vif.reg_file_rs2),
-    //     .regs_inst.WA_i(vif.reg_file_rd),
-    //     .regs_inst.WD_i(vif.reg_file_din),
-    //     .regs_inst.WE_i(vif.reg_file_we),
-    //     .regs_inst.RD1_o(vif.reg_file_rd1),
-    //     .regs_inst.RD2_o(vif.reg_file_rd2),
-    //     .instruction_rom.mem_inst.bmem(vif.ROM_mem), 
-    //     .ialu_inst.signed_B(vif.ialu_imm) // For i-type like addi and li
-
+    always #10 clk = ~clk;
     initial begin
-        //$dumpvars;
-        // $dumpfile("tb_uvm_ram.vcd");
-        creat_mem_init_hex("Test");
         clk <= 0;
-        rst_n <= 0;
-        #200;
-        rst_n <= 1;
 
         uvm_config_db #(virtual top_vif)::set(uvm_root::get(), "*", "top_vif", vif);
 
-        run_test("verify_ialu_addi");
+        run_test("initial_test");
     end
-
-    task creat_mem_init_hex (string filename);
-        int file;
-        file = $fopen(filename, "w");
-        if (file) $display("File was opened succesfully : %0d", fd);
-        else $display("File was not opened succesfully : %0d", fd);
-        $fclose(file);
-        
-    endtask
         
 endmodule
+
+/*
+1. Build Phase: In this phase, objects are constructed, and the configuration is set. This includes instantiation of UVM components like agents, drivers, monitors, etc.
+
+2. Connect Phase: Connections between UVM components are established in this phase. It involves setting up TLM connections, interfaces, and other communication pathways.
+
+3. End of Elaboration Phase: This phase is used for any final checks and modifications before simulation begins. It's typically used for setting up configurations that need to be done after the build phase but before the simulation starts.
+
+4. Start of Simulation Phase: This phase signifies the beginning of the simulation. It's often used for tasks that need to be done right before the simulation runs, such as final logging or reporting setups.
+
+5. Run Phase: The most critical phase, where the main part of the simulation takes place. This includes driving stimulus into the DUT, monitoring outputs, checking responses, and collecting coverage.
+
+6. Extract Phase: Here, data is extracted from the DUT or the testbench for analysis. This could involve capturing performance metrics, internal states, or other relevant information.
+
+7. Check Phase: In this phase, the extracted data is checked against expected values or models. This is crucial for identifying discrepancies and verifying the DUT's functionality.
+
+8. Report Phase: The results of the simulation, including pass/fail status, coverage reports, and other metrics, are compiled and reported in this phase.
+
+9. Final Phase: This is the last phase of the UVM testbench, where cleanup and final reporting are performed. It's used for closing files, logging final messages, and releasing resources.
+*/
