@@ -30,7 +30,7 @@ package top_params;
     localparam INSTR_DATA_WIDTH = 32;                 // Word length
     localparam INSTR_ADDR_WIDTH = 32;                 // Addr length
     localparam INSTR_WORDS = 6;                      // Words
-    localparam ROM_BAUD_FACTOR = 868;
+    localparam ROM_BAUD_FACTOR = 1;
     localparam ROM_NUM_BYTES = 4;
 
     localparam NUM_REGS      = 32;        // 64 32-bit registers

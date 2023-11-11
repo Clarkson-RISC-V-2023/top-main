@@ -9,6 +9,7 @@ class riscv_base_test extends uvm_test;
     // The UVM environment
     riscv_env env;
 
+    riscv_basic_sequence seq;
     // Constructor
     function new(string name = "riscv_base_test", uvm_component parent = null);
         super.new(name, parent);
@@ -37,6 +38,10 @@ class riscv_base_test extends uvm_test;
         `uvm_info(get_type_name(), $sformatf("HELLOOOOOO"), UVM_LOW)
         // Insert test sequences or operations here
         // ...
+        seq = riscv_basic_sequence::type_id::create("seq", this);
+        // seq.randomize();
+        seq.start(env.top_agent_inst.s0);
+
         phase.drop_objection(this);
     endtask
 
