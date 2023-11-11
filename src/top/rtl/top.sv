@@ -1,4 +1,4 @@
-`timescale 1ns/1ps
+
 `define ROM_Inst_INIT_PATH "src/top/mem_file/instruction.bin"
 `define ROM_A_INIT_PATH "src/top/mem_file/a.hex"
 `define ROM_B_INIT_PATH "src/top/mem_file/b.hex"

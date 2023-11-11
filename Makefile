@@ -3,7 +3,29 @@
 VFILES="Detached" # Detached or Attached
 DEBUG=False
 
+IP 				= top
+FILE_LIST 		= ./files.f
+UVM_FILE_LIST	= ./src/top/verif/files_uvm.f
+XVLOG_FLAGS 	= -sv -f $(FILE_LIST)
+UVM_XVLOG_FLAGS	= -sv -L uvm -f $(UVM_FILE_LIST)
+XELAB_FLAGS 	= -top tb_$(IP)
+XSIM_FLAGS 		= -R tb_$(IP)
+CHECK_UVM_ERROR = false
+OUT_DIR			= out
+
 all: gui_build_top_project 
+
+
+build: 
+	rm -rf $(OUT_DIR)/*
+	mkdir -p $(OUT_DIR)
+	xvlog $(XVLOG_FLAGS) 
+	xelab $(XELAB_FLAGS)
+	xsim $(XSIM_FLAGS)
+	mv xvlog* xelab* xsim** $(OUT_DIR)
+	mv *.log $(OUT_DIR) || true
+	mv *.wdb $(OUT_DIR) || true
+	mv *.vcd $(OUT_DIR) || true
 
 ialu:
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -38,7 +60,12 @@ ram:
 uvm_ram:
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	# BUILDING uvm_ram
-	make -C src/ip/mem/ uvm_ram IP=uvm_ram OUT_DIR=../../../out/mem/uvm/ram  XVLOG_FLAGS=./files_uvm.f
+	make -C src/ip/mem/ uvm_ram IP=uvm_ram OUT_DIR=../../../out/uvm/ram  XVLOG_FLAGS=./files_uvm.f
+
+uvm_top:
+	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	# BUILDING uvm_top
+	make build IP=uvm_top OUT_DIR=$(OUT_DIR)/uvm/top  XVLOG_FLAGS="$(UVM_XVLOG_FLAGS)"
 
 branch:
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -84,14 +111,7 @@ debug:
 build_top_sim:
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	# BUILDING Top-Level Simulation
-	xvlog -sv -f ./files.f src/top/verif/tb_top.sv
-	xelab -debug typical -top tb_top
-	xsim tb_top -R
-	mkdir -p ./out/tb_top/
-	mv xvlog* xelab* xsim** ./out/tb_top/
-	mv *.log ./out/tb_top/ || true
-	mv *.wdb ./out/tb_top/ || true
-	mv *.vcd ./out/tb_top/ || true
+	make build IP=top OUT_DIR=$(OUT_DIR)/tb/top
 
 clean:
 	rm -rf out/ 
