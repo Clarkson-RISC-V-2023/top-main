@@ -1,8 +1,3 @@
-`timescale 1ns/1ps
-`define ROM_Inst_INIT_PATH "src/top/mem_file/instruction.bin"
-`define ROM_A_INIT_PATH "src/top/mem_file/a.hex"
-`define ROM_B_INIT_PATH "src/top/mem_file/b.hex"
-
 `include "../params/top_params.sv"
 import top_params::*;
 
@@ -16,32 +11,32 @@ module top (
 
     // ROM Programming Inputs
     input wire serial_i,
-    output reg programming_mode,
+    output reg programming_mode_o,
 
     // GPIO Outputs
     output reg [TOP_DATA_WIDTH-1:0] gpioA_out,
     input reg [TOP_DATA_WIDTH-1:0] gpioB_in
 );
     // Types
-    `define R_TYPE 3'b000
-    `define I_TYPE 3'b001
-    `define S_TYPE 3'b010
-    `define B_TYPE 3'b011
-    `define U_TYPE 3'b100
-    `define J_TYPE 3'b101
+    localparam R_TYPE = 3'b000;
+    localparam I_TYPE = 3'b001;
+    localparam S_TYPE = 3'b010;
+    localparam B_TYPE = 3'b011;
+    localparam U_TYPE = 3'b100;
+    localparam J_TYPE = 3'b101;
 
      //ALUSelect
-    `define SEL_CORDIC  2'b11
-    `define SEL_FALU    2'b10
-    `define SEL_IALU    2'b01
-    `define SEL_NONE    2'b00
+    localparam SEL_CORDIC =  2'b11;
+    localparam SEL_FALU =    2'b10;
+    localparam SEL_IALU =    2'b01;
+    localparam SEL_NONE =    2'b00;
 
  //TODO: Need to add cordic Signals, need to instantiate FALU and add MUX stuff
  //TODO: change reg file inputs to be 6 bits when cordic and falu stuff is added
     wire we, mwe, overwrite, jump, load, AUIPC_sig, f_d1, f_d2, f_rd;    //alu_status_i, alu_status_o;
     wire [REG_FILE_WIDTH-1:0] r1, r2, rd;
     wire [OUT_BUS_WIDTH-1:0] d1, d2, lsu_d_out, ialu_OUT, jump_OUT, branch_out, i_TYPE_EXT, s_TYPE_EXT, u_TYPE_EXT, falu_OUT;
-    reg [OUT_BUS_WIDTH-1:0] load_mux, WriteBack_data, IALU_IN1, IALU_IN2, alu_mux_out, FALU_IN1, FALU_IN2;
+    wire [OUT_BUS_WIDTH-1:0] load_mux, WriteBack_data, IALU_IN1, IALU_IN2, alu_mux_out, FALU_IN1, FALU_IN2;
     wire [TYPE_WIDTH-1:0] Type;
     wire [DTYPE_WIDTH-1:0] dtype;
     wire [BRANCH_TYPE_WIDTH-1:0] branch_type;
@@ -94,7 +89,7 @@ module top (
         .rom_o(instruction),
         .prog_i(~reset_n),
         .serial_i(serial_i),
-        .programming_mode(programming_mode)
+        .programming_mode(programming_mode_o)
     );
 
     jump #(
@@ -223,61 +218,33 @@ module top (
     //     .R_o(falu_out)
     // );
 
-
-    
-
     assign i_TYPE_EXT = {{(TOP_DATA_WIDTH-IMM_LENGTH){instruction[TOP_DATA_WIDTH-1]}},instruction[TOP_DATA_WIDTH-1:TOP_DATA_WIDTH - IMM_LENGTH]};
     assign s_TYPE_EXT = {{(TOP_DATA_WIDTH-IMM_LENGTH){instruction[TOP_DATA_WIDTH-1]}},instruction[TOP_DATA_WIDTH-1:25], instruction[11:7]};
     assign u_TYPE_EXT = {instruction[TOP_DATA_WIDTH-1:IMM_LENGTH],{(IMM_LENGTH){1'b0}}};
 
     // TODO Shifting AUIPC values
 
-    // MUX 4
-    always @(load, lsu_d_out, alu_mux_out)   
-    begin
-        case(load)
-            1'b1:     load_mux <= lsu_d_out;
-            default:  load_mux <= alu_mux_out;
-        endcase
-    end
-
     // MUX 1
-    always @(jump, program_counter, load_mux)   
-    begin
-        case(jump)
-            1'b1:     WriteBack_data <= program_counter +4;
-            default:  WriteBack_data <= load_mux;
-        endcase
-    end
+    assign WriteBack_data = (jump == 1'b1) ?    program_counter +4:
+                                                load_mux;
 
-    // MUX 3
-    always @(d1, program_counter, AUIPC_sig)   
-    begin
-        case(AUIPC_sig)
-            1'b1:     IALU_IN1 <= program_counter;
-            default:  IALU_IN1 <= d1;
-        endcase
-    end
-    
-    // MUX 2
-    always @(d2, i_TYPE_EXT, s_TYPE_EXT, u_TYPE_EXT, Type)   
-    begin
-        case(Type)
-            `U_TYPE: IALU_IN2 <= u_TYPE_EXT;
-            `I_TYPE: IALU_IN2 <= i_TYPE_EXT;
-            `S_TYPE: IALU_IN2 <= s_TYPE_EXT;
-            default: IALU_IN2 <= d2;
-        endcase
-    end
+    // MUX 2    
+    assign IALU_IN2 =   (Type == U_TYPE) ? u_TYPE_EXT:
+                        (Type == I_TYPE) ? i_TYPE_EXT:
+                        (Type == S_TYPE) ? s_TYPE_EXT:
+                                            d2;
 
-    // MUX 5
-    //always @(ialu_OUT, falu_out, alu_select)
-    always @(ialu_OUT, alu_select)
-    begin
-        case(alu_select)
-            `SEL_IALU: alu_mux_out <= ialu_OUT;
-            //`SEL_FALU: alu_mux_out <= falu_out;
-            default: alu_mux_out   <= ialu_OUT;
-        endcase   
-    end
+    // MUX 3    
+    assign IALU_IN1 =   (AUIPC_sig == 1'b1) ? program_counter:
+                        d1;
+
+    // MUX 4
+    assign load_mux = (load == 1'b1) ?  lsu_d_out:
+                                        alu_mux_out;
+                                
+
+    // MUX 5    
+    assign alu_mux_out =    (alu_select == SEL_IALU) ? ialu_OUT :
+//                            (alu_select == SEL_FALU) ? falu_out :
+                            ialu_OUT;
 endmodule
