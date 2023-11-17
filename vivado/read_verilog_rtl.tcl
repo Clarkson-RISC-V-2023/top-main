@@ -1,5 +1,6 @@
 read_verilog [ glob ./src/top/params/**]
 read_verilog [ glob ./src/top/rtl/top.sv ]
+read_verilog [ glob ./src/ip/alu/rtl/div/gbt_divider.sv ]
 read_verilog [ glob ./src/ip/alu/rtl/ialu.sv ]
 read_verilog [ glob ./src/ip/alu/rtl/falu.sv ]
 read_verilog [ glob ./src/ip/branch/rtl/** ]
@@ -12,4 +13,4 @@ read_verilog [ glob ./src/ip/mem/rtl/** ]
 read_verilog [ glob ./src/ip/pc/rtl/** ]
 read_verilog [ glob ./src/ip/regs/rtl/** ]
 read_verilog [ glob ./src/ip/sextend/rtl/** ]
-read_xdc ./vivado/riscy.xdc
+# read_xdc ./vivado/riscy.xdc

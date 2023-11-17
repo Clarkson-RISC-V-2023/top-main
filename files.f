@@ -1,3 +1,4 @@
+./src/ip/alu/rtl/div/gbt_divider.sv
 ./src/ip/alu/rtl/ialu.sv
 
 ./src/ip/branch/rtl/branch.sv

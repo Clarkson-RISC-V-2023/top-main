@@ -282,9 +282,3 @@ set_property C_CLK_INPUT_FREQ_HZ 300000000 [get_debug_cores dbg_hub]
 set_property C_ENABLE_CLK_DIVIDER false [get_debug_cores dbg_hub]
 set_property C_USER_SCAN_CHAIN 1 [get_debug_cores dbg_hub]
 connect_debug_port dbg_hub/clk [get_nets clk_i_IBUF_BUFG]
-
-file mkdir $OUT_DIR/$PROJECT_NAME.srcs/constrs_1/new
-close [ open $OUT_DIR/$PROJECT_NAME.srcs/constrs_1/new/riscy_debug.xdc w ]
-add_files -fileset constrs_1 $OUT_DIR/$PROJECT_NAME.srcs/constrs_1/new/riscy_debug.xdc
-set_property target_constrs_file $OUT_DIR/$PROJECT_NAME.srcs/constrs_1/new/riscy_debug.xdc [current_fileset -constrset]
-save_constraints -force
